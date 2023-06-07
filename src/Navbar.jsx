@@ -117,7 +117,9 @@ export default function Navbar() {
                 width: 46,
                 height: 46,
                 p: 0,
-                ml: 3,
+                position:"absolute",
+                top:"4px",
+                right:"35px"
               }}
             />
           </Stack>
