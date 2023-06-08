@@ -6,6 +6,7 @@ import Home from "./Home";
 import Layout from "./Layout";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme/theme";
+import Carosel from "./Carosel";
 
 function App() {
   return (
