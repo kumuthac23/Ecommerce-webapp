@@ -77,7 +77,7 @@ export default function Navbar() {
             width: "100%",
             height: "inherit",
           }}
-          src="src/assets/logo.jpeg"
+          src="/assets/logo.jpeg"
           alt=""
         />
       </Box>
@@ -152,7 +152,7 @@ export default function Navbar() {
                 width: "100%",
                 height: "inherit",
               }}
-              src="src/assets/logo.jpeg"
+              src="/assets/logo.jpeg"
               alt=""
             />
           </Box>
