@@ -160,6 +160,7 @@ function Home() {
       <Container
         sx={{
           maxHeight: "300px",
+          marginBottom: "10px",
         }}
       >
         <Box>
