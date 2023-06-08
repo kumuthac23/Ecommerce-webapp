@@ -4,18 +4,20 @@ import Navbar from "./Navbar";
 import About from "./About";
 import Home from "./Home";
 import Layout from "./Layout";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme/theme";
 
 function App() {
   return (
     <>
-      <div>
+      <ThemeProvider theme={theme}>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />}></Route>
             <Route path="/about" element={<About />}></Route>
           </Route>
         </Routes>
-      </div>
+      </ThemeProvider>
     </>
   );
 }
