@@ -47,7 +47,7 @@ function Home() {
     },
     {
       img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "cotton Saree",
+      name: "cotton",
     },
     {
       img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
@@ -101,7 +101,10 @@ function Home() {
 
       <Container
         sx={{
-          padding: 2,
+          // padding: 2,
+          maxHeight: "300px", // Adjust the height as per your requirement
+          overflow: "auto", // Add scrollbars if the content exceeds the height
+    
         }}
       >
         <Box>
@@ -121,14 +124,22 @@ function Home() {
           {categories.map((category, index) => (
             <Box
               sx={{
+                padding: 1,
                 paddingRight: "16px",
-                height: "90px",
+                // height: "70px",
                 width: "98px",
               }}
             >
               <Card key={index}>
                 <CardMedia
-                  sx={{ height: 55, width: 98 }}
+                  sx={{
+                    padding:0,
+                     height: "inherit",
+                    overflow: "hidden",
+                    width: "100%",
+                    maxHeight: "90px", // Adjust the height as per your requirement
+                    objectFit: "cover",
+                  }}
                   image={category.img}
                   title="green iguana"
                   component={"img"}

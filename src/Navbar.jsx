@@ -93,7 +93,7 @@ export default function Navbar() {
               isActive ? classes.activeLink : undefined
             }
           >
-            <ListItemButton sx={{ textAlign: "center", borderRadius: "10px" }}>
+            <ListItemButton sx={{ textAlign: "center", borderRadius: "10px"}} >
               <ListItemText primary={item.label} />
             </ListItemButton>
           </ListItem>
