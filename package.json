@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage":" https://kumuthac23.github.io/Ecommerce-webapp/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
