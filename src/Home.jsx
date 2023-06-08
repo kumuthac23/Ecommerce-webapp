@@ -102,7 +102,7 @@ function Home() {
 
 
 
-<h2 style={{textAlign:"center"}}>CATEGORIE</h2>
+
       <Box
       sx={{
         padding: 2,
