@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import { Container, useMediaQuery, useTheme } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
 function Carosel(props) {
   const settingsProduct = {
@@ -17,36 +18,49 @@ function Carosel(props) {
   };
 
   return (
-    <Box>
+    // <Container>
+    <Box position={"relative"} sx={{ marginTop: 4, marginBottom: 6 }}>
       <Typography
         sx={{
           margin: "0px 10px 0px 0px",
-          fontWeight: 700,
+          fontWeight: 800,
           color: "black",
+          lineHeight: 2,
         }}
         className="topic-head"
       >
         {props.category.name}
+        <Button
+          variant="contained"
+          size="small"
+          sx={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            zIndex: 1,
+            padding: 0.5,
+          }}
+        >
+          View All
+        </Button>
       </Typography>
-
       <Slider {...settingsProduct}>
         {props.category.products.map((product, index) => (
           <Box
             sx={{
               padding: 1,
-              paddingRight: "16px",
-              // height: "70px",
-              width: "60px",
+              paddingRight: "10px",
+              width: "90%",
             }}
           >
-            <Card key={index}>
+            <Card key={index} sx={{ height: "100%", boxShadow: 4 }}>
               <CardMedia
                 sx={{
                   padding: 0,
                   height: "inherit",
                   overflow: "hidden",
                   width: "100%",
-                  maxHeight: "170px", // Adjust the height as per your requirement
+                  height: "170px", // Adjust the height as per your requirement
                   objectFit: "cover",
                 }}
                 image={product.imageUrl}
@@ -59,7 +73,7 @@ function Carosel(props) {
                 }}
               >
                 <Typography
-                  sx={{ paddingBottom: 0, fontSize: "medium" }}
+                  sx={{ paddingBottom: 0, fontSize: "medium", fontWeight: 600 }}
                   variant="h6"
                 >
                   {product.title}
@@ -76,6 +90,7 @@ function Carosel(props) {
         ))}
       </Slider>
     </Box>
+    // </Container>
   );
 }
 

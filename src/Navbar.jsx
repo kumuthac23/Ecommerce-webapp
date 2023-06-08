@@ -21,6 +21,8 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { NavLink as NavLinkBase } from "react-router-dom";
 import { useNavbarStyle } from "./styles/NavbarStyle";
+import ShoppingBagRoundedIcon from "@mui/icons-material/ShoppingBagRounded";
+
 
 const drawerWidth = 240;
 const navItems = [
@@ -164,7 +166,17 @@ export default function Navbar() {
             ))}
           </Box>
           <Stack>
-            <Avatar
+            <ShoppingBagRoundedIcon
+              sx={{
+                width: 36,
+                height: 30,
+                p: 0,
+                position: "absolute",
+                top: "12px",
+                right: "25px",
+              }}
+            ></ShoppingBagRoundedIcon>
+            {/* <Avatar
               alt="Remy Sharp"
               src="https://images.unsplash.com/photo-1641699862936-be9f49b1c38d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHNhcmVlfGVufDB8fDB8fHww&w=1000&q=80"
               sx={{
@@ -175,7 +187,7 @@ export default function Navbar() {
                 top: "4px",
                 right: "35px",
               }}
-            />
+            /> */}
           </Stack>
         </Toolbar>
       </AppBar>
