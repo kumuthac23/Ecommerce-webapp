@@ -1,14 +1,21 @@
-import React from 'react'
-import Navbar from './Navbar'
+import React from "react";
+import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
+import { Box } from "@mui/material";
 
 function Layout() {
   return (
     <div>
       <Navbar></Navbar>
-      <Outlet/>
+      <Box
+        sx={{
+          marginTop: "1px",
+        }}
+      >
+        <Outlet />
+      </Box>
     </div>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

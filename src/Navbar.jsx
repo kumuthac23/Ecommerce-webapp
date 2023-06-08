@@ -19,22 +19,41 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
+import { NavLink as NavLinkBase } from "react-router-dom";
+import { useNavbarStyle } from "./styles/NavbarStyle";
 
 const drawerWidth = 240;
 const navItems = [
   { label: "Home", link: "/" },
   { label: "About", link: "/about" },
 ];
+
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const classes = useNavbarStyle();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
+  const NavLink = React.forwardRef((props, ref) => (
+    <NavLinkBase
+      style={{
+        textDecoration: "none",
+      }}
+      ref={ref}
+      {...props}
+      className={props.activeClassName}
+    />
+  ));
+
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+    <Box
+      onClick={handleDrawerToggle}
+      sx={{ textAlign: "center", height: "100%" }}
+    >
+      {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
       <Typography
         variant="h6"
         noWrap
@@ -42,7 +61,7 @@ export default function Navbar() {
         href="/"
         sx={{
           mr: 2,
-          display: { xs: "none", md: "flex" },
+          // display: { xs: "none", md: "flex" },
           fontFamily: "monospace",
           fontWeight: 700,
           letterSpacing: ".3rem",
@@ -51,25 +70,45 @@ export default function Navbar() {
         }}
       >
         LOGO
-      </Typography>
-
-      <Divider />
+      </Typography> */}
+      <Box sx={{ my: 0 }}>
+        <img
+          style={{
+            width: "100%",
+            height: "inherit",
+          }}
+          src="src/assets/logo.jpeg"
+          alt=""
+        />
+      </Box>
       <List>
         {navItems.map((item) => (
-          <NavLink to={item.link} className="nav-link" aria-current="page">
-            <ListItem key={item.label} disablePadding>
-              <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary={item.label} />
-              </ListItemButton>
-            </ListItem>
-          </NavLink>
+          // <NavLink to={item.link} className="nav-link" aria-current="page">
+          <ListItem
+            key={item.label}
+            disablePadding
+            component={NavLink}
+            to={item.link}
+            activeClassName={({ isActive }) =>
+              isActive ? classes.activeLink : undefined
+            }
+          >
+            <ListItemButton sx={{ textAlign: "center", borderRadius: "10px" }}>
+              <ListItemText primary={item.label} />
+            </ListItemButton>
+          </ListItem>
+
+          // </NavLink>
         ))}
       </List>
     </Box>
   );
 
   return (
-    <Box sx={{ display: "flex", marginBottom: "-48px" }}>
+    <Box
+      sx={{ display: "flex", marginBottom: "-48px", flexGrow: 1 }}
+      className={classes.root}
+    >
       <CssBaseline />
       <AppBar component="nav">
         <Toolbar>
@@ -78,12 +117,12 @@ export default function Navbar() {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{ display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
 
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -101,7 +140,22 @@ export default function Navbar() {
             }}
           >
             LOGO
-          </Typography>
+          </Typography> */}
+          <Box
+            sx={{
+              // display: { xs: "flex", md: "none" },
+              width: 100,
+            }}
+          >
+            <img
+              style={{
+                width: "100%",
+                height: "inherit",
+              }}
+              src="src/assets/logo.jpeg"
+              alt=""
+            />
+          </Box>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
               <Button key={item.label} sx={{ color: "#fff" }}>
@@ -117,9 +171,9 @@ export default function Navbar() {
                 width: 46,
                 height: 46,
                 p: 0,
-                position:"absolute",
-                top:"4px",
-                right:"35px"
+                position: "absolute",
+                top: "4px",
+                right: "35px",
               }}
             />
           </Stack>
