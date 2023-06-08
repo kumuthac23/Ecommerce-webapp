@@ -55,7 +55,7 @@ function Home() {
     },
     {
       img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "malgodi Saree",
+      name: "malgodi",
     },
     {
       img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
