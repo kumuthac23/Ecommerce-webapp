@@ -44,7 +44,7 @@ export default function Navbar() {
       }}
       ref={ref}
       {...props}
-      className={props.activeClassName}
+      className={props.activeclassname}
     />
   ));
 
@@ -90,10 +90,10 @@ export default function Navbar() {
             component={NavLink}
             to={item.link}
             activeClassName={({ isActive }) =>
-              isActive ? classes.activeLink : undefined
+              isActive ? classes.activeLink : ""
             }
           >
-            <ListItemButton sx={{ textAlign: "center", borderRadius: "10px"}} >
+            <ListItemButton sx={{ textAlign: "center", borderRadius: "10px" }}>
               <ListItemText primary={item.label} />
             </ListItemButton>
           </ListItem>

@@ -5,8 +5,65 @@ import CardMedia from "@mui/material/CardMedia";
 import { Container, useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Carosel from "./Carosel";
 
 function Home() {
+  const categoryWithProducts = [
+    {
+      _id: 11,
+      name: "silk Saree",
+      products: [
+        {
+          _id: 1,
+          imageUrl:
+            "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
+          title: "Cotton saree",
+          price: 500,
+        },
+        {
+          _id: 2,
+          imageUrl:
+            "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
+          title: "Art saree",
+          price: 400,
+        },
+        {
+          _id: 3,
+          imageUrl:
+            "https://5.imimg.com/data5/SELLER/Default/2020/9/KD/KZ/OJ/51341136/ladis-white-fancy-pure-cotton-saree.jpg",
+          title: "Silk saree",
+          price: 700,
+        },
+      ],
+    },
+    {
+      id: 22,
+      name: "Chudi",
+      products: [
+        {
+          _id: 1,
+          imageUrl:"https://5.imimg.com/data5/HO/RA/GU/ANDROID-36499891/product-jpeg-500x500.jpg",
+          title: "cotton",
+          price: 450,
+        },
+        {
+          _id: 2,
+          imageUrl:
+            "https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/10340125/2019/8/7/0419f4ed-6d77-4365-b6ee-4ae2117201191565180545617-Inddus-Women-Dress-Material-5461565180543577-1.jpg",
+          title: "material",
+          price: 600,
+        },
+        {
+          _id: 3,
+          imageUrl:
+            "https://www.jiomart.com/images/product/500x630/rvnqef12rc/pink-cotton-satin-women-s-unstitched-dress-material-product-images-rvnqef12rc-0-202202250516.jpg",
+          title: "raw",
+          price: 700,
+        },
+      ],
+    },
+  ];
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -72,7 +129,7 @@ function Home() {
   ];
 
   return (
-    <Box>
+    <>
       <Slider {...settings}>
         {imageUrls.map((imageUrl, index) => (
           <div key={index}>
@@ -101,10 +158,7 @@ function Home() {
 
       <Container
         sx={{
-          // padding: 2,
           maxHeight: "300px", // Adjust the height as per your requirement
-          overflow: "auto", // Add scrollbars if the content exceeds the height
-    
         }}
       >
         <Box>
@@ -124,7 +178,7 @@ function Home() {
           {categories.map((category, index) => (
             <Box
               sx={{
-                padding: 1,
+                padding: 0,
                 paddingRight: "16px",
                 // height: "70px",
                 width: "98px",
@@ -133,8 +187,8 @@ function Home() {
               <Card key={index}>
                 <CardMedia
                   sx={{
-                    padding:0,
-                     height: "inherit",
+                    padding: 0,
+                    height: "inherit",
                     overflow: "hidden",
                     width: "100%",
                     maxHeight: "90px", // Adjust the height as per your requirement
@@ -161,7 +215,13 @@ function Home() {
           ))}
         </Slider>
       </Container>
-    </Box>
+
+      <Container>
+        {categoryWithProducts.map((category) => (
+          <Carosel category={category} />
+        ))}
+      </Container>
+    </>
   );
 }
 
