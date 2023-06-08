@@ -19,7 +19,7 @@ function Carosel(props) {
 
   return (
     // <Container>
-    <Box position={"relative"} sx={{ marginTop: 4, marginBottom: 6 }}>
+    <Box position={"relative"} sx={{ margin: "14px 0px" }}>
       <Typography
         sx={{
           margin: "0px 10px 0px 0px",
@@ -57,10 +57,10 @@ function Carosel(props) {
               <CardMedia
                 sx={{
                   padding: 0,
-                  height: "inherit",
+                  // height: "inherit",
                   overflow: "hidden",
                   width: "100%",
-                  height: "170px", // Adjust the height as per your requirement
+                  height: "170px",
                   objectFit: "cover",
                 }}
                 image={product.imageUrl}

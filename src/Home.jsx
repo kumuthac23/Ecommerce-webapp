@@ -75,7 +75,7 @@ function Home() {
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: false,
+    autoplay: true,
     adaptiveHeight: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,

@@ -10,7 +10,6 @@ function Layout() {
       <Box
         sx={{
           marginTop: "1px",
-          height: "100vh",
         }}
       >
         <Outlet />
