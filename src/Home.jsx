@@ -9,7 +9,6 @@ import Carosel from "./Carosel";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
 
-
 function Home() {
   const categoryWithProducts = [
     {
@@ -136,27 +135,26 @@ function Home() {
     <Box>
       <Slider {...settings}>
         {imageUrls.map((imageUrl, index) => (
-          <div key={index}>
-            <Box
-              elevation={0}
-              sx={{
+          <Box
+            key={index}
+            elevation={0}
+            sx={{
+              width: "100%",
+              height: isSmallScreen ? 150 : 350,
+            }}
+          >
+            <CardMedia
+              component="img"
+              alt={`Image ${index + 1}`}
+              image={imageUrl}
+              style={{
+                height: "inherit",
+                overflow: "hidden",
                 width: "100%",
-                height: isSmallScreen ? 150 : 350,
+                objectFit: "fill",
               }}
-            >
-              <CardMedia
-                component="img"
-                alt={`Image ${index + 1}`}
-                image={imageUrl}
-                style={{
-                  height: "inherit",
-                  overflow: "hidden",
-                  width: "100%",
-                  objectFit: "fill",
-                }}
-              />
-            </Box>
-          </div>
+            />
+          </Box>
         ))}
       </Slider>
       <Container
@@ -181,9 +179,8 @@ function Home() {
         </Box>
         <Slider {...settingsProduct}>
           {categories.map((category, index) => (
-            <>
+            <Box key={index}>
               <Card
-                key={index}
                 sx={{
                   height: "80px",
                   width: "80px",
@@ -213,14 +210,16 @@ function Home() {
                   {category.name}
                 </Typography>
               </Box>
-            </>
+            </Box>
           ))}
         </Slider>
       </Container>
 
       <Container>
-        {categoryWithProducts.map((category) => (
-          <Carosel category={category} />
+        {categoryWithProducts.map((category, index) => (
+          <Box key={index}>
+            <Carosel category={category} />
+          </Box>
         ))}
       </Container>
     </Box>

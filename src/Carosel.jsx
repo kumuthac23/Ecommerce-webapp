@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import CommonCard from "./CommonCard";
 import { Container, useMediaQuery, useTheme } from "@mui/material";
 
-
 function Carosel(props) {
   const settingsProduct = {
     dots: false,
@@ -48,8 +47,10 @@ function Carosel(props) {
         </Button>
       </Box>
       <Slider {...settingsProduct}>
-        {props.category.products.map((product) => (
-          <CommonCard product={product} />
+        {props.category.products.map((product, index) => (
+          <Box key={index}>
+            <CommonCard product={product} />
+          </Box>
         ))}
       </Slider>
     </Box>
