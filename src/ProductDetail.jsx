@@ -40,7 +40,7 @@ const ImageSlicker = () => {
   const fetchImages = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/fetchProductByID/${id}`
+        `https://drab-rose-xerus-toga.cyclic.app/fetchProductByID/${id}`
       );
       const fetchedImages = response.data.image;
       const fetchTitle = response.data.title;

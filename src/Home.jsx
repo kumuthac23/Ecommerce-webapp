@@ -7,15 +7,27 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Carosel from "./Carosel";
 import CommonCard from "./CommonCard";
-import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Home() {
   const [getProduct, setGetProduct] = useState("");
+  const [categories, setCategories] = useState([]);
+
+const fetchCategories = async () => {
+    try {
+      const response = await axios.get("https://drab-rose-xerus-toga.cyclic.app/fetchCategory");
+      const fetchedCategories = response.data; 
+      setCategories(fetchedCategories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories()
+  }, []);
   
-
-
   const categoryWithProducts = [
     {
       _id: 11,
