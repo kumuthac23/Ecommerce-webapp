@@ -6,12 +6,14 @@ import { Container, useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Carosel from "./Carosel";
+import CommonCard from "./CommonCard";
+import Button from "@mui/material/Button";
 
 function Home() {
   const categoryWithProducts = [
     {
       _id: 11,
-      name: "silk Saree",
+      name: "Silk Saree",
       products: [
         {
           _id: 1,
@@ -30,7 +32,7 @@ function Home() {
         {
           _id: 3,
           imageUrl:
-            "https://5.imimg.com/data5/SELLER/Default/2020/9/KD/KZ/OJ/51341136/ladis-white-fancy-pure-cotton-saree.jpg",
+            "https://images.unsplash.com/photo-1618901185975-d59f7091bcfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2FyZWV8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
           title: "Silk saree",
           price: 700,
         },
@@ -42,7 +44,8 @@ function Home() {
       products: [
         {
           _id: 1,
-          imageUrl:"https://5.imimg.com/data5/HO/RA/GU/ANDROID-36499891/product-jpeg-500x500.jpg",
+          imageUrl:
+            "https://5.imimg.com/data5/HO/RA/GU/ANDROID-36499891/product-jpeg-500x500.jpg",
           title: "cotton",
           price: 450,
         },
@@ -73,7 +76,7 @@ function Home() {
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: false,
+    autoplay: true,
     adaptiveHeight: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
@@ -95,41 +98,41 @@ function Home() {
     infinite: false,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToScroll: 1,
   };
   const categories = [
     {
       img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "silk Saree",
+      name: "Silk Saree",
+    },
+    {
+      img: "https://m.media-amazon.com/images/I/71sHE8nGY6L._AC_UY1100_.jpg",
+      name: "Cotton",
+    },
+    {
+      img: "https://yourstore.io/api/uploads/5d30013a5c83a702392c4c8b/layouts/1677149148177-490256.webp",
+      name: "Art Saree",
     },
     {
       img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "cotton",
+      name: "Malgodi",
     },
     {
       img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "art Saree",
+      name: "Silk Saree",
     },
     {
       img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "malgodi",
+      name: "Silk Saree",
     },
     {
       img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "silk Saree",
-    },
-    {
-      img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "silk Saree",
-    },
-    {
-      img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "silk Saree",
+      name: "Silk Saree",
     },
   ];
 
   return (
-    <>
+    <Box>
       <Slider {...settings}>
         {imageUrls.map((imageUrl, index) => (
           <div key={index}>
@@ -155,63 +158,61 @@ function Home() {
           </div>
         ))}
       </Slider>
-
       <Container
         sx={{
-          maxHeight: "300px", // Adjust the height as per your requirement
+          maxHeight: "300px",
+          marginBottom: "10px",
         }}
       >
         <Box>
           <Typography
             sx={{
               margin: "0px 10px 0px 0px",
-              fontWeight: 700,
+              fontWeight: 800,
               color: "black",
+              lineHeight: 3,
+              marginTop: -1,
             }}
             className="topic-head"
           >
             Categories
           </Typography>
         </Box>
-
         <Slider {...settingsProduct}>
           {categories.map((category, index) => (
-            <Box
-              sx={{
-                padding: 0,
-                paddingRight: "16px",
-                // height: "70px",
-                width: "98px",
-              }}
-            >
-              <Card key={index}>
+            <>
+              <Card
+                key={index}
+                sx={{
+                  height: "80px",
+                  width: "80px",
+                  boxShadow: 3,
+                  borderRadius: "50%",
+                }}
+              >
                 <CardMedia
-                  sx={{
-                    padding: 0,
-                    height: "inherit",
-                    overflow: "hidden",
-                    width: "100%",
-                    maxHeight: "90px", // Adjust the height as per your requirement
-                    objectFit: "cover",
-                  }}
                   image={category.img}
                   title="green iguana"
                   component={"img"}
                 />
-                <Box
-                  sx={{
-                    padding: "6px",
-                  }}
-                >
-                  <Typography
-                    sx={{ paddingBottom: 0, fontSize: "medium" }}
-                    variant="h6"
-                  >
-                    {category.name}
-                  </Typography>
-                </Box>
               </Card>
-            </Box>
+              <Box
+                sx={{
+                  padding: "6px",
+                }}
+              >
+                <Typography
+                  sx={{
+                    paddingBottom: 0,
+                    fontSize: "medium",
+                    fontWeight: 600,
+                  }}
+                  variant="h6"
+                >
+                  {category.name}
+                </Typography>
+              </Box>
+            </>
           ))}
         </Slider>
       </Container>
@@ -221,7 +222,7 @@ function Home() {
           <Carosel category={category} />
         ))}
       </Container>
-    </>
+    </Box>
   );
 }
 
