@@ -17,11 +17,7 @@ function Carosel(props) {
   };
 
   return (
-<<<<<<< HEAD
-    <>
-=======
     <Box sx={{ margin: "14px 0px" }}>
->>>>>>> 84816b942ccee9b3651515c26a4188e9e41c2244
       <Box
         sx={{
           display: "flex",
@@ -57,11 +53,7 @@ function Carosel(props) {
           </Box>
         ))}
       </Slider>
-<<<<<<< HEAD
-    </>
-=======
     </Box>
->>>>>>> 84816b942ccee9b3651515c26a4188e9e41c2244
   );
 }
 
