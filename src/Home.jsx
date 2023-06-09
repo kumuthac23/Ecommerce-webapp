@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import Carosel from "./Carosel";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Home() {
   const [getProduct, setGetProduct] = useState("");
@@ -20,14 +22,14 @@ function Home() {
       name: "Silk Saree",
       products: [
         {
-          _id: 1,
+          _id: "647ef497c5c66ac0bb29ee2c",
           imageUrl:
             "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
           title: "Cotton saree",
           price: 500,
         },
         {
-          _id: 2,
+          _id: "647ef410c5c66ac0bb29ee2a",
           imageUrl:
             "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
           title: "Art saree",
@@ -104,62 +106,32 @@ function Home() {
     slidesToShow: 3,
     slidesToScroll: 1,
   };
-  const categories = [
-    {
-      img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "Silk Saree",
-    },
-    {
-      img: "https://m.media-amazon.com/images/I/71sHE8nGY6L._AC_UY1100_.jpg",
-      name: "Cotton",
-    },
-    {
-      img: "https://yourstore.io/api/uploads/5d30013a5c83a702392c4c8b/layouts/1677149148177-490256.webp",
-      name: "Art Saree",
-    },
-    {
-      img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "Malgodi",
-    },
-    {
-      img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "Silk Saree",
-    },
-    {
-      img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "Silk Saree",
-    },
-    {
-      img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "Silk Saree",
-    },
-  ];
+
 
   return (
     <Box>
       <Slider {...settings}>
         {imageUrls.map((imageUrl, index) => (
-          <div key={index}>
-            <Box
-              elevation={0}
-              sx={{
+          <Box
+            key={index}
+            elevation={0}
+            sx={{
+              width: "100%",
+              height: isSmallScreen ? 150 : 350,
+            }}
+          >
+            <CardMedia
+              component="img"
+              alt={`Image ${index + 1}`}
+              image={imageUrl}
+              style={{
+                height: "inherit",
+                overflow: "hidden",
                 width: "100%",
-                height: isSmallScreen ? 150 : 350,
+                objectFit: "fill",
               }}
-            >
-              <CardMedia
-                component="img"
-                alt={`Image ${index + 1}`}
-                image={imageUrl}
-                style={{
-                  height: "inherit",
-                  overflow: "hidden",
-                  width: "100%",
-                  objectFit: "fill",
-                }}
-              />
-            </Box>
-          </div>
+            />
+          </Box>
         ))}
       </Slider>
       <Container
@@ -182,11 +154,11 @@ function Home() {
             Categories
           </Typography>
         </Box>
-        <Slider {...settingsProduct}>
+
+          <Slider {...settingsProduct}>
           {categories.map((category, index) => (
-            <>
+            <Box key={index}>
               <Card
-                key={index}
                 sx={{
                   height: "80px",
                   width: "80px",
@@ -195,7 +167,7 @@ function Home() {
                 }}
               >
                 <CardMedia
-                  image={category.img}
+                  image={category.image}
                   title="green iguana"
                   component={"img"}
                 />
@@ -216,14 +188,19 @@ function Home() {
                   {category.name}
                 </Typography>
               </Box>
-            </>
+            </Box>
           ))}
-        </Slider>
+        </Slider> 
+ 
+
+
       </Container>
 
       <Container>
-        {categoryWithProducts.map((category) => (
-          <Carosel category={category} />
+        {categoryWithProducts.map((category, index) => (
+          <Box key={index}>
+            <Carosel category={category} />
+          </Box>
         ))}
       </Container>
     </Box>

@@ -23,7 +23,6 @@ import { NavLink as NavLinkBase } from "react-router-dom";
 import { useNavbarStyle } from "./styles/NavbarStyle";
 import ShoppingBagRoundedIcon from "@mui/icons-material/ShoppingBagRounded";
 
-
 const drawerWidth = 240;
 const navItems = [
   { label: "Home", link: "/" },
@@ -46,7 +45,7 @@ export default function Navbar() {
       }}
       ref={ref}
       {...props}
-      className={props.activeclassname}
+      className={props.activeclassname ?? ""}
     />
   ));
 
@@ -55,24 +54,6 @@ export default function Navbar() {
       onClick={handleDrawerToggle}
       sx={{ textAlign: "center", height: "100%" }}
     >
-      {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-      <Typography
-        variant="h6"
-        noWrap
-        component="a"
-        href="/"
-        sx={{
-          mr: 2,
-          // display: { xs: "none", md: "flex" },
-          fontFamily: "monospace",
-          fontWeight: 700,
-          letterSpacing: ".3rem",
-          color: "inherit",
-          textDecoration: "none",
-        }}
-      >
-        LOGO
-      </Typography> */}
       <Box sx={{ my: 0 }}>
         <img
           style={{
@@ -91,7 +72,7 @@ export default function Navbar() {
             disablePadding
             component={NavLink}
             to={item.link}
-            activeClassName={({ isActive }) =>
+            activeclassname={({ isActive }) =>
               isActive ? classes.activeLink : ""
             }
           >
