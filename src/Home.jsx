@@ -11,8 +11,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Home() {
-  const [categories, setCategories] = useState([]);
-
+  const [getProduct, setGetProduct] = useState("");
   
 const fetchCategories = async () => {
     try {
@@ -23,12 +22,6 @@ const fetchCategories = async () => {
       console.error("Error fetching categories:", error);
     }
   };
-
-
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
   const categoryWithProducts = [
     {
