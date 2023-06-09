@@ -7,6 +7,7 @@ import Layout from "./Layout";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme/theme";
 import Carosel from "./Carosel";
+import ProductDetail from "./ProductDetail"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />}></Route>
             <Route path="/about" element={<About />}></Route>
+            <Route path="productDetail/:id" element={<ProductDetail/>}></Route>
           </Route>
         </Routes>
       </ThemeProvider>

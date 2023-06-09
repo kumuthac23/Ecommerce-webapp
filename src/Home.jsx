@@ -9,6 +9,7 @@ import Carosel from "./Carosel";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
 
+
 function Home() {
   const categoryWithProducts = [
     {
@@ -16,14 +17,14 @@ function Home() {
       name: "Silk Saree",
       products: [
         {
-          _id: 1,
+          _id: "647ef497c5c66ac0bb29ee2c",
           imageUrl:
             "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
           title: "Cotton saree",
           price: 500,
         },
         {
-          _id: 2,
+          _id: "647ef410c5c66ac0bb29ee2a",
           imageUrl:
             "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
           title: "Art saree",

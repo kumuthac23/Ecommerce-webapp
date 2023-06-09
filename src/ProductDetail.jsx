@@ -32,7 +32,7 @@ const ImageSlicker = () => {
 
     const fetchImages = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/fetchProductByID/${id}');
+            const response = await axios.get(`http://localhost:3000/fetchProductByID/${id}`);
             const fetchedImages = response.data.image;
             const fetchTitle = response.data.title;
             const fetchSizeOptions = response.data.size;
