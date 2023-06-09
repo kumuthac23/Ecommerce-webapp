@@ -14,7 +14,9 @@ function CommonCard(props) {
           padding: 1,
         }}
       >
-        <Link to={`/productDetail/${props.product._id}`}>
+        <Link to={`/productDetail/${props.product._id}`} style={{
+          textDecoration: "none"
+        }}>
           <Card sx={{ boxShadow: 4 }}>
             <CardMedia
               sx={{
@@ -47,7 +49,7 @@ function CommonCard(props) {
             </Box>
           </Card>
         </Link>
-        
+
       </Box>
     </>
   );

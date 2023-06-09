@@ -18,7 +18,7 @@ function Carosel(props) {
   };
 
   return (
-    <Container sx={{ margin: "14px 0px" }}>
+    <Box sx={{ margin: "14px 0px" }}>
       <Box
         sx={{
           display: "flex",
@@ -52,8 +52,7 @@ function Carosel(props) {
           <CommonCard product={product} />
         ))}
       </Slider>
-    </Container>
-    // </Container>
+    </Box>
   );
 }
 
