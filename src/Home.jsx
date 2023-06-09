@@ -11,79 +11,90 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Home() {
-  const [getProduct, setGetProduct] = useState("");
   const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
 
-const fetchCategories = async () => {
+  const fetchCategories = async () => {
     try {
-      const response = await axios.get("https://drab-rose-xerus-toga.cyclic.app/fetchCategory");
-      const fetchedCategories = response.data; 
+      const response = await axios.get(
+        "https://drab-rose-xerus-toga.cyclic.app/fetchCategory"
+      );
+      const fetchedCategories = response.data;
       setCategories(fetchedCategories);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
   };
 
+  const fetchProductByCategories = async () => {
+    var response = await axios.get(
+      "http://localhost:3000/getAllProductsByCategory"
+    );
+    var fetchedProduct = response.data;
+    setProducts(fetchedProduct);
+  };
+
   useEffect(() => {
-    fetchCategories()
+    fetchCategories();
+    fetchProductByCategories();
   }, []);
-  
-  const categoryWithProducts = [
-    {
-      _id: 11,
-      name: "Silk Saree",
-      products: [
-        {
-          _id: "647ef497c5c66ac0bb29ee2c",
-          imageUrl:
-            "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-          title: "Cotton saree",
-          price: 500,
-        },
-        {
-          _id: "647ef410c5c66ac0bb29ee2a",
-          imageUrl:
-            "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-          title: "Art saree",
-          price: 400,
-        },
-        {
-          _id: 3,
-          imageUrl:
-            "https://images.unsplash.com/photo-1618901185975-d59f7091bcfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2FyZWV8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
-          title: "Silk saree",
-          price: 700,
-        },
-      ],
-    },
-    {
-      id: 22,
-      name: "Chudi",
-      products: [
-        {
-          _id: 1,
-          imageUrl:
-            "https://5.imimg.com/data5/HO/RA/GU/ANDROID-36499891/product-jpeg-500x500.jpg",
-          title: "cotton",
-          price: 450,
-        },
-        {
-          _id: 2,
-          imageUrl:
-            "https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/10340125/2019/8/7/0419f4ed-6d77-4365-b6ee-4ae2117201191565180545617-Inddus-Women-Dress-Material-5461565180543577-1.jpg",
-          title: "material",
-          price: 600,
-        },
-        {
-          _id: 3,
-          imageUrl:
-            "https://www.jiomart.com/images/product/500x630/rvnqef12rc/pink-cotton-satin-women-s-unstitched-dress-material-product-images-rvnqef12rc-0-202202250516.jpg",
-          title: "raw",
-          price: 700,
-        },
-      ],
-    },
-  ];
+
+  // const categoryWithProducts = [
+  //   {
+  //     _id: 11,
+  //     name: "Silk Saree",
+  //     products: [
+  //       {
+  //         _id: "647ef497c5c66ac0bb29ee2c",
+  //         imageUrl:
+  //           "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
+  //         title: "Cotton saree",
+  //         price: 500,
+  //       },
+  //       {
+  //         _id: "647ef410c5c66ac0bb29ee2a",
+  //         imageUrl:
+  //           "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
+  //         title: "Art saree",
+  //         price: 400,
+  //       },
+  //       {
+  //         _id: 3,
+  //         imageUrl:
+  //           "https://images.unsplash.com/photo-1618901185975-d59f7091bcfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2FyZWV8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
+  //         title: "Silk saree",
+  //         price: 700,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 22,
+  //     name: "Chudi",
+  //     products: [
+  //       {
+  //         _id: 1,
+  //         imageUrl:
+  //           "https://5.imimg.com/data5/HO/RA/GU/ANDROID-36499891/product-jpeg-500x500.jpg",
+  //         title: "cotton",
+  //         price: 450,
+  //       },
+  //       {
+  //         _id: 2,
+  //         imageUrl:
+  //           "https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/10340125/2019/8/7/0419f4ed-6d77-4365-b6ee-4ae2117201191565180545617-Inddus-Women-Dress-Material-5461565180543577-1.jpg",
+  //         title: "material",
+  //         price: 600,
+  //       },
+  //       {
+  //         _id: 3,
+  //         imageUrl:
+  //           "https://www.jiomart.com/images/product/500x630/rvnqef12rc/pink-cotton-satin-women-s-unstitched-dress-material-product-images-rvnqef12rc-0-202202250516.jpg",
+  //         title: "raw",
+  //         price: 700,
+  //       },
+  //     ],
+  //   },
+  // ];
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -118,7 +129,6 @@ const fetchCategories = async () => {
     slidesToShow: 3,
     slidesToScroll: 1,
   };
-
 
   return (
     <Box>
@@ -167,7 +177,7 @@ const fetchCategories = async () => {
           </Typography>
         </Box>
 
-          <Slider {...settingsProduct}>
+        <Slider {...settingsProduct}>
           {categories.map((category, index) => (
             <Box key={index}>
               <Card
@@ -202,14 +212,11 @@ const fetchCategories = async () => {
               </Box>
             </Box>
           ))}
-        </Slider> 
- 
-
-
+        </Slider>
       </Container>
 
       <Container>
-        {categoryWithProducts.map((category, index) => (
+        {products.map((category, index) => (
           <Box key={index}>
             <Carosel category={category} />
           </Box>

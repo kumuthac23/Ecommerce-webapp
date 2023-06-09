@@ -14,9 +14,12 @@ function CommonCard(props) {
           padding: 1,
         }}
       >
-        <Link to={`/productDetail/${props.product._id}`} style={{
-          textDecoration: "none"
-        }}>
+        <Link
+          to={`/productDetail/${props.product._id}`}
+          style={{
+            textDecoration: "none",
+          }}
+        >
           <Card sx={{ boxShadow: 4 }}>
             <CardMedia
               sx={{
@@ -25,13 +28,14 @@ function CommonCard(props) {
                 width: "100%",
                 height: "170px",
               }}
-              image={props.product.imageUrl}
+              image={props.product.posterUrl}
               title="green iguana"
               component={"img"}
             />
             <Box
               sx={{
                 padding: "6px",
+                maxHeight: "90px",
               }}
             >
               <Typography
@@ -49,7 +53,6 @@ function CommonCard(props) {
             </Box>
           </Card>
         </Link>
-
       </Box>
     </>
   );
