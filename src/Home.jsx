@@ -10,6 +10,10 @@ import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
 
 function Home() {
+  const [getProduct, setGetProduct] = useState("");
+  
+
+
   const categoryWithProducts = [
     {
       _id: 11,
