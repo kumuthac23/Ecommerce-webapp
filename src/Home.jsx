@@ -6,6 +6,7 @@ import { Container, useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Carosel from "./Carosel";
+import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
 
 function Home() {
@@ -97,7 +98,7 @@ function Home() {
     infinite: false,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToScroll: 1,
   };
   const categories = [
     {
@@ -177,49 +178,41 @@ function Home() {
             Categories
           </Typography>
         </Box>
-
         <Slider {...settingsProduct}>
           {categories.map((category, index) => (
-            <Box
-              sx={{
-                padding: 0,
-                paddingRight: "16px",
-                // height: "70px",
-                width: "98px",
-              }}
-            >
-              <Card key={index} sx={{ height: "100%", boxShadow: 3 }}>
+            <>
+              <Card
+                key={index}
+                sx={{
+                  height: "80px",
+                  width: "80px",
+                  boxShadow: 3,
+                  borderRadius: "50%",
+                }}
+              >
                 <CardMedia
-                  sx={{
-                    padding: 0,
-                    height: "inherit",
-                    overflow: "hidden",
-                    width: "100%",
-                    maxHeight: "90px", // Adjust the height as per your requirement
-                    objectFit: "cover",
-                  }}
                   image={category.img}
                   title="green iguana"
                   component={"img"}
                 />
-                <Box
-                  sx={{
-                    padding: "6px",
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      paddingBottom: 0,
-                      fontSize: "medium",
-                      fontWeight: 600,
-                    }}
-                    variant="h6"
-                  >
-                    {category.name}
-                  </Typography>
-                </Box>
               </Card>
-            </Box>
+              <Box
+                sx={{
+                  padding: "6px",
+                }}
+              >
+                <Typography
+                  sx={{
+                    paddingBottom: 0,
+                    fontSize: "medium",
+                    fontWeight: 600,
+                  }}
+                  variant="h6"
+                >
+                  {category.name}
+                </Typography>
+              </Box>
+            </>
           ))}
         </Slider>
       </Container>
