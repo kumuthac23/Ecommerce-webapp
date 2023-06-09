@@ -37,14 +37,14 @@ const fetchCategories = async () => {
       name: "Silk Saree",
       products: [
         {
-          _id: 1,
+          _id: "647ef497c5c66ac0bb29ee2c",
           imageUrl:
             "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
           title: "Cotton saree",
           price: 500,
         },
         {
-          _id: 2,
+          _id: "647ef410c5c66ac0bb29ee2a",
           imageUrl:
             "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
           title: "Art saree",
@@ -127,27 +127,26 @@ const fetchCategories = async () => {
     <Box>
       <Slider {...settings}>
         {imageUrls.map((imageUrl, index) => (
-          <div key={index}>
-            <Box
-              elevation={0}
-              sx={{
+          <Box
+            key={index}
+            elevation={0}
+            sx={{
+              width: "100%",
+              height: isSmallScreen ? 150 : 350,
+            }}
+          >
+            <CardMedia
+              component="img"
+              alt={`Image ${index + 1}`}
+              image={imageUrl}
+              style={{
+                height: "inherit",
+                overflow: "hidden",
                 width: "100%",
-                height: isSmallScreen ? 150 : 350,
+                objectFit: "fill",
               }}
-            >
-              <CardMedia
-                component="img"
-                alt={`Image ${index + 1}`}
-                image={imageUrl}
-                style={{
-                  height: "inherit",
-                  overflow: "hidden",
-                  width: "100%",
-                  objectFit: "fill",
-                }}
-              />
-            </Box>
-          </div>
+            />
+          </Box>
         ))}
       </Slider>
       <Container
@@ -173,9 +172,8 @@ const fetchCategories = async () => {
 
           <Slider {...settingsProduct}>
           {categories.map((category, index) => (
-            <>
+            <Box key={index}>
               <Card
-                key={index}
                 sx={{
                   height: "80px",
                   width: "80px",
@@ -205,7 +203,7 @@ const fetchCategories = async () => {
                   {category.name}
                 </Typography>
               </Box>
-            </>
+            </Box>
           ))}
         </Slider> 
  
@@ -214,8 +212,10 @@ const fetchCategories = async () => {
       </Container>
 
       <Container>
-        {categoryWithProducts.map((category) => (
-          <Carosel category={category} />
+        {categoryWithProducts.map((category, index) => (
+          <Box key={index}>
+            <Carosel category={category} />
+          </Box>
         ))}
       </Container>
     </Box>
