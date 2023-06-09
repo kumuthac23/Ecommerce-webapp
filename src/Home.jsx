@@ -12,7 +12,8 @@ import axios from "axios";
 
 function Home() {
   const [getProduct, setGetProduct] = useState("");
-  
+  const [categories, setCategories] = useState([]);
+
 const fetchCategories = async () => {
     try {
       const response = await axios.get("https://drab-rose-xerus-toga.cyclic.app/fetchCategory");
@@ -23,6 +24,10 @@ const fetchCategories = async () => {
     }
   };
 
+  useEffect(() => {
+    fetchCategories()
+  }, []);
+  
   const categoryWithProducts = [
     {
       _id: 11,
