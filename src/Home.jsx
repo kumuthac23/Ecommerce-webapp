@@ -8,8 +8,29 @@ import Typography from "@mui/material/Typography";
 import Carosel from "./Carosel";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Home() {
+  const [categories, setCategories] = useState([]);
+
+  
+const fetchCategories = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/fetchCategory");
+      const fetchedCategories = response.data; 
+      setCategories(fetchedCategories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   const categoryWithProducts = [
     {
       _id: 11,
@@ -100,36 +121,7 @@ function Home() {
     slidesToShow: 3,
     slidesToScroll: 1,
   };
-  const categories = [
-    {
-      img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "Silk Saree",
-    },
-    {
-      img: "https://m.media-amazon.com/images/I/71sHE8nGY6L._AC_UY1100_.jpg",
-      name: "Cotton",
-    },
-    {
-      img: "https://yourstore.io/api/uploads/5d30013a5c83a702392c4c8b/layouts/1677149148177-490256.webp",
-      name: "Art Saree",
-    },
-    {
-      img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "Malgodi",
-    },
-    {
-      img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "Silk Saree",
-    },
-    {
-      img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "Silk Saree",
-    },
-    {
-      img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-      name: "Silk Saree",
-    },
-  ];
+
 
   return (
     <Box>
@@ -178,7 +170,8 @@ function Home() {
             Categories
           </Typography>
         </Box>
-        <Slider {...settingsProduct}>
+
+          <Slider {...settingsProduct}>
           {categories.map((category, index) => (
             <>
               <Card
@@ -191,7 +184,7 @@ function Home() {
                 }}
               >
                 <CardMedia
-                  image={category.img}
+                  image={category.image}
                   title="green iguana"
                   component={"img"}
                 />
@@ -214,7 +207,10 @@ function Home() {
               </Box>
             </>
           ))}
-        </Slider>
+        </Slider> 
+ 
+
+
       </Container>
 
       <Container>
