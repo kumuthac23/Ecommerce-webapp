@@ -7,49 +7,64 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 
 function CommonCard(props) {
+  const { product } = props;
   return (
     <>
       <Box
         sx={{
           padding: 1,
+          height: "220px",
         }}
       >
-        <Link to={`/productDetail/${props.product._id}`} style={{
-          textDecoration: "none"
-        }}>
-          <Card sx={{ boxShadow: 4 }}>
+        <Link
+          to={`/productDetail/${product._id}`}
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          <Card sx={{ height: "100%", boxShadow: 4 }}>
             <CardMedia
               sx={{
                 padding: 0,
                 overflow: "hidden",
                 width: "100%",
-                height: "170px",
+                height: "75%",
+                objectFit: "cover",
               }}
-              image={props.product.imageUrl}
+              image={product.posterUrl}
               title="green iguana"
               component={"img"}
             />
             <Box
               sx={{
                 padding: "6px",
+                maxHeight: "100%",
               }}
             >
               <Typography
-                sx={{ paddingBottom: 0, fontSize: "medium", fontWeight: 600 }}
+                sx={{
+                  paddingBottom: 0,
+                  fontSize: "small",
+                  fontWeight: 600,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 1,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
                 variant="h6"
               >
-                {props.product.title}
+                {product.title}
               </Typography>
               <Typography
                 sx={{ paddingBottom: 0, fontSize: "small" }}
                 variant="h6"
               >
-                &#8377;{props.product.price}
+                &#8377;{product.price}
               </Typography>
             </Box>
           </Card>
         </Link>
-
       </Box>
     </>
   );
