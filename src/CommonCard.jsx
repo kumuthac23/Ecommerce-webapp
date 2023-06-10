@@ -29,7 +29,7 @@ function CommonCard(props) {
                 overflow: "hidden",
                 width: "100%",
                 height: "170px",
-                objectFit: "contain",
+                objectFit: "cover",
               }}
               image={props.product.posterUrl}
               title="green iguana"
@@ -42,12 +42,13 @@ function CommonCard(props) {
               }}
             >
               <Typography
+                // display="inline"
                 sx={{
                   paddingBottom: 0,
                   fontSize: "medium",
                   fontWeight: 600,
                   display: "-webkit-box",
-                  WebkitLineClamp: 2,
+                  WebkitLineClamp: 1,
                   WebkitBoxOrient: "vertical",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
