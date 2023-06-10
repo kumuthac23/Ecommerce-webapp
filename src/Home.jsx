@@ -9,19 +9,24 @@ import Carosel from "./Carosel";
 import CommonCard from "./CommonCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Skeleton from "@mui/material/Skeleton";
 
 function Home() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
+  const [isCategoryLoading, setIsCategoryLoading] = useState(false);
 
   const fetchCategories = async () => {
+    setIsCategoryLoading(true);
     try {
       const response = await axios.get(
         "https://drab-rose-xerus-toga.cyclic.app/fetchCategory"
       );
       const fetchedCategories = response.data;
       setCategories(fetchedCategories);
+      setIsCategoryLoading(false);
     } catch (error) {
+      setIsCategoryLoading(false);
       console.error("Error fetching categories:", error);
     }
   };
@@ -70,7 +75,7 @@ function Home() {
     infinite: false,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
   };
 
   return (
@@ -120,57 +125,74 @@ function Home() {
             Categories
           </Typography>
         </Box>
-
-        <Slider {...settingsProduct}>
-          {categories.map((category, index) => (
-            <Box
-              key={index}
-              sx={{
-                display: "flex !important",
-                justifyContent: "center",
-                alignItems: "flex-start",
-                flexDirection: "column",
-              }}
-            >
-              <Card
-                sx={{
-                  height: "80px",
-                  width: "80px",
-                  boxShadow: 3,
-                  borderRadius: "50%",
-                }}
-              >
-                <CardMedia
-                  image={category.image}
-                  title="green iguana"
-                  component={"img"}
-                />
-              </Card>
-              <Box
-                sx={{
-                  padding: "6px",
-                  width: "100%",
-                }}
-              >
-                <Typography
-                  sx={{
-                    paddingBottom: 0,
-                    fontSize: "small",
-                    fontWeight: 600,
-                    display: "-webkit-box",
-                    WebkitLineClamp: 1,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                  variant="h6"
-                >
-                  {category.name}
-                </Typography>
+        <>
+          {isCategoryLoading ? (
+            <Slider {...settingsProduct}>
+              <Box>
+                <Skeleton variant="circular" width={"80px"} height={"80px"} />
               </Box>
-            </Box>
-          ))}
-        </Slider>
+              <Box>
+                <Skeleton variant="circular" width={"80px"} height={"80px"} />
+              </Box>
+              <Box>
+                <Skeleton variant="circular" width={"80px"} height={"80px"} />
+              </Box>
+            </Slider>
+          ) : (
+            <Slider {...settingsProduct}>
+              {categories &&
+                categories.length > 0 &&
+                categories.map((category, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      display: "flex !important",
+                      justifyContent: "center",
+                      alignItems: "flex-start",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Card
+                      sx={{
+                        height: "80px",
+                        width: "80px",
+                        boxShadow: 3,
+                        borderRadius: "50%",
+                      }}
+                    >
+                      <CardMedia
+                        image={category.image}
+                        title="green iguana"
+                        component={"img"}
+                      />
+                    </Card>
+                    <Box
+                      sx={{
+                        padding: "6px",
+                        width: "100%",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          paddingBottom: 0,
+                          fontSize: "small",
+                          fontWeight: 600,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 1,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                        variant="h6"
+                      >
+                        {category.name}
+                      </Typography>
+                    </Box>
+                  </Box>
+                ))}
+            </Slider>
+          )}
+        </>
       </Container>
 
       <Container>
