@@ -21,8 +21,7 @@ function Carosel(props) {
   return (
     category &&
     category.products.length > 0 && (
-      <Box sx={{ margin: "14px 0px"
-}}>
+      <Box sx={{ margin: "14px 0px" }}>
         <Box
           sx={{
             display: "flex",
@@ -31,7 +30,7 @@ function Carosel(props) {
           }}
           className="topic-head"
         >
-           <Typography
+          <Typography
             sx={{
               margin: "0px 10px 0px 0px",
               fontWeight: 800,
@@ -43,17 +42,22 @@ function Carosel(props) {
             {category.name}
           </Typography>
 
-        <Link to={`productsByCategory/${category._id}`}>
-          <Button
-            variant="contained"
-            size="small"
-            sx={{
-              padding: 0.5,
+          <Link
+            to={`productsByCategory/${category._id}`}
+            style={{
+              textDecoration: "none",
             }}
           >
-            View All
-          </Button>
-        </Link>
+            <Button
+              variant="contained"
+              size="small"
+              sx={{
+                padding: 0.5,
+              }}
+            >
+              View All
+            </Button>
+          </Link>
         </Box>
         <Slider {...settingsProduct}>
           {category.products.map((product, index) => (
