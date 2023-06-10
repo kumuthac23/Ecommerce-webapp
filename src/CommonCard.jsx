@@ -12,21 +12,24 @@ function CommonCard(props) {
       <Box
         sx={{
           padding: 1,
+          height: "100%",
         }}
       >
         <Link
           to={`/productDetail/${props.product._id}`}
           style={{
             textDecoration: "none",
+            height: "100%",
           }}
         >
-          <Card sx={{ boxShadow: 4 }}>
+          <Card sx={{ height: "100%", boxShadow: 4 }}>
             <CardMedia
               sx={{
                 padding: 0,
                 overflow: "hidden",
                 width: "100%",
                 height: "170px",
+                objectFit: "contain",
               }}
               image={props.product.posterUrl}
               title="green iguana"
@@ -39,7 +42,16 @@ function CommonCard(props) {
               }}
             >
               <Typography
-                sx={{ paddingBottom: 0, fontSize: "medium", fontWeight: 600 }}
+                sx={{
+                  paddingBottom: 0,
+                  fontSize: "medium",
+                  fontWeight: 600,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
                 variant="h6"
               >
                 {props.product.title}
