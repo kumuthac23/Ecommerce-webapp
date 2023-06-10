@@ -13,7 +13,7 @@ function Carosel(props) {
     infinite: false,
     speed: 500,
     slidesToShow: 2,
-    slidesToScroll: 3,
+    slidesToScroll: 2,
     arrows: false,
   };
 
