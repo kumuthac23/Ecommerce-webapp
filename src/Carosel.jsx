@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import CommonCard from "./CommonCard";
 import { Container, useMediaQuery, useTheme } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function Carosel(props) {
   const settingsProduct = {
@@ -36,7 +37,7 @@ function Carosel(props) {
         >
           {props.category.name}
         </Typography>
-        <Button
+        {/* <Button
           variant="contained"
           size="small"
           sx={{
@@ -44,7 +45,19 @@ function Carosel(props) {
           }}
         >
           View All
-        </Button>
+        </Button> */}
+
+        <Link to={`productsByCategory/${props.category._id}`}>
+          <Button
+            variant="contained"
+            size="small"
+            sx={{
+              padding: 0.5,
+            }}
+          >
+            View All
+          </Button>
+        </Link>
       </Box>
       <Slider {...settingsProduct}>
         {props.category.products.map((product, index) => (
