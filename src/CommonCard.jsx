@@ -7,19 +7,19 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 
 function CommonCard(props) {
+  const { product } = props;
   return (
     <>
       <Box
         sx={{
           padding: 1,
-          height: "100%",
+          height: "220px",
         }}
       >
         <Link
-          to={`/productDetail/${props.product._id}`}
+          to={`/productDetail/${product._id}`}
           style={{
             textDecoration: "none",
-            height: "100%",
           }}
         >
           <Card sx={{ height: "100%", boxShadow: 4 }}>
@@ -28,24 +28,23 @@ function CommonCard(props) {
                 padding: 0,
                 overflow: "hidden",
                 width: "100%",
-                height: "170px",
+                height: "75%",
                 objectFit: "cover",
               }}
-              image={props.product.posterUrl}
+              image={product.posterUrl}
               title="green iguana"
               component={"img"}
             />
             <Box
               sx={{
                 padding: "6px",
-                maxHeight: "90px",
+                maxHeight: "100%",
               }}
             >
               <Typography
-                // display="inline"
                 sx={{
                   paddingBottom: 0,
-                  fontSize: "medium",
+                  fontSize: "small",
                   fontWeight: 600,
                   display: "-webkit-box",
                   WebkitLineClamp: 1,
@@ -55,13 +54,13 @@ function CommonCard(props) {
                 }}
                 variant="h6"
               >
-                {props.product.title}
+                {product.title}
               </Typography>
               <Typography
                 sx={{ paddingBottom: 0, fontSize: "small" }}
                 variant="h6"
               >
-                &#8377;{props.product.price}
+                &#8377;{product.price}
               </Typography>
             </Box>
           </Card>

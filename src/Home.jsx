@@ -39,63 +39,6 @@ function Home() {
     fetchProductByCategories();
   }, []);
 
-  // const categoryWithProducts = [
-  //   {
-  //     _id: 11,
-  //     name: "Silk Saree",
-  //     products: [
-  //       {
-  //         _id: "647ef497c5c66ac0bb29ee2c",
-  //         imageUrl:
-  //           "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-  //         title: "Cotton saree",
-  //         price: 500,
-  //       },
-  //       {
-  //         _id: "647ef410c5c66ac0bb29ee2a",
-  //         imageUrl:
-  //           "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-  //         title: "Art saree",
-  //         price: 400,
-  //       },
-  //       {
-  //         _id: 3,
-  //         imageUrl:
-  //           "https://images.unsplash.com/photo-1618901185975-d59f7091bcfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2FyZWV8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
-  //         title: "Silk saree",
-  //         price: 700,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 22,
-  //     name: "Chudi",
-  //     products: [
-  //       {
-  //         _id: 1,
-  //         imageUrl:
-  //           "https://5.imimg.com/data5/HO/RA/GU/ANDROID-36499891/product-jpeg-500x500.jpg",
-  //         title: "cotton",
-  //         price: 450,
-  //       },
-  //       {
-  //         _id: 2,
-  //         imageUrl:
-  //           "https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/10340125/2019/8/7/0419f4ed-6d77-4365-b6ee-4ae2117201191565180545617-Inddus-Women-Dress-Material-5461565180543577-1.jpg",
-  //         title: "material",
-  //         price: 600,
-  //       },
-  //       {
-  //         _id: 3,
-  //         imageUrl:
-  //           "https://www.jiomart.com/images/product/500x630/rvnqef12rc/pink-cotton-satin-women-s-unstitched-dress-material-product-images-rvnqef12rc-0-202202250516.jpg",
-  //         title: "raw",
-  //         price: 700,
-  //       },
-  //     ],
-  //   },
-  // ];
-
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -160,6 +103,7 @@ function Home() {
         sx={{
           maxHeight: "300px",
           marginBottom: "10px",
+          height: "160px",
         }}
       >
         <Box>
@@ -179,7 +123,15 @@ function Home() {
 
         <Slider {...settingsProduct}>
           {categories.map((category, index) => (
-            <Box key={index}>
+            <Box
+              key={index}
+              sx={{
+                display: "flex !important",
+                justifyContent: "center",
+                alignItems: "flex-start",
+                flexDirection: "column",
+              }}
+            >
               <Card
                 sx={{
                   height: "80px",
@@ -197,13 +149,19 @@ function Home() {
               <Box
                 sx={{
                   padding: "6px",
+                  width: "100%",
                 }}
               >
                 <Typography
                   sx={{
                     paddingBottom: 0,
-                    fontSize: "medium",
+                    fontSize: "small",
                     fontWeight: 600,
+                    display: "-webkit-box",
+                    WebkitLineClamp: 1,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                   }}
                   variant="h6"
                 >
