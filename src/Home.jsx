@@ -33,7 +33,7 @@ function Home() {
 
   const fetchProductByCategories = async () => {
     var response = await axios.get(
-      "http://localhost:3000/getAllProductsByCategory"
+      "https://drab-rose-xerus-toga.cyclic.app/getAllProductsByCategory"
     );
     var fetchedProduct = response.data;
     setProducts(fetchedProduct);
