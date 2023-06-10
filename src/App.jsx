@@ -8,6 +8,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme/theme";
 import Carosel from "./Carosel";
 import ProductDetail from "./ProductDetail";
+import ProductsByCategory from "./ProductsByCategory";
 import Login from "./Login";
 
 function App() {
@@ -20,6 +21,10 @@ function App() {
             <Route index element={<Home />}></Route>
             <Route path="about" element={<About />}></Route>
             <Route path="productDetail/:id" element={<ProductDetail />}></Route>
+            <Route
+              path="productsByCategory/:id"
+              element={<ProductsByCategory />}
+            ></Route>
           </Route>
         </Routes>
       </ThemeProvider>
