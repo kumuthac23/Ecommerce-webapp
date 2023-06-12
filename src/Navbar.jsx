@@ -19,13 +19,22 @@ import { useNavbarStyle } from "./styles/NavbarStyle";
 import ShoppingBagRoundedIcon from "@mui/icons-material/ShoppingBagRounded";
 import MyBag from "./MyBag";
 import { Container } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import Badge from "@mui/material/Badge";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import InfoIcon from "@mui/icons-material/Info";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
-const drawerWidth = "90vw";
+
+const drawerWidth = "50vw";
+  const seconddrawerWidth = "100vw";
+
 const navItems = [
-  { label: "Home", link: "/" },
-  { label: "Profile", link: "/profile" },
-  { label: "Orders", link: "/orders" },
-  { label: "About", link: "/about" },
+  { label: " Home", link: "/", icon: <HomeIcon /> },
+  { label: "Profile", link: "/profile",icon:<AccountCircleIcon/> },
+  { label: "Orders", link: "/orders" , icon:<AddShoppingCartIcon/>},
+  { label: "About", link: "/about", icon:<InfoIcon/> },
 ];
 
 export default function Navbar() {
@@ -56,21 +65,24 @@ export default function Navbar() {
   const drawer = (
     <Box
       onClick={handleDrawerToggle}
-      sx={{ textAlign: "center", height: "100%" }}
+      sx={{ textAlign: "start", height: "100%" }}
     >
-      <Box sx={{ my: 0 }}>
-        <img
-          style={{
-            width: "100%",
-            height: "inherit",
-          }}
-          src="/assets/logo.jpeg"
-          alt=""
-        />
+      <Box
+        sx={{
+          padding: 3,
+          my: 0,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography color="primary" sx={{ fontWeight: 600 }}>
+          NKS Collections
+        </Typography>
+        <ArrowBackIosIcon sx={{ fontSize: "large" }} />
       </Box>
       <List>
         {navItems.map((item) => (
-          // <NavLink to={item.link} className="nav-link" aria-current="page">
           <ListItem
             key={item.label}
             disablePadding
@@ -79,18 +91,22 @@ export default function Navbar() {
             activeclassname={({ isActive }) =>
               isActive ? classes.activeLink : ""
             }
+            sx={{ justifyContent: "center" }}
           >
-            <ListItemButton sx={{ textAlign: "center", borderRadius: "10px" }}>
-              <ListItemText primary={item.label} />
+            <ListItemButton sx={{ borderRadius: "10px" }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                {item.icon}
+                <ListItemText
+                  sx={{ textAlign: "start", marginLeft: "8px" }}
+                  primary={item.label.trim()}
+                />
+              </Box>
             </ListItemButton>
           </ListItem>
-
-          // </NavLink>
         ))}
       </List>
     </Box>
   );
-
   return (
     <Box
       sx={{ display: "flex", marginBottom: "-48px", flexGrow: 1 }}
@@ -108,41 +124,48 @@ export default function Navbar() {
           >
             <MenuIcon />
           </IconButton>
-
           <Box
             sx={{
               display: "flex",
-              alignItems : "center"
+              alignItems: "center",
+              gap: "5px",
             }}
           >
-            <img
-              style={{
-                width: "45px",
-                borderRadius: "50%",
-              }}
-              src="assets\images\Logo.jpeg"
-              alt=""
-            />
+            <NavLink to="/" style={{ textDecoration: "none" }}>
+              <img
+                style={{
+                  width: "45px",
+                  borderRadius: "50%",
+                }}
+                src="assets\images\Logo.jpeg"
+                alt=""
+              />
+            </NavLink>
+            <Typography sx={{ fontWeight: 600 }}>NKS Collection</Typography>
           </Box>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
-              <Button key={item.label} sx={{ color: "#fff" }}>
-                {item.label}
+              <Button
+                key={item.label}
+                sx={{ color: "#fff", paddingLeft:0 }}
+              >
+                {item.icon} {item.label.trim()}
               </Button>
             ))}
           </Box>
-          <Stack>
-            <ShoppingBagRoundedIcon
-              sx={{
-                width: 36,
-                height: 30,
-                p: 0,
-                position: "absolute",
-                top: "12px",
-                right: "25px",
-              }}
-              onClick={handleMyBagDrawerOpen}
-            />
+          <Stack
+            sx={{
+              width: 30,
+              height: 25,
+              p: 0,
+              position: "absolute",
+              top: "18px",
+              right: "30px",
+            }}
+          >
+            <Badge color="secondary" overlap="circular" badgeContent={1}>
+              <ShoppingBagRoundedIcon onClick={handleMyBagDrawerOpen} />
+            </Badge>
           </Stack>
         </Toolbar>
       </AppBar>
@@ -177,7 +200,7 @@ export default function Navbar() {
           position: "relative",
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
-            width: drawerWidth,
+            width: seconddrawerWidth,
           },
         }}
       >
