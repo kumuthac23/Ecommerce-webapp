@@ -13,24 +13,28 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link, NavLink } from "react-router-dom";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { NavLink as NavLinkBase } from "react-router-dom";
 import { useNavbarStyle } from "./styles/NavbarStyle";
 import ShoppingBagRoundedIcon from "@mui/icons-material/ShoppingBagRounded";
+import MyBag from "./MyBag";
+import { Container } from "@mui/material";
 
-const drawerWidth = 240;
+const drawerWidth = "90vw";
 const navItems = [
   { label: "Home", link: "/" },
+  { label: "Profile", link: "/profile" },
+  { label: "Orders", link: "/orders" },
   { label: "About", link: "/about" },
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [isOpenMyBag, setMyBagOpen] = React.useState(false);
+
+  const handleMyBagDrawerOpen = () => {
+    setMyBagOpen((prevState) => !prevState);
+  };
 
   const classes = useNavbarStyle();
 
@@ -105,37 +109,18 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton>
 
-          {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography> */}
           <Box
             sx={{
-              // display: { xs: "flex", md: "none" },
-              width: 100,
+              display: "flex",
+              alignItems : "center"
             }}
           >
             <img
               style={{
-                width: "100%",
-                height: "inherit",
+                width: "45px",
+                borderRadius: "50%",
               }}
-              src="/assets/logo.jpeg"
+              src="assets\images\Logo.jpeg"
               alt=""
             />
           </Box>
@@ -156,19 +141,8 @@ export default function Navbar() {
                 top: "12px",
                 right: "25px",
               }}
-            ></ShoppingBagRoundedIcon>
-            {/* <Avatar
-              alt="Remy Sharp"
-              src="https://images.unsplash.com/photo-1641699862936-be9f49b1c38d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHNhcmVlfGVufDB8fDB8fHww&w=1000&q=80"
-              sx={{
-                width: 46,
-                height: 46,
-                p: 0,
-                position: "absolute",
-                top: "4px",
-                right: "35px",
-              }}
-            /> */}
+              onClick={handleMyBagDrawerOpen}
+            />
           </Stack>
         </Toolbar>
       </AppBar>
@@ -191,11 +165,24 @@ export default function Navbar() {
           {drawer}
         </Drawer>
       </Box>
-
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
-        <Typography></Typography>
       </Box>
+      <Drawer
+        anchor="right"
+        open={isOpenMyBag}
+        onClose={handleMyBagDrawerOpen}
+        sx={{
+          display: { xs: "block", sm: "none" },
+          position: "relative",
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            width: drawerWidth,
+          },
+        }}
+      >
+        <MyBag handleCloseIconClick={handleMyBagDrawerOpen} />
+      </Drawer>
     </Box>
   );
 }
