@@ -98,10 +98,9 @@ function MyBag() {
       </Container>
       <Container
         sx={{
-          padding: "16px",
           my: 3,
           overflowY: "auto",
-          height: "380px",
+          height: "70%",
         }}
       >
         <Grid
@@ -135,8 +134,10 @@ function MyBag() {
                       className="test"
                       sx={{
                         lineHeight: 0.5,
-                        // minWidth: "20px !important",
                         padding: 0,
+                        "& .MuiButtonGroup-grouped": {
+                          minWidth: "32px !important",
+                        },
                       }}
                       size="small"
                       aria-label="small outlined button group"
@@ -146,15 +147,26 @@ function MyBag() {
                         onClick={() => {
                           setCounter(counter - 1);
                         }}
+                        sx={{
+                          lineHeight: 1,
+                        }}
                       >
                         -
                       </Button>
-                      <Button sx={{}} disabled>
+                      <Button
+                        sx={{
+                          lineHeight: 1,
+                        }}
+                        disabled
+                      >
                         {counter}
                       </Button>
                       <Button
                         onClick={() => {
                           setCounter(counter + 1);
+                        }}
+                        sx={{
+                          lineHeight: 1,
                         }}
                       >
                         +
@@ -182,7 +194,8 @@ function MyBag() {
         sx={{
           position: "sticky",
           bottom: 0,
-          boxShadow: 1,
+          boxShadow: "0px -4px 4px -2px rgba(0, 0, 0, 0.2)",
+          paddingBottom: 1,
         }}
       >
         <Box
@@ -190,16 +203,15 @@ function MyBag() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            padding: 3,
           }}
+          py={1}
         >
           <Typography sx={{ fontWeight: 600 }}>SubTotal:</Typography>
-          <Typography sx={{ fontWeight: 600 }}>0</Typography>
+          <Typography sx={{ fontWeight: 600 }}>&#8377;1000</Typography>
         </Box>
         <Button variant="contained" fullWidth>
           Checkout
         </Button>
-
       </Container>
     </Box>
   );

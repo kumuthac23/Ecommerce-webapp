@@ -24,16 +24,16 @@ const drawerWidth = "90vw";
 const navItems = [
   { label: "Home", link: "/" },
   { label: "Profile", link: "/profile" },
-  { label: "MyBag", link: "/myBag" },
   { label: "Orders", link: "/orders" },
   { label: "About", link: "/about" },
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
+  const [isOpenMyBag, setMyBagOpen] = React.useState(false);
+  
   const handleShoppingBagClick = () => {
-    setIsDrawerOpen(true);
+    setMyBagOpen(true);
   };
 
   const classes = useNavbarStyle();
@@ -170,8 +170,8 @@ export default function Navbar() {
       </Box>
       <Drawer
         anchor="right"
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
+        open={isOpenMyBag}
+        onClose={() => setMyBagOpen(false)}
         sx={{
           display: { xs: "block", sm: "none" },
           position : "relative",

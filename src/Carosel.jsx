@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import CommonCard from "./CommonCard";
+import { Link } from "react-router-dom";
 
 function Carosel(props) {
   const { category } = props;
@@ -20,14 +21,14 @@ function Carosel(props) {
   return (
     category &&
     category.products.length > 0 && (
-      <Box sx={{ margin: "14px 0px"
-}}>
+      <Box sx={{ margin: "14px 0px" }}>
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
           }}
+          className="topic-head"
         >
           <Typography
             sx={{
@@ -40,15 +41,23 @@ function Carosel(props) {
           >
             {category.name}
           </Typography>
-          <Button
-            variant="contained"
-            size="small"
-            sx={{
-              padding: 0.5,
+
+          <Link
+            to={`productsByCategory/${category._id}`}
+            style={{
+              textDecoration: "none",
             }}
           >
-            View All
-          </Button>
+            <Button
+              variant="contained"
+              size="small"
+              sx={{
+                padding: 0.5,
+              }}
+            >
+              View All
+            </Button>
+          </Link>
         </Box>
         <Slider {...settingsProduct}>
           {category.products.map((product, index) => (
