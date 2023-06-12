@@ -16,6 +16,7 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: "Inter-Regular",
+    textTransform : "none"
   },
 });
 

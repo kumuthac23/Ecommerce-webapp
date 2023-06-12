@@ -10,6 +10,7 @@ import CommonCard from "./CommonCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Skeleton from "@mui/material/Skeleton";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [categories, setCategories] = useState([]);
@@ -143,51 +144,63 @@ function Home() {
               {categories &&
                 categories.length > 0 &&
                 categories.map((category, index) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      display: "flex !important",
-                      justifyContent: "center",
-                      alignItems: "flex-start",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <Card
-                      sx={{
-                        height: "80px",
-                        width: "80px",
-                        boxShadow: 3,
-                        borderRadius: "50%",
+                  <Box>
+                    <Link
+                      to={`productsByCategory/${category._id}`}
+                      style={{
+                        textDecoration: "none",
+                      color:"black",
+                     
                       }}
                     >
-                      <CardMedia
-                        image={category.image}
-                        title="green iguana"
-                        component={"img"}
-                      />
-                    </Card>
-                    <Box
-                      sx={{
-                        padding: "6px",
-                        width: "100%",
-                      }}
-                    >
-                      <Typography
+                      <Box
+                        key={index}
                         sx={{
-                          paddingBottom: 0,
-                          fontSize: "small",
-                          fontWeight: 600,
-                          display: "-webkit-box",
-                          WebkitLineClamp: 1,
-                          WebkitBoxOrient: "vertical",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
+                          display: "flex !important",
+                          justifyContent: "center",
+                          alignItems: "flex-start",
+                          flexDirection: "column",
                         }}
-                        variant="h6"
                       >
-                        {category.name}
-                      </Typography>
-                    </Box>
+                        <Card
+                          sx={{
+                            height: "80px",
+                            width: "80px",
+                            boxShadow: 3,
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <CardMedia
+                            image={category.image}
+                            title="green iguana"
+                            component={"img"}
+                          />
+                        </Card>
+                        <Box
+                          sx={{
+                            padding: "6px",
+                            width: "100%",
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              paddingBottom: 0,
+                              fontSize: "small",
+                              fontWeight: 600,
+                              display: "-webkit-box",
+                              WebkitLineClamp: 1,
+                              WebkitBoxOrient: "vertical",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              // textDecoration: "none !important",
+                            }}
+                            variant="h6"
+                          >
+                            {category.name}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Link>
                   </Box>
                 ))}
             </Slider>
