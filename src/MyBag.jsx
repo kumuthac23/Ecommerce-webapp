@@ -48,7 +48,7 @@ function MyBag({ handleCloseIconClick }) {
     {
       image:
         "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
+      title: "Silk Saree fffffffffffffff",
       price: 550,
     },
     {
@@ -125,15 +125,25 @@ function MyBag({ handleCloseIconClick }) {
                     />
                   </Card>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <Box>
-                    <Typography sx={{ fontSize: "small", fontWeight: 400 }}>
+                    <Typography
+                      sx={{
+                        fontSize: "small",
+                        fontWeight: 600,
+                        display: "-webkit-box",
+                        WebkitLineClamp: 1,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
                       {product.title}
                     </Typography>
                     <ButtonGroup
                       className="test"
                       sx={{
-                        lineHeight: 0.5,
+                        lineHeight: 1,
                         padding: 0,
                         "& .MuiButtonGroup-grouped": {
                           minWidth: "32px !important",
@@ -147,15 +157,16 @@ function MyBag({ handleCloseIconClick }) {
                         onClick={() => {
                           setCounter(counter - 1);
                         }}
+                        color="primary"
                         sx={{
-                          lineHeight: 1,
+                          lineHeight: 1.3,
                         }}
                       >
                         -
                       </Button>
                       <Button
                         sx={{
-                          lineHeight: 1,
+                          lineHeight: 1.3,
                         }}
                         disabled
                       >
@@ -166,12 +177,25 @@ function MyBag({ handleCloseIconClick }) {
                           setCounter(counter + 1);
                         }}
                         sx={{
-                          lineHeight: 1,
+                          lineHeight: 1.3,
                         }}
                       >
                         +
                       </Button>
                     </ButtonGroup>
+                  </Box>
+                </Grid>
+                <Grid item xs={2}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      alignItems: "flex-end",
+                    }}
+                  >
+                    <Typography sx={{ fontFamily: "ui- serief" }}>
+                      {counter}&#xd7;&#8377;{product.price}
+                    </Typography>
                   </Box>
                 </Grid>
                 <Grid item xs={2}>
@@ -210,7 +234,7 @@ function MyBag({ handleCloseIconClick }) {
           <Typography sx={{ fontWeight: 600 }}>&#8377;1000</Typography>
         </Box>
         <Button variant="contained" fullWidth>
-          Checkout
+          Place Order
         </Button>
       </Container>
     </Box>
