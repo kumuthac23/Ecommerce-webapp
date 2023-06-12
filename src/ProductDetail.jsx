@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import axios from "axios";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -18,6 +17,7 @@ import {
   Divider,
 } from "@mui/material";
 import Select from "@mui/material/Select";
+import MyBag from "./MyBag";
 
 const ImageSlicker = () => {
   const [product, setProduct] = useState({
@@ -179,6 +179,7 @@ const ImageSlicker = () => {
         >
           <ShoppingCartIcon style={{ paddingRight: "10px" }} />
           Add to cart
+          <MyBag/>
         </Button>
       </Box>
     </Box>
