@@ -11,7 +11,7 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Divider from "@mui/material/Divider";
 
-function MyBag() {
+function MyBag({ handleCloseIconClick }) {
   const [counter, setCounter] = useState(0);
 
   const addCardImages = [
@@ -90,7 +90,7 @@ function MyBag() {
           <Typography sx={{ fontSize: "large", fontWeight: 600 }}>
             MyBag
           </Typography>
-          <CloseIcon sx={{ fontSize: "large", fontWeight: 400 }} />
+          <CloseIcon onClick={handleCloseIconClick} />
         </Box>
         <Box my={2}>
           <Divider />

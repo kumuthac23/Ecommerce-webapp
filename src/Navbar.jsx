@@ -31,9 +31,9 @@ const navItems = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isOpenMyBag, setMyBagOpen] = React.useState(false);
-  
-  const handleShoppingBagClick = () => {
-    setMyBagOpen(true);
+
+  const handleMyBagDrawerOpen = () => {
+    setMyBagOpen((prevState) => !prevState);
   };
 
   const classes = useNavbarStyle();
@@ -111,16 +111,16 @@ export default function Navbar() {
 
           <Box
             sx={{
-              // display: { xs: "flex", md: "none" },
-              width: 100,
+              display: "flex",
+              alignItems : "center"
             }}
           >
             <img
               style={{
-                width: "100%",
-                height: "inherit",
+                width: "45px",
+                borderRadius: "50%",
               }}
-              src="/assets/logo.jpeg"
+              src="assets\images\Logo.jpeg"
               alt=""
             />
           </Box>
@@ -141,7 +141,7 @@ export default function Navbar() {
                 top: "12px",
                 right: "25px",
               }}
-              onClick={handleShoppingBagClick}
+              onClick={handleMyBagDrawerOpen}
             />
           </Stack>
         </Toolbar>
@@ -171,17 +171,17 @@ export default function Navbar() {
       <Drawer
         anchor="right"
         open={isOpenMyBag}
-        onClose={() => setMyBagOpen(false)}
+        onClose={handleMyBagDrawerOpen}
         sx={{
           display: { xs: "block", sm: "none" },
-          position : "relative",
+          position: "relative",
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
             width: drawerWidth,
           },
         }}
       >
-        <MyBag></MyBag>
+        <MyBag handleCloseIconClick={handleMyBagDrawerOpen} />
       </Drawer>
     </Box>
   );
