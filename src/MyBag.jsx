@@ -10,71 +10,95 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Divider from "@mui/material/Divider";
+import axios from "axios";
 
 function MyBag({ handleCloseIconClick }) {
   const [counter, setCounter] = useState(0);
+  const [myBagProducts, setMyBagProducts] = useState([]);
 
-  const addCardImages = [
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 400,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 500,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 550,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 550,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 550,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree fffffffffffffff",
-      price: 550,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 550,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 550,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 550,
-    },
-  ];
+
+  // const addCardImages = [
+  //   {
+  //     image:
+  //       "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
+  //     title: "Silk Saree",
+  //     price: 400,
+  //   },
+  //   {
+  //     image:
+  //       "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
+  //     title: "Silk Saree",
+  //     price: 500,
+  //   },
+  //   {
+  //     image:
+  //       "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
+  //     title: "Silk Saree",
+  //     price: 550,
+  //   },
+  //   {
+  //     image:
+  //       "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
+  //     title: "Silk Saree",
+  //     price: 550,
+  //   },
+  //   {
+  //     image:
+  //       "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
+  //     title: "Silk Saree",
+  //     price: 550,
+  //   },
+  //   {
+  //     image:
+  //       "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
+  //     title: "Silk Saree fffffffffffffff",
+  //     price: 550,
+  //   },
+  //   {
+  //     image:
+  //       "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
+  //     title: "Silk Saree",
+  //     price: 550,
+  //   },
+  //   {
+  //     image:
+  //       "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
+  //     title: "Silk Saree",
+  //     price: 550,
+  //   },
+  //   {
+  //     image:
+  //       "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
+  //     title: "Silk Saree",
+  //     price: 550,
+  //   },
+  // ];
+
+  
+const handleIconClick = async () => {
+
+    // Retrieve the value from local storage
+    const value = localStorage.getItem("Mybag");
+    const data = JSON.parse(value);
+
+    await axios
+      .post("http://localhost:3000/getMyBag", data)
+      .then((response) =>{
+        setMyBagProducts (response.data)})
+      .catch((error) => {
+        console.error("Error sending data to backend:", error);
+      });
+  };
+
+ useEffect(() => {
+    handleIconClick();
+  }, []);
 
   return (
     <Box
       sx={{
         overflow: "hidden",
+        height : "100vh"
       }}
     >
       <Container>
@@ -109,17 +133,18 @@ function MyBag({ handleCloseIconClick }) {
           justifyContent={"center"}
           alignItems={"center"}
         >
-          {addCardImages.map((product) => {
+          {myBagProducts.length > 0 && myBagProducts.map((product) => {
             return (
               <>
-                <Grid item xs={4}>
-                  <Card sx={{ height: "60px" }}>
+                <Grid item xs={4} key={product.productId}>
+                  <Card sx={{ height: "60px"}}>
                     <CardMedia
                       sx={{
                         overflow: "hidden",
                         objectFit: "cover",
                       }}
-                      image={product.image}
+                      image={product.posterURL}
+                      alt={product.title}
                       title="green iguana"
                       component={"img"}
                     />
@@ -194,7 +219,7 @@ function MyBag({ handleCloseIconClick }) {
                     }}
                   >
                     <Typography sx={{ fontFamily: "ui- serief" }}>
-                      {counter}&#xd7;&#8377;{product.price}
+                      {counter}&#xd7;&nbsp;&nbsp;&#8377;{product.price}
                     </Typography>
                   </Box>
                 </Grid>
@@ -216,10 +241,10 @@ function MyBag({ handleCloseIconClick }) {
       </Container>
       <Container
         sx={{
-          position: "sticky",
-          bottom: 0,
+          position: "fixed",
+          bottom: "40px",
           boxShadow: "0px -4px 4px -2px rgba(0, 0, 0, 0.2)",
-          paddingBottom: 1,
+          paddingBottom: 1
         }}
       >
         <Box
@@ -236,6 +261,12 @@ function MyBag({ handleCloseIconClick }) {
         <Button variant="contained" fullWidth>
           Place Order
         </Button>
+        <Box mt={1}>
+        <Button variant="outlined" fullWidth onClick={handleCloseIconClick}>
+          Close
+        </Button>
+        </Box>
+        
       </Container>
     </Box>
   );

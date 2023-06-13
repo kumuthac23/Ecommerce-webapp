@@ -34,6 +34,25 @@ function ProductsByCategory() {
 
   const handleAddToCart = (productId) => {
     console.log("Product ID:", productId);
+    
+    const existingCartItems = JSON.parse(localStorage.getItem("Mybag")) || [];
+
+    
+    const existingItemIndex = existingCartItems.findIndex(item => item.productId === productId);
+
+    if (existingItemIndex !== -1) {
+      // If the product exists in the cart, update the quantity
+      existingCartItems[existingItemIndex].quantity += 1;
+    } else {
+      // If the product is not in the cart, add it with quantity 1
+      existingCartItems.push({ productId, quantity: 1 });
+    }
+
+    // Save the updated cart items in local storage
+    localStorage.setItem("Mybag", JSON.stringify(existingCartItems));
+
+    console.log("Product ID:", productId);
+    console.log("Mybag:", existingCartItems);
   };
 
   return (
