@@ -40,11 +40,19 @@ export default function Address() {
             key={detail._id}
             expanded={selectedDetail === detail}
             onChange={() => handleSelectDetail(detail)}
+            elevation={0}
+            sx={{ boxShadow: 2 }}
           >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
+              sx={{
+                margin: "10px 0px",
+                "& .MuiAccordionSummary-content": {
+                  margin: "5px 0 !important",
+                },
+              }}
             >
               <Box
                 sx={{

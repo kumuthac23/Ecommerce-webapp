@@ -1,9 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Address from "./Address";
-import { Box, Typography, Button, TextField, Link } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  TextField,
+  Link,
+  Container,
+  FormHelperText,
+} from "@mui/material";
 // import Signup from "./Signup";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 function Profile() {
   // const [openSignup, setOpenSignup] = useState(false);
@@ -14,23 +24,36 @@ function Profile() {
   //   setOpenSignup(false);
   // };
 
+  const navigate = useNavigate();
+  const handleToHome = () => {
+    navigate("/");
+  };
+
   return (
-    <Box
-      sx={{
-        // display: "flex",
-        // flexDirection: "column",
-        // alignItems: "center",
-        // justifyContent: "center",
-        // minHeight: "100vh",
-        padding: "0px 20px 0px 20px",
-      }}
-    >
-      <Box sx={{ textAlign: "center", margin: "5px 0px 5px 0px" }}>
-        <AccountCircleIcon sx={{ fontSize: "80px" }} color="primary" />
-        <Typography fontWeight="bold" fontSize="20px" color="primary">
-          Profile
-        </Typography>
-      </Box>
+    <Container>
+      <>
+        <Box display="flex" onClick={handleToHome}>
+          <KeyboardBackspaceIcon
+            float="left"
+            sx={{ marginTop: 2 }}
+            color="primary"
+          />
+          <Typography color="primary" sx={{ marginTop: 2, marginLeft: 1 }}>
+            Go back
+          </Typography>
+        </Box>
+        <Box
+          textAlign="center"
+          sx={{
+            lineHeight: 0,
+          }}
+        >
+          <AccountCircleIcon sx={{ fontSize: "80px" }} color="primary" />
+          <Typography fontWeight="bold" fontSize="20px" color="primary">
+            Profile
+          </Typography>
+        </Box>
+      </>
       <Box sx={{ marginBottom: "10px" }}>
         <Typography fontWeight="bold" paddingBottom="5px">
           Name
@@ -76,15 +99,23 @@ function Profile() {
         />
       </Box>
 
-      <Box sx={{ marginBottom: "20px" }}>
+      <Box sx={{ marginBottom: "40px" }}>
         <Typography fontWeight="bold" paddingBottom="5px">
           Address
-          <Link sx={{textDecoration:"none",float:"right"}}>
+          <Link sx={{ textDecoration: "none", float: "right" }}>
             <strong>+Add New</strong>
           </Link>
         </Typography>
         <Address />
       </Box>
+
+      <Button
+        variant="outlined"
+        sx={{ width: "100%", marginBottom: "10px" }}
+        onClick={handleToHome}
+      >
+        Cancel
+      </Button>
 
       <Button variant="contained" sx={{ width: "100%", marginBottom: "10px" }}>
         Update Profile
@@ -92,7 +123,7 @@ function Profile() {
 
       {/* <Button onClick={handleSignupOpen}>Open</Button>
       {openSignup && <Signup onClose={handleSignupClose} />} */}
-    </Box>
+    </Container>
   );
 }
 
