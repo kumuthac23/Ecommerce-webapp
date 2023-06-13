@@ -33,14 +33,7 @@ export default function Address() {
   };
 
   return (
-    <Container
-    // sx={{
-    //   display: "flex",
-    //   justifyContent: "center",
-    //   alignItems: "center",
-    //   minHeight: "100vh",
-    // }}
-    >
+    <Container sx={{ padding: "0px" }}>
       <Box sx={{ maxWidth: "600px" }}>
         {shippingDetails.map((detail) => (
           <Accordion
@@ -64,15 +57,15 @@ export default function Address() {
                   checked={selectedDetail === detail}
                   onChange={() => handleSelectDetail(detail)}
                 />
-                <Typography>{detail.Name}</Typography>
+                {/* <Typography>{detail.Name}</Typography> */}
+                <Typography>
+                  <strong>
+                    {detail.Name} {detail.AddressType} {detail.PhoneNumber}
+                  </strong>
+                </Typography>
               </Box>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>
-                <strong>
-                  {detail.Name} {detail.AddressType} {detail.PhoneNumber}
-                </strong>
-              </Typography>
               <Typography>
                 {detail.Address}, {detail.Locality}, {detail.City},
                 {detail.State} - {detail.Pincode}

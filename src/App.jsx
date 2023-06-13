@@ -19,12 +19,11 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <Routes>
-          <Route path="login" element={<Login />}></Route>
-          <Route path="profile" element={<Profile />}></Route>
-          <Route path="signup" element={<Signup />}></Route>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />}></Route>
+            <Route path="login" element={<Login />}></Route>
             <Route path="profile" element={<Profile />}></Route>
+            <Route path="signup" element={<Signup />}></Route>
             <Route path="orders" element={<Orders />}></Route>
             <Route path="productDetail/:id" element={<ProductDetail />}></Route>
             <Route path="about" element={<About />}></Route>
