@@ -186,9 +186,6 @@ function ProductsByCategory() {
                             label="select size"
                             onChange={handleChange}
                           >
-                            {/* <MenuItem value="">
-                              <em>Select Size</em>
-                            </MenuItem> */}
                             <MenuItem value="M">M</MenuItem>
                             <MenuItem value="L">L</MenuItem>
                             <MenuItem value="XL">XL</MenuItem>
