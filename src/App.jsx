@@ -9,6 +9,8 @@ import theme from "./theme/theme";
 import Carosel from "./Carosel";
 import ProductDetail from "./ProductDetail";
 import Login from "./Login";
+import Profile from "./Profile";
+import Signup from "./Signup";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
       <ThemeProvider theme={theme}>
         <Routes>
           <Route path="login" element={<Login />}></Route>
+          <Route path="profile" element={<Profile />}></Route>
+          <Route path="signup" element={<Signup />}></Route>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />}></Route>
             <Route path="about" element={<About />}></Route>

@@ -14,10 +14,12 @@ function Home() {
   const [getProduct, setGetProduct] = useState("");
   const [categories, setCategories] = useState([]);
 
-const fetchCategories = async () => {
+  const fetchCategories = async () => {
     try {
-      const response = await axios.get("https://drab-rose-xerus-toga.cyclic.app/fetchCategory");
-      const fetchedCategories = response.data; 
+      const response = await axios.get("http://localhost:3000/fetchCategory", {
+        withCredentials: true, // Send cookies with the request
+      });
+      const fetchedCategories = response.data;
       setCategories(fetchedCategories);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -25,9 +27,9 @@ const fetchCategories = async () => {
   };
 
   useEffect(() => {
-    fetchCategories()
+    fetchCategories();
   }, []);
-  
+
   const categoryWithProducts = [
     {
       _id: 11,
@@ -119,7 +121,6 @@ const fetchCategories = async () => {
     slidesToScroll: 1,
   };
 
-
   return (
     <Box>
       <Slider {...settings}>
@@ -167,7 +168,7 @@ const fetchCategories = async () => {
           </Typography>
         </Box>
 
-          <Slider {...settingsProduct}>
+        <Slider {...settingsProduct}>
           {categories.map((category, index) => (
             <Box key={index}>
               <Card
@@ -202,10 +203,7 @@ const fetchCategories = async () => {
               </Box>
             </Box>
           ))}
-        </Slider> 
- 
-
-
+        </Slider>
       </Container>
 
       <Container>
