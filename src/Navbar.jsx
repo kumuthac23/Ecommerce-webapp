@@ -128,10 +128,10 @@ export default function Navbar() {
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: "5px",
+              gap: 1,
             }}
           >
-            <NavLink to="/" style={{ textDecoration: "none" }}>
+            <NavLink to="/" style={{ textDecoration: "none",display:"flex" }}>
               <img
                 style={{
                   width: "45px",
