@@ -5,13 +5,60 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import { Container } from "@mui/material";
+import { Container, Divider } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
+import Modal from '@mui/material/Modal';
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import CloseIcon from "@mui/icons-material/Close";
+
+
+
+
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 300,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 3,
+  p: 4,
+};
+
 
 function ProductsByCategory() {
+  const [counter, setCounter] = useState(0);
+
+  const [open, setOpen] = React.useState(false);
+  const [age, setAge] = React.useState("");
+  
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
 
   const { id } = useParams();
@@ -118,11 +165,109 @@ function ProductsByCategory() {
                       variant="contained"
                       size="small"
                       fullWidth
-                      onClick={() => handleAddToCart(product._id)}
-                      sx={{ boxShadow: 4,textTransform : "none" }}
+                      onClick={handleClickOpen}
+                      sx={{ boxShadow: 4, textTransform: "none" }}
                     >
                       Add to Cart
                     </Button>
+                    <Dialog
+                      fullWidth
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography sx={{ fontWeight: 700 }}>
+                            Add To Cart
+                          </Typography>
+                          <CloseIcon onClick={handleClose}></CloseIcon>
+                        </Box>
+                      </DialogTitle>
+                      <Divider />
+                      <DialogContent
+                        sx={{ display: "flex", flexDirection: "column" }}
+                      >
+                        <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+                          <InputLabel id="demo-select-small-label">
+                            Select Size
+                          </InputLabel>
+                          <Select
+                            labelId="demo-select-small-label"
+                            id="demo-select-small"
+                            label="select size"
+                            onChange={handleChange}
+                          >
+                            <MenuItem value="M">M</MenuItem>
+                            <MenuItem value="L">L</MenuItem>
+                            <MenuItem value="XL">XL</MenuItem>
+                            <MenuItem value="XXL">XXL</MenuItem>
+                            <MenuItem value="XXXL">XXXL</MenuItem>
+                            <MenuItem value="4XL">4XL</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <Typography
+                          variant="subtitle1" 
+                          sx={{ lineHeight: 2, paddingLeft: 1, fontWeight: 500 }}
+                        >
+                          Quantity
+                        </Typography>
+                        <ButtonGroup
+                          className="test"
+                          sx={{
+                            lineHeight: 2,
+                            padding: 0,
+                            paddingLeft: 1,
+                            "& .MuiButtonGroup-grouped": {
+                              minWidth: "32px !important",
+                            },
+                          }}
+                          size="small"
+                          aria-label="small outlined button group"
+                        >
+                          <Button
+                            disabled={counter <= 0}
+                            onClick={() => {
+                              setCounter(counter - 1);
+                            }}
+                            sx={{
+                              lineHeight: 1.5,
+                            }}
+                          >
+                            -
+                          </Button>
+                          <Button
+                            sx={{
+                              lineHeight: 1.5,
+                            }}
+                          >
+                            {counter}
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              setCounter(counter + 1);
+                            }}
+                            sx={{
+                              lineHeight: 1.5,
+                            }}
+                          >
+                            +
+                          </Button>
+                        </ButtonGroup>
+                      </DialogContent>
+                      <DialogActions sx={{ justifyContent: "center" }}>
+                        <Button variant="contained" color="primary">
+                          Add Now
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
                   </CommonCard>
                 </Grid>
               ))
