@@ -12,7 +12,9 @@ export default function Address() {
   const [selectedDetail, setSelectedDetail] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/user/6487091f9199239b4ef5bfa2")
+    fetch(
+      "https://drab-rose-xerus-toga.cyclic.app/user/6487091f9199239b4ef5bfa2"
+    )
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "SUCCESS") {
