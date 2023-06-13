@@ -184,7 +184,7 @@ function MyBag({ handleCloseIconClick }) {
       <Container
         sx={{
           position: "fixed",
-          bottom: "40px",
+          bottom: "20px",
           boxShadow: "0px -4px 4px -2px rgba(0, 0, 0, 0.2)",
           paddingBottom: 1,
         }}
