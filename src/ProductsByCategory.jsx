@@ -10,9 +10,16 @@ import Grid from "@mui/material/Grid";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
+import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
+import MuiAlert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import Alert from "@mui/material/Alert";
 
 function ProductsByCategory() {
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
+  const [open, setOpen] = React.useState(false);
 
   const { id } = useParams();
 
@@ -33,12 +40,14 @@ function ProductsByCategory() {
   }, []);
 
   const handleAddToCart = (productId) => {
+    setOpen(true);
+
     console.log("Product ID:", productId);
-    
     const existingCartItems = JSON.parse(localStorage.getItem("Mybag")) || [];
 
-    
-    const existingItemIndex = existingCartItems.findIndex(item => item.productId === productId);
+    const existingItemIndex = existingCartItems.findIndex(
+      (item) => item.productId === productId
+    );
 
     if (existingItemIndex !== -1) {
       // If the product exists in the cart, update the quantity
@@ -53,6 +62,16 @@ function ProductsByCategory() {
 
     console.log("Product ID:", productId);
     console.log("Mybag:", existingCartItems);
+  };
+
+  // const handleAddToCart = () => {
+  //   setOpen(true);
+  // };
+  const handleclose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
 
   return (
@@ -114,15 +133,45 @@ function ProductsByCategory() {
               categoryWithProducts.products.map((product, index) => (
                 <Grid item key={index} xs={6}>
                   <CommonCard product={product} height="100%">
-                    <Button
-                      variant="contained"
-                      size="small"
-                      fullWidth
-                      onClick={() => handleAddToCart(product._id)}
-                      sx={{ boxShadow: 4,textTransform : "none" }}
-                    >
-                      Add to Cart
-                    </Button>
+                    <Box>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        fullWidth
+                        onClick={() => handleAddToCart(product._id)}
+                        sx={{ boxShadow: 4, textTransform: "none" }}
+                      >
+                        Add to Cart
+                      </Button>
+                      <Snackbar
+                        open={open}
+                        autoHideDuration={3000}
+                        onClose={handleclose}
+                        message="Success"
+                        anchorOrigin={{
+                          vertical: "top",
+                          horizontal: "right",
+                        }}
+                      >
+                        <Alert
+                          onClose={handleclose}
+                          severity="success"
+                          sx={{ width: "80%" }}
+                          action={
+                            <IconButton
+                              size="small"
+                              aria-label="close"
+                              color="inherit"
+                              onClick={handleclose}
+                            >
+                              <CloseIcon fontSize="small" />
+                            </IconButton>
+                          }
+                        >
+                          This is a success message!
+                        </Alert>
+                      </Snackbar>
+                    </Box>
                   </CommonCard>
                 </Grid>
               ))
