@@ -8,7 +8,7 @@ const theme = createTheme({
       main: "#914298",
     },
     secondary: {
-      main: "#CCB0D3",
+      main: "#ece7ee",
     },
     error: {
       main: red.A400,
@@ -16,7 +16,7 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: "Inter-Regular",
-    textTransform : "none"
+    textTransform: "none",
   },
 });
 
