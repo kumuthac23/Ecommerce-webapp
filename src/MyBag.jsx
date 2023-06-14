@@ -24,7 +24,7 @@ function MyBag({ handleCloseIconClick }) {
     await axios
       .post("https://drab-rose-xerus-toga.cyclic.app/getMyBag", data)
       .then((response) => {
-        setMyBagProducts(response.data);
+        if (response.data) setMyBagProducts(response.data);
       })
       .catch((error) => {
         console.error("Error sending data to backend:", error);
@@ -42,62 +42,67 @@ function MyBag({ handleCloseIconClick }) {
         height: "100vh",
       }}
     >
-      <Container>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            position: "sticky",
-          }}
-          my={2}
-        >
-          <Typography sx={{ fontSize: "large", fontWeight: 600 }}>
-            MyBag
-          </Typography>
-          <CloseIcon onClick={handleCloseIconClick} />
-        </Box>
-        <Box my={2}>
-          <Divider />
-        </Box>
-      </Container>
-      <Container
+      <Box
         sx={{
-          my: 3,
-          overflowY: "auto",
-          height: "70%",
+          position: "sticky",
+          top: 0,
+          padding: 2,
+          height: "50px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        <Grid
-          container
-          spacing={3}
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
-          {myBagProducts.length > 0 &&
-            myBagProducts.map((product) => {
-              return (
-                <>
-                  <Grid item xs={4} key={product.productId}>
-                    <Card sx={{ height: "60px" }}>
+        <Typography sx={{ fontSize: "large", fontWeight: 600 }}>
+          MyBag
+        </Typography>
+        <CloseIcon onClick={handleCloseIconClick} />
+      </Box>
+      <Divider />
+      <Container
+        sx={{
+          overflow: "auto",
+          height: "calc(90vh - 100px)",
+        }}
+      >
+        {myBagProducts &&
+          myBagProducts.length > 0 &&
+          myBagProducts.map((product) => {
+            return (
+              <Box my={2}>
+                <Card sx={{ height: "120px", boxShadow: 1 }} elevation={0}>
+                  <Grid
+                    container
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    spacing={2}
+                    py={1}
+                  >
+                    <Grid
+                      item
+                      xs={2}
+                      sx={{
+                        paddingLeft: "10px !important",
+                      }}
+                    >
                       <CardMedia
                         sx={{
                           overflow: "hidden",
                           objectFit: "cover",
                         }}
                         image={product.posterURL}
-                        alt={product.title}
                         title="green iguana"
                         component={"img"}
                       />
-                    </Card>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Box>
+                    </Grid>
+                    <Grid item xs={8}>
                       <Typography
                         sx={{
-                          fontSize: "small",
-                          fontWeight: 600,
+                          fontSize: "medium",
+                          fontWeight: 500,
                           display: "-webkit-box",
                           WebkitLineClamp: 1,
                           WebkitBoxOrient: "vertical",
@@ -107,17 +112,16 @@ function MyBag({ handleCloseIconClick }) {
                       >
                         {product.title}
                       </Typography>
+                      <Typography sx={{ fontSize: "small", opacity: 0.3 }}>
+                        Size:{product.size}
+                      </Typography>
+                      <Typography sx={{ fontSize: "1rem" }}>
+                        &#8377;&nbsp;{product.price}
+                      </Typography>
                       <ButtonGroup
-                        className="test"
                         sx={{
-                          lineHeight: 1,
-                          padding: 0,
-                          "& .MuiButtonGroup-grouped": {
-                            minWidth: "32px !important",
-                          },
+                          display: "flex",
                         }}
-                        size="small"
-                        aria-label="small outlined button group"
                       >
                         <Button
                           disabled={counter <= 0}
@@ -135,7 +139,6 @@ function MyBag({ handleCloseIconClick }) {
                           sx={{
                             lineHeight: 1.3,
                           }}
-                          disabled
                         >
                           {counter}
                         </Button>
@@ -150,65 +153,47 @@ function MyBag({ handleCloseIconClick }) {
                           +
                         </Button>
                       </ButtonGroup>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        alignItems: "flex-end",
-                      }}
+                    </Grid>
+                    <Grid
+                      xs={1}
+                      item
+                      sx={{ display: "flex", justifyContent: "center" }}
                     >
-                      <Typography sx={{ fontFamily: "ui- serief" }}>
-                        {counter}&#xd7;&nbsp;&nbsp;&#8377;{product.price}
-                      </Typography>
-                    </Box>
+                      <DeleteIcon></DeleteIcon>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={2}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        alignItems: "flex-end",
-                      }}
-                    >
-                      <DeleteIcon />
-                    </Box>
-                  </Grid>
-                </>
-              );
-            })}
-        </Grid>
+                </Card>
+              </Box>
+            );
+          })}
       </Container>
-      <Container
+      <Box
         sx={{
           position: "fixed",
-          bottom: "20px",
-          boxShadow: "0px -4px 4px -2px rgba(0, 0, 0, 0.2)",
-          paddingBottom: 1,
+          bottom: 0,
+          height: "80px",
+          display: "flex",
+          paddingX: 2,
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+          boxShadow: 2,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-          py={1}
-        >
-          <Typography sx={{ fontWeight: 600 }}>SubTotal:</Typography>
-          <Typography sx={{ fontWeight: 600 }}>&#8377;1000</Typography>
+        <Box>
+          <Typography sx={{ fontSize: "small", fontWeight: 600 }}>
+            {counter} Items
+          </Typography>
+          <Typography
+            sx={{ fontSize: "1rem", fontFamily: "fangsong", fontWeight: 600 }}
+          >
+            &#8377;&nbsp;1000
+          </Typography>
         </Box>
-        <Button variant="contained" fullWidth>
-          Place Order
+        <Button variant="contained" size="small">
+          PROCEED TO CHECKOUT
         </Button>
-        <Box mt={1}>
-          <Button variant="outlined" fullWidth onClick={handleCloseIconClick}>
-            Close
-          </Button>
-        </Box>
-      </Container>
+      </Box>
     </Box>
   );
 }
