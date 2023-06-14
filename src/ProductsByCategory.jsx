@@ -5,15 +5,23 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import { Container } from "@mui/material";
+import { Container, Dialog, DialogContent, DialogTitle, Divider,DialogActions } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
-import CloseIcon from "@mui/icons-material/Close";
+import Snackbar from "@mui/material/Snackbar";  
 import { IconButton, Slide } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import CloseIcon from "@mui/icons-material/Close";
+import {
+  ButtonGroup,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 function ProductsByCategory() {
   const [counter, setCounter] = useState(0);
@@ -80,6 +88,8 @@ function ProductsByCategory() {
 
     console.log("Product ID:", productId);
     console.log("Mybag:", existingCartItems);
+
+    //code goes here
   };
 
   const handleclose = (event, reason) => {
@@ -164,6 +174,125 @@ function ProductsByCategory() {
           </Grid>
         </Container>
       )}
+      <Dialog
+        fullWidth
+        open={openAddToCart}
+        onClose={() => setAddToCartOpen(false)}
+        sx={{
+          padding: "10px 0",
+        }}
+      >
+        <DialogTitle id="alert-dialog-title">
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography sx={{ fontWeight: 700 }}>Add To Cart</Typography>
+            <CloseIcon onClick={() => setAddToCartOpen(false)}></CloseIcon>
+          </Box>
+        </DialogTitle>
+        <Divider />
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", p: "0px 10px" }}
+        >
+          <TableContainer>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">
+                    <strong>Size</strong>
+                  </TableCell>
+                  <TableCell align="center">
+                    <strong>InStock</strong>
+                  </TableCell>
+                  <TableCell align="center">
+                    <strong>Required</strong>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sizeResults &&
+                  sizeResults.map((size, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        "&:last-child td, &:last-child th": {
+                          border: 0,
+                        },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {size.size}
+                      </TableCell>
+                      <TableCell>{size.quantity}</TableCell>
+                      <TableCell>
+                        <ButtonGroup
+                          className="test"
+                          sx={{
+                            lineHeight: 1,
+                            padding: 0,
+                            "& .MuiButtonGroup-grouped": {
+                              minWidth: "32px !important",
+                            },
+                          }}
+                          size="small"
+                          aria-label="small outlined button group"
+                        >
+                          <Button
+                            //disabled={counters[size.size] <= 0}
+                            // onClick={() => {
+                            //   setCounters((prevCounters) => ({
+                            //     ...prevCounters,
+                            //     [size.size]: prevCounters[size.size] - 1,
+                            //   }));
+                            // }}
+                            color="primary"
+                            sx={{
+                              lineHeight: 1.3,
+                            }}
+                          >
+                            -
+                          </Button>
+                          <Button sx={{ lineHeight: 1.3 }} disabled>
+                            1
+                          </Button>
+                          <Button
+                            // onClick={() => {
+                            //   if (counters[size.size] < size.quantity) {
+                            //     setCounters((prevCounters) => ({
+                            //       ...prevCounters,
+                            //       [size.size]: prevCounters[size.size] + 1,
+                            //     }));
+                            //   }
+                            // }}
+                            sx={{
+                              lineHeight: 1.3,
+                            }}
+                          >
+                            +
+                          </Button>
+                        </ButtonGroup>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ textTransform: "none" }}
+          >
+            Add Now
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={2000}
