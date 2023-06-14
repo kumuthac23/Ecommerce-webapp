@@ -10,73 +10,36 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Divider from "@mui/material/Divider";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import axios from "axios";
 
 function MyBag({ handleCloseIconClick }) {
   const [counter, setCounter] = useState(0);
+  const [myBagProducts, setMyBagProducts] = useState([]);
 
-  const addCardImages = [
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      size: "XL",
-      price: 400,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 500,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 550,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 550,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 550,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree fffffffffffffff",
-      price: 550,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 550,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 550,
-    },
-    {
-      image:
-        "https://5.imimg.com/data5/SELLER/Default/2021/12/GM/RI/YB/53480653/cotton-designer-saree-for-ladies-500x500.jpg",
-      title: "Silk Saree",
-      price: 550,
-    },
-  ];
+  const fetchMyBagProducts = async () => {
+    // Retrieve the value from local storage
+    const value = localStorage.getItem("Mybag");
+    const data = JSON.parse(value);
+
+    await axios
+      .post("https://drab-rose-xerus-toga.cyclic.app/getMyBag", data)
+      .then((response) => {
+        setMyBagProducts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error sending data to backend:", error);
+      });
+  };
+
+  useEffect(() => {
+    fetchMyBagProducts();
+  }, []);
 
   return (
     <Box
       sx={{
         overflow: "hidden",
+        height: "100vh",
       }}
     >
       <Box
@@ -84,7 +47,6 @@ function MyBag({ handleCloseIconClick }) {
           position: "sticky",
           top: 0,
           padding: 2,
-          boxShadow: 2,
           height: "50px",
           display: "flex",
           justifyContent: "space-between",
@@ -97,19 +59,16 @@ function MyBag({ handleCloseIconClick }) {
         <CloseIcon onClick={handleCloseIconClick} />
       </Box>
       <Divider />
-      <Box
+      <Container
         sx={{
-          flexGrow: 1,
           overflow: "auto",
-          padding: 2,
           height: "calc(90vh - 100px)",
-          borderRadius: 2,
         }}
       >
-        {addCardImages.map((product) => {
+        {myBagProducts.map((product) => {
           return (
             <Box my={2}>
-              <Card sx={{ height: "100px", boxShadow: 1 }} elevation={0}>
+              <Card sx={{ height: "120px", boxShadow: 1 }} elevation={0}>
                 <Grid
                   container
                   sx={{
@@ -118,6 +77,7 @@ function MyBag({ handleCloseIconClick }) {
                     justifyContent: "center",
                   }}
                   spacing={2}
+                  py={1}
                 >
                   <Grid
                     item
@@ -131,7 +91,7 @@ function MyBag({ handleCloseIconClick }) {
                         overflow: "hidden",
                         objectFit: "cover",
                       }}
-                      image={product.image}
+                      image={product.posterURL}
                       title="green iguana"
                       component={"img"}
                     />
@@ -158,14 +118,8 @@ function MyBag({ handleCloseIconClick }) {
                     </Typography>
                     <ButtonGroup
                       sx={{
-                        lineHeight: 1,
-                        padding: 0,
-                        "& .MuiButtonGroup-grouped": {
-                          minWidth: "32px !important",
-                        },
+                        display: "flex",
                       }}
-                      size="small"
-                      aria-label="small outlined button group"
                     >
                       <Button
                         disabled={counter <= 0}
@@ -210,12 +164,12 @@ function MyBag({ handleCloseIconClick }) {
             </Box>
           );
         })}
-      </Box>
+      </Container>
       <Box
         sx={{
           position: "fixed",
           bottom: 0,
-          height: "100px",
+          height: "80px",
           display: "flex",
           paddingX: 2,
           justifyContent: "space-between",
