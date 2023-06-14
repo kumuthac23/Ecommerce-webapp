@@ -113,15 +113,19 @@ const ImageSlicker = () => {
         >
           {product.mainTitle}
         </Typography>
-        <Typography
-          variant="h6"
-          gutterBottom
-          sx={{ fontWeight: "bold", fontSize: "16px" }}
-        >
-          Size
-        </Typography>
 
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
+        {product.sizeOptions && (
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{ fontWeight: "regular", fontSize: "15px" }}
+          >
+            <strong>Size: </strong>
+            {product.sizeOptions.map((item) => item.size).join(", ")}
+          </Typography>
+        )}
+
+        {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
           <Select
             value={product.selectedSize}
             onChange={handleSizeChange}
@@ -139,7 +143,7 @@ const ImageSlicker = () => {
                 </MenuItem>
               ))}
           </Select>
-        </FormControl>
+        </FormControl> */}
 
         <Typography
           variant="h6"
