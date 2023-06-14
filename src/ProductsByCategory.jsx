@@ -5,11 +5,18 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import { Container, Dialog, DialogContent, DialogTitle, Divider,DialogActions } from "@mui/material";
+import {
+  Container,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  DialogActions,
+} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";  
+import Snackbar from "@mui/material/Snackbar";
 import { IconButton, Slide } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import CloseIcon from "@mui/icons-material/Close";
@@ -52,7 +59,7 @@ function ProductsByCategory() {
   const fetchProductSizeResults = async (productId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/getSizesById/${productId}`
+        `https://drab-rose-xerus-toga.cyclic.app/getSizesById/${productId}`
       );
       const { sizes } = response.data;
       setSizeResults(sizes);
@@ -174,7 +181,7 @@ function ProductsByCategory() {
           </Grid>
         </Container>
       )}
-      
+
       <Dialog
         fullWidth
         open={openAddToCart}
@@ -215,41 +222,23 @@ function ProductsByCategory() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {sizeResults && sizeResults.map((size, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      "&:last-child td, &:last-child th": {
-                        border: 0,
-                      },
-                    }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {size.size}
-                    </TableCell>
-                    <TableCell>{size.Instock}</TableCell>
-                    <TableCell>
-                      <ButtonGroup
-                        className="test"
-                        sx={{
-                          lineHeight: 1,
-                          padding: 0,
-                          "& .MuiButtonGroup-grouped": {
-                            minWidth: "32px !important",
-                          },
-                        }}
-                        size="small"
-                        aria-label="small outlined button group"
-                      >
-                        <Button
-                          //disabled={counters[size.size] <= 0}
-                          // onClick={() => {
-                          //   setCounters((prevCounters) => ({
-                          //     ...prevCounters,
-                          //     [size.size]: prevCounters[size.size] - 1,
-                          //   }));
-                          // }}
-                          color="primary"
+                {sizeResults &&
+                  sizeResults.map((size, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        "&:last-child td, &:last-child th": {
+                          border: 0,
+                        },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {size.size}
+                      </TableCell>
+                      <TableCell>{size.Instock}</TableCell>
+                      <TableCell>
+                        <ButtonGroup
+                          className="test"
                           sx={{
                             lineHeight: 1,
                             padding: 0,
@@ -260,30 +249,49 @@ function ProductsByCategory() {
                           size="small"
                           aria-label="small outlined button group"
                         >
-                          -
-                        </Button>
-                        <Button sx={{ lineHeight: 1.3 }} disabled>
-                          1
-                        </Button>
-                        <Button
-                          // onClick={() => {
-                          //   if (counters[size.size] < size.Instock) {
-                          //     setCounters((prevCounters) => ({
-                          //       ...prevCounters,
-                          //       [size.size]: prevCounters[size.size] + 1,
-                          //     }));
-                          //   }
-                          // }}
-                          sx={{
-                            lineHeight: 1.3,
-                          }}
-                        >
-                          +
-                        </Button>
-                      </ButtonGroup>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                          <Button
+                            //disabled={counters[size.size] <= 0}
+                            // onClick={() => {
+                            //   setCounters((prevCounters) => ({
+                            //     ...prevCounters,
+                            //     [size.size]: prevCounters[size.size] - 1,
+                            //   }));
+                            // }}
+                            color="primary"
+                            sx={{
+                              lineHeight: 1,
+                              padding: 0,
+                              "& .MuiButtonGroup-grouped": {
+                                minWidth: "32px !important",
+                              },
+                            }}
+                            size="small"
+                            aria-label="small outlined button group"
+                          >
+                            -
+                          </Button>
+                          <Button sx={{ lineHeight: 1.3 }} disabled>
+                            1
+                          </Button>
+                          <Button
+                            // onClick={() => {
+                            //   if (counters[size.size] < size.Instock) {
+                            //     setCounters((prevCounters) => ({
+                            //       ...prevCounters,
+                            //       [size.size]: prevCounters[size.size] + 1,
+                            //     }));
+                            //   }
+                            // }}
+                            sx={{
+                              lineHeight: 1.3,
+                            }}
+                          >
+                            +
+                          </Button>
+                        </ButtonGroup>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -320,7 +328,9 @@ function ProductsByCategory() {
           </IconButton>
         }
       >
-        <Alert onClose={handleclose} severity="success">Products Added Successfully</Alert>
+        <Alert onClose={handleclose} severity="success">
+          Products Added Successfully
+        </Alert>
       </Snackbar>
     </>
   );
