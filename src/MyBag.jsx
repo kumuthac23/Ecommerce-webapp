@@ -24,7 +24,7 @@ function MyBag({ handleCloseIconClick }) {
     await axios
       .post("https://drab-rose-xerus-toga.cyclic.app/getMyBag", data)
       .then((response) => {
-        setMyBagProducts(response.data);
+        if (response.data) setMyBagProducts(response.data);
       })
       .catch((error) => {
         console.error("Error sending data to backend:", error);
@@ -65,105 +65,107 @@ function MyBag({ handleCloseIconClick }) {
           height: "calc(90vh - 100px)",
         }}
       >
-        {myBagProducts.map((product) => {
-          return (
-            <Box my={2}>
-              <Card sx={{ height: "120px", boxShadow: 1 }} elevation={0}>
-                <Grid
-                  container
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                  spacing={2}
-                  py={1}
-                >
+        {myBagProducts &&
+          myBagProducts.length > 0 &&
+          myBagProducts.map((product) => {
+            return (
+              <Box my={2}>
+                <Card sx={{ height: "120px", boxShadow: 1 }} elevation={0}>
                   <Grid
-                    item
-                    xs={2}
+                    container
                     sx={{
-                      paddingLeft: "10px !important",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
+                    spacing={2}
+                    py={1}
                   >
-                    <CardMedia
+                    <Grid
+                      item
+                      xs={2}
                       sx={{
-                        overflow: "hidden",
-                        objectFit: "cover",
-                      }}
-                      image={product.posterURL}
-                      title="green iguana"
-                      component={"img"}
-                    />
-                  </Grid>
-                  <Grid item xs={8}>
-                    <Typography
-                      sx={{
-                        fontSize: "medium",
-                        fontWeight: 500,
-                        display: "-webkit-box",
-                        WebkitLineClamp: 1,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
+                        paddingLeft: "10px !important",
                       }}
                     >
-                      {product.title}
-                    </Typography>
-                    <Typography sx={{ fontSize: "small", opacity: 0.3 }}>
-                      Size:{product.size}
-                    </Typography>
-                    <Typography sx={{ fontSize: "1rem" }}>
-                      &#8377;&nbsp;{product.price}
-                    </Typography>
-                    <ButtonGroup
-                      sx={{
-                        display: "flex",
-                      }}
+                      <CardMedia
+                        sx={{
+                          overflow: "hidden",
+                          objectFit: "cover",
+                        }}
+                        image={product.posterURL}
+                        title="green iguana"
+                        component={"img"}
+                      />
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Typography
+                        sx={{
+                          fontSize: "medium",
+                          fontWeight: 500,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 1,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {product.title}
+                      </Typography>
+                      <Typography sx={{ fontSize: "small", opacity: 0.3 }}>
+                        Size:{product.size}
+                      </Typography>
+                      <Typography sx={{ fontSize: "1rem" }}>
+                        &#8377;&nbsp;{product.price}
+                      </Typography>
+                      <ButtonGroup
+                        sx={{
+                          display: "flex",
+                        }}
+                      >
+                        <Button
+                          disabled={counter <= 0}
+                          onClick={() => {
+                            setCounter(counter - 1);
+                          }}
+                          color="primary"
+                          sx={{
+                            lineHeight: 1.3,
+                          }}
+                        >
+                          -
+                        </Button>
+                        <Button
+                          sx={{
+                            lineHeight: 1.3,
+                          }}
+                        >
+                          {counter}
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            setCounter(counter + 1);
+                          }}
+                          sx={{
+                            lineHeight: 1.3,
+                          }}
+                        >
+                          +
+                        </Button>
+                      </ButtonGroup>
+                    </Grid>
+                    <Grid
+                      xs={1}
+                      item
+                      sx={{ display: "flex", justifyContent: "center" }}
                     >
-                      <Button
-                        disabled={counter <= 0}
-                        onClick={() => {
-                          setCounter(counter - 1);
-                        }}
-                        color="primary"
-                        sx={{
-                          lineHeight: 1.3,
-                        }}
-                      >
-                        -
-                      </Button>
-                      <Button
-                        sx={{
-                          lineHeight: 1.3,
-                        }}
-                      >
-                        {counter}
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          setCounter(counter + 1);
-                        }}
-                        sx={{
-                          lineHeight: 1.3,
-                        }}
-                      >
-                        +
-                      </Button>
-                    </ButtonGroup>
+                      <DeleteIcon></DeleteIcon>
+                    </Grid>
                   </Grid>
-                  <Grid
-                    xs={1}
-                    item
-                    sx={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <DeleteIcon></DeleteIcon>
-                  </Grid>
-                </Grid>
-              </Card>
-            </Box>
-          );
-        })}
+                </Card>
+              </Box>
+            );
+          })}
       </Container>
       <Box
         sx={{

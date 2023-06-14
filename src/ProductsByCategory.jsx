@@ -5,14 +5,20 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import { Container, Divider } from "@mui/material";
+import {
+  Container,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  DialogActions,
+} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
+import Snackbar from "@mui/material/Snackbar";
+import { IconButton, Slide } from "@mui/material";
+import Alert from "@mui/material/Alert";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   ButtonGroup,
@@ -30,6 +36,7 @@ function ProductsByCategory() {
   const [sizeResults, setSizeResults] = useState([]);
 
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
+  const [openSnackbar, setOpenSnakbacr] = React.useState(false);
 
   const { id } = useParams();
 
@@ -52,10 +59,10 @@ function ProductsByCategory() {
   const fetchProductSizeResults = async (productId) => {
     try {
       const response = await axios.get(
-        `https://drab-rose-xerus-toga.cyclic.app/fetchProductsByCategory/${productId}`
+        `https://drab-rose-xerus-toga.cyclic.app/getSizesById/${productId}`
       );
-      const { size } = response.data;
-      setSizeResults(size);
+      const { sizes } = response.data;
+      setSizeResults(sizes);
       setAddToCartOpen(true);
     } catch (error) {
       console.error("Error fetching size results:", error);
@@ -76,11 +83,11 @@ function ProductsByCategory() {
     );
 
     if (existingItemIndex !== -1) {
-      // If the product exists in the cart, update the quantity
-      existingCartItems[existingItemIndex].quantity += 1;
+      // If the product exists in the cart, update the Instock
+      existingCartItems[existingItemIndex].Instock += 1;
     } else {
-      // If the product is not in the cart, add it with quantity 1
-      existingCartItems.push({ productId, quantity: 1 });
+      // If the product is not in the cart, add it with Instock 1
+      existingCartItems.push({ productId, Instock: 1 });
     }
 
     // Save the updated cart items in local storage
@@ -88,6 +95,15 @@ function ProductsByCategory() {
 
     console.log("Product ID:", productId);
     console.log("Mybag:", existingCartItems);
+
+    //code goes here
+  };
+
+  const handleclose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnakbacr(false);
   };
 
   return (
@@ -219,7 +235,7 @@ function ProductsByCategory() {
                       <TableCell component="th" scope="row">
                         {size.size}
                       </TableCell>
-                      <TableCell>{size.quantity}</TableCell>
+                      <TableCell>{size.Instock}</TableCell>
                       <TableCell>
                         <ButtonGroup
                           className="test"
@@ -243,8 +259,14 @@ function ProductsByCategory() {
                             // }}
                             color="primary"
                             sx={{
-                              lineHeight: 1.3,
+                              lineHeight: 1,
+                              padding: 0,
+                              "& .MuiButtonGroup-grouped": {
+                                minWidth: "32px !important",
+                              },
                             }}
+                            size="small"
+                            aria-label="small outlined button group"
                           >
                             -
                           </Button>
@@ -253,7 +275,7 @@ function ProductsByCategory() {
                           </Button>
                           <Button
                             // onClick={() => {
-                            //   if (counters[size.size] < size.quantity) {
+                            //   if (counters[size.size] < size.Instock) {
                             //     setCounters((prevCounters) => ({
                             //       ...prevCounters,
                             //       [size.size]: prevCounters[size.size] + 1,
@@ -285,6 +307,31 @@ function ProductsByCategory() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={handleclose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        TransitionComponent={(props) => <Slide {...props} direction="left" />}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleclose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
+      >
+        <Alert onClose={handleclose} severity="success">
+          Products Added Successfully
+        </Alert>
+      </Snackbar>
     </>
   );
 }

@@ -41,7 +41,7 @@ const ImageSlicker = () => {
       );
       const fetchedImages = response.data.image;
       const fetchTitle = response.data.title;
-      const fetchSizeOptions = response.data.size;
+      const fetchSizeOptions = response.data.sizes;
       const fetchDescription = response.data.description;
       const fetchPrice = response.data.price;
       const fetchDiscount = response.data.discount;
@@ -95,15 +95,16 @@ const ImageSlicker = () => {
           />
         </Box>
         <Slider {...settings}>
-          {product.images.map((image, index) => (
-            <div key={index} onClick={() => handleImageClick(image)}>
-              <img
-                src={image}
-                alt={`Image ${index + 1}`}
-                style={{ height: "87px", width: "75px", borderRadius: "5px" }}
-              />
-            </div>
-          ))}
+          {product &&
+            product.images.map((image, index) => (
+              <div key={index} onClick={() => handleImageClick(image)}>
+                <img
+                  src={image}
+                  alt={`Image ${index + 1}`}
+                  style={{ height: "87px", width: "75px", borderRadius: "5px" }}
+                />
+              </div>
+            ))}
         </Slider>
         <Typography
           variant="h5"
@@ -131,11 +132,12 @@ const ImageSlicker = () => {
             <MenuItem value="" disabled>
               Select Size
             </MenuItem>
-            {product.sizeOptions.map((size, index) => (
-              <MenuItem key={index} value={size}>
-                {size}
-              </MenuItem>
-            ))}
+            {product.sizeOptions &&
+              product.sizeOptions.map((item, index) => (
+                <MenuItem key={index} value={item.size}>
+                  {item.size}
+                </MenuItem>
+              ))}
           </Select>
         </FormControl>
 
