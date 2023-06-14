@@ -52,10 +52,10 @@ function ProductsByCategory() {
   const fetchProductSizeResults = async (productId) => {
     try {
       const response = await axios.get(
-        `https://drab-rose-xerus-toga.cyclic.app/fetchProductsByCategory/${productId}`
+        `http://localhost:3000/getSizesById/${productId}`
       );
-      const { size } = response.data;
-      setSizeResults(size);
+      const { sizes } = response.data;
+      setSizeResults(sizes);
       setAddToCartOpen(true);
     } catch (error) {
       console.error("Error fetching size results:", error);
@@ -76,11 +76,11 @@ function ProductsByCategory() {
     );
 
     if (existingItemIndex !== -1) {
-      // If the product exists in the cart, update the quantity
-      existingCartItems[existingItemIndex].quantity += 1;
+      // If the product exists in the cart, update the Instock
+      existingCartItems[existingItemIndex].Instock += 1;
     } else {
-      // If the product is not in the cart, add it with quantity 1
-      existingCartItems.push({ productId, quantity: 1 });
+      // If the product is not in the cart, add it with Instock 1
+      existingCartItems.push({ productId, Instock: 1 });
     }
 
     // Save the updated cart items in local storage
@@ -218,7 +218,7 @@ function ProductsByCategory() {
                     <TableCell component="th" scope="row">
                       {size.size}
                     </TableCell>
-                    <TableCell>{size.quantity}</TableCell>
+                    <TableCell>{size.Instock}</TableCell>
                     <TableCell>
                       <ButtonGroup
                         className="test"
@@ -252,7 +252,7 @@ function ProductsByCategory() {
                         </Button>
                         <Button
                           // onClick={() => {
-                          //   if (counters[size.size] < size.quantity) {
+                          //   if (counters[size.size] < size.Instock) {
                           //     setCounters((prevCounters) => ({
                           //       ...prevCounters,
                           //       [size.size]: prevCounters[size.size] + 1,
