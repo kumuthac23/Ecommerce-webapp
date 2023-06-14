@@ -13,12 +13,21 @@ import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton, Slide } from "@mui/material";
 import Alert from "@mui/material/Alert";
+import CloseIcon from "@mui/icons-material/Close";
 
 function ProductsByCategory() {
+  const [counter, setCounter] = useState(0);
+  const [openAddToCart, setAddToCartOpen] = React.useState(false);
+  const [sizeResults, setSizeResults] = useState([]);
+
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
   const [openSnackbar, setOpenSnakbacr] = React.useState(false);
 
   const { id } = useParams();
+
+  const handleAddToCart = (productId) => {
+    fetchProductSizeResults(productId);
+  };
 
   const fetchAllProductsByCategoryId = async () => {
     try {
@@ -32,14 +41,26 @@ function ProductsByCategory() {
     }
   };
 
+  const fetchProductSizeResults = async (productId) => {
+    try {
+      const response = await axios.get(
+        `https://drab-rose-xerus-toga.cyclic.app/fetchProductsByCategory/${productId}`
+      );
+      const { size } = response.data;
+      setSizeResults(size);
+      setAddToCartOpen(true);
+    } catch (error) {
+      console.error("Error fetching size results:", error);
+    }
+  };
+
   useEffect(() => {
     fetchAllProductsByCategoryId();
   }, []);
 
-  const handleAddToCart = (productId) => {
-    setOpenSnakbacr(true);
-
+  const handleAddToCartLocalStorage = (productId) => {
     console.log("Product ID:", productId);
+
     const existingCartItems = JSON.parse(localStorage.getItem("Mybag")) || [];
 
     const existingItemIndex = existingCartItems.findIndex(
@@ -127,17 +148,15 @@ function ProductsByCategory() {
               categoryWithProducts.products.map((product, index) => (
                 <Grid item key={index} xs={6}>
                   <CommonCard product={product} height="100%">
-                    <Box>
-                      <Button
-                        variant="contained"
-                        size="small"
-                        fullWidth
-                        onClick={() => handleAddToCart(product._id)}
-                        sx={{ boxShadow: 4, textTransform: "none" }}
-                      >
-                        Add to Cart
-                      </Button>
-                    </Box>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      fullWidth
+                      onClick={() => handleAddToCart(product._id)}
+                      sx={{ boxShadow: 4, textTransform: "none" }}
+                    >
+                      Add to Cart
+                    </Button>
                   </CommonCard>
                 </Grid>
               ))

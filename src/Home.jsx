@@ -6,7 +6,6 @@ import { Container, useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Carosel from "./Carosel";
-import CommonCard from "./CommonCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Skeleton from "@mui/material/Skeleton";
