@@ -27,17 +27,26 @@ import InfoIcon from "@mui/icons-material/Info";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 
-const drawerWidth = "50vw";
-  const seconddrawerWidth = "100vw";
+const drawerWidth = "60vw";
+const seconddrawerWidth = "100vw";
 
 const navItems = [
-  { label: " Home", link: "/", icon: <HomeIcon /> },
-  { label: "Profile", link: "/profile",icon:<AccountCircleIcon/> },
-  { label: "Orders", link: "/orders" , icon:<AddShoppingCartIcon/>},
-  { label: "About", link: "/about", icon:<InfoIcon/> },
+  { label: " Home", link: "/", icon: <HomeIcon color="primary" /> },
+  {
+    label: "Profile",
+    link: "/profile",
+    icon: <AccountCircleIcon color="primary" />,
+  },
+  {
+    label: "Orders",
+    link: "/orders",
+    icon: <AddShoppingCartIcon color="primary" />,
+  },
+  { label: "About", link: "/about", icon: <InfoIcon color="primary" /> },
 ];
 
 export default function Navbar() {
+
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isOpenMyBag, setMyBagOpen] = React.useState(false);
 
@@ -81,6 +90,7 @@ export default function Navbar() {
         </Typography>
         <ArrowBackIosIcon sx={{ fontSize: "large" }} />
       </Box>
+      <Divider/>
       <List>
         {navItems.map((item) => (
           <ListItem
@@ -93,11 +103,20 @@ export default function Navbar() {
             }
             sx={{ justifyContent: "center" }}
           >
-            <ListItemButton sx={{ borderRadius: "10px" }}>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
+            <ListItemButton sx={{ borderRadius: "0 10px 10px 0"}}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 {item.icon}
                 <ListItemText
-                  sx={{ textAlign: "start", marginLeft: "8px" }}
+                  sx={{
+                    textAlign: "start",
+                    marginLeft: "8px",
+                    color: "primary.main",
+                  }}
                   primary={item.label.trim()}
                 />
               </Box>
@@ -147,7 +166,7 @@ export default function Navbar() {
             {navItems.map((item) => (
               <Button
                 key={item.label}
-                sx={{ color: "#fff", paddingLeft:0 }}
+                sx={{ color: "#ffff", paddingLeft:0 }}
               >
                 {item.icon} {item.label.trim()}
               </Button>
