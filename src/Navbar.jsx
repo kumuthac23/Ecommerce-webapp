@@ -26,7 +26,6 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import InfoIcon from "@mui/icons-material/Info";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
-
 const drawerWidth = "60vw";
 const seconddrawerWidth = "100vw";
 
@@ -46,7 +45,6 @@ const navItems = [
 ];
 
 export default function Navbar() {
-
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isOpenMyBag, setMyBagOpen] = React.useState(false);
 
@@ -72,10 +70,7 @@ export default function Navbar() {
   ));
 
   const drawer = (
-    <Box
-      onClick={handleDrawerToggle}
-      sx={{ textAlign: "start", height: "100%" }}
-    >
+    <Box sx={{ textAlign: "start", height: "100%" }}>
       <Box
         sx={{
           padding: 3,
@@ -83,14 +78,16 @@ export default function Navbar() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          backgroundColor: "#ece7ee",
         }}
+        onClick={handleDrawerToggle}
       >
-        <Typography color="primary" sx={{ fontWeight: 600 }}>
+        <Typography color="primary" sx={{ fontWeight: 600 }} fontSize={"large"}>
           NKS Collections
         </Typography>
-        <ArrowBackIosIcon sx={{ fontSize: "large" }} />
+        <ArrowBackIosIcon sx={{ fontSize: "large" }} color="primary"/>
       </Box>
-      <Divider/>
+      <Divider />
       <List>
         {navItems.map((item) => (
           <ListItem
@@ -103,7 +100,7 @@ export default function Navbar() {
             }
             sx={{ justifyContent: "center" }}
           >
-            <ListItemButton sx={{ borderRadius: "0 10px 10px 0"}}>
+            <ListItemButton sx={{ borderRadius: "0 10px 10px 0" }}>
               <Box
                 sx={{
                   display: "flex",
@@ -150,7 +147,7 @@ export default function Navbar() {
               gap: 1,
             }}
           >
-            <NavLink to="/" style={{ textDecoration: "none",display:"flex" }}>
+            <NavLink to="/" style={{ textDecoration: "none", display: "flex" }}>
               <img
                 style={{
                   width: "45px",
@@ -164,10 +161,7 @@ export default function Navbar() {
           </Box>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
-              <Button
-                key={item.label}
-                sx={{ color: "#ffff", paddingLeft:0 }}
-              >
+              <Button key={item.label} sx={{ color: "#ffff", paddingLeft: 0 }}>
                 {item.icon} {item.label.trim()}
               </Button>
             ))}

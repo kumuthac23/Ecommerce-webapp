@@ -53,6 +53,7 @@ function Carosel(props) {
               size="small"
               sx={{
                 padding: 0.5,
+                textDecoration: "none",
               }}
             >
               View All
