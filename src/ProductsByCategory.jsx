@@ -5,24 +5,15 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import { Container, Divider } from "@mui/material";
+import { Container } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
+import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  ButtonGroup,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import { IconButton, Slide } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import CloseIcon from "@mui/icons-material/Close";
 
 function ProductsByCategory() {
   const [counter, setCounter] = useState(0);
@@ -30,6 +21,7 @@ function ProductsByCategory() {
   const [sizeResults, setSizeResults] = useState([]);
 
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
+  const [openSnackbar, setOpenSnakbacr] = React.useState(false);
 
   const { id } = useParams();
 
@@ -88,6 +80,13 @@ function ProductsByCategory() {
 
     console.log("Product ID:", productId);
     console.log("Mybag:", existingCartItems);
+  };
+
+  const handleclose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnakbacr(false);
   };
 
   return (
@@ -165,126 +164,28 @@ function ProductsByCategory() {
           </Grid>
         </Container>
       )}
-
-      <Dialog
-        fullWidth
-        open={openAddToCart}
-        onClose={() => setAddToCartOpen(false)}
-        sx={{
-          padding: "10px 0",
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={handleclose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
         }}
+        TransitionComponent={(props) => <Slide {...props} direction="left" />}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleclose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
       >
-        <DialogTitle id="alert-dialog-title">
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography sx={{ fontWeight: 700 }}>Add To Cart</Typography>
-            <CloseIcon onClick={() => setAddToCartOpen(false)}></CloseIcon>
-          </Box>
-        </DialogTitle>
-        <Divider />
-        <DialogContent
-          sx={{ display: "flex", flexDirection: "column", p: "0px 10px" }}
-        >
-          <TableContainer>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">
-                    <strong>Size</strong>
-                  </TableCell>
-                  <TableCell align="center">
-                    <strong>InStock</strong>
-                  </TableCell>
-                  <TableCell align="center">
-                    <strong>Required</strong>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {sizeResults &&
-                  sizeResults.map((size, index) => (
-                    <TableRow
-                      key={index}
-                      sx={{
-                        "&:last-child td, &:last-child th": {
-                          border: 0,
-                        },
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {size.size}
-                      </TableCell>
-                      <TableCell>{size.quantity}</TableCell>
-                      <TableCell>
-                        <ButtonGroup
-                          className="test"
-                          sx={{
-                            lineHeight: 1,
-                            padding: 0,
-                            "& .MuiButtonGroup-grouped": {
-                              minWidth: "32px !important",
-                            },
-                          }}
-                          size="small"
-                          aria-label="small outlined button group"
-                        >
-                          <Button
-                            //disabled={counters[size.size] <= 0}
-                            // onClick={() => {
-                            //   setCounters((prevCounters) => ({
-                            //     ...prevCounters,
-                            //     [size.size]: prevCounters[size.size] - 1,
-                            //   }));
-                            // }}
-                            color="primary"
-                            sx={{
-                              lineHeight: 1.3,
-                            }}
-                          >
-                            -
-                          </Button>
-                          <Button sx={{ lineHeight: 1.3 }} disabled>
-                            1
-                          </Button>
-                          <Button
-                            // onClick={() => {
-                            //   if (counters[size.size] < size.quantity) {
-                            //     setCounters((prevCounters) => ({
-                            //       ...prevCounters,
-                            //       [size.size]: prevCounters[size.size] + 1,
-                            //     }));
-                            //   }
-                            // }}
-                            sx={{
-                              lineHeight: 1.3,
-                            }}
-                          >
-                            +
-                          </Button>
-                        </ButtonGroup>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ textTransform: "none" }}
-          >
-            Add Now
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Alert onClose={handleclose} severity="success">Products Added Successfully</Alert>
+      </Snackbar>
     </>
   );
 }
