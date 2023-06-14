@@ -67,7 +67,6 @@ function CommonCard(props) {
             <Typography
               sx={{
                 paddingBottom: 0,
-                fontSize: "small",
                 fontWeight: 600,
                 fontSize: "0.9rem",
               }}
