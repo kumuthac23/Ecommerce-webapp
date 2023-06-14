@@ -34,21 +34,6 @@ export default function BasicModal() {
   const [counters, setCounters] = useState({});
   const [sizeResults, setSizeResults] = useState([]);
 
-  useEffect(() => {
-    const fetchSizeResults = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/fetchProductByID/6489083142928ec6d4295ae9"
-        );
-        const { size } = response.data;
-        setSizeResults(size);
-      } catch (error) {
-        console.error("Error fetching size results:", error);
-      }
-    };
-
-    fetchSizeResults();
-  }, []);
 
   useEffect(() => {
     const initialCounters = sizeResults.reduce((acc, size) => {
