@@ -1,19 +1,16 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Navbar from "./Navbar";
 import About from "./About";
 import Home from "./Home";
 import Layout from "./Layout";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme/theme";
-import Carosel from "./Carosel";
 import ProductDetail from "./ProductDetail";
 import ProductsByCategory from "./ProductsByCategory";
 import Login from "./Login";
 import Profile from "./Profile";
 import Signup from "./Signup";
 import Orders from "./Orders";
-import SizeModal from "./SizeModal";
 
 function App() {
   return (
@@ -28,7 +25,6 @@ function App() {
             <Route path="orders" element={<Orders />}></Route>
             <Route path="productDetail/:id" element={<ProductDetail />}></Route>
             <Route path="about" element={<About />}></Route>
-            <Route path="sizemodal" element={<SizeModal/>}></Route>
             <Route
               path="productsByCategory/:id"
               element={<ProductsByCategory />}

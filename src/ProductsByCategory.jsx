@@ -52,7 +52,7 @@ function ProductsByCategory() {
   const fetchProductSizeResults = async (productId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/fetchProductByID/${productId}`
+        `https://drab-rose-xerus-toga.cyclic.app/fetchProductsByCategory/${productId}`
       );
       const { size } = response.data;
       setSizeResults(size);
