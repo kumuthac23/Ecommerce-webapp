@@ -13,6 +13,7 @@ import Login from "./Login";
 import Profile from "./Profile";
 import Signup from "./Signup";
 import Orders from "./Orders";
+import Payment from "./payment";
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
       <ThemeProvider theme={theme}>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />}></Route>
+            <Route index element={<Payment />}></Route>
+            {/* <Route index element={<Home />}></Route> */}
             <Route path="login" element={<Login />}></Route>
             <Route path="profile" element={<Profile />}></Route>
             <Route path="signup" element={<Signup />}></Route>
