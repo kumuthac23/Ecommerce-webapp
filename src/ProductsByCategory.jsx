@@ -9,17 +9,14 @@ import { Container } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
-import CardActions from "@mui/material/CardActions";
-import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
-import MuiAlert from "@mui/material/Alert";
-import IconButton from "@mui/material/IconButton";
+import { IconButton, Slide } from "@mui/material";
 import Alert from "@mui/material/Alert";
 
 function ProductsByCategory() {
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
-  const [open, setOpen] = React.useState(false);
+  const [openSnackbar, setOpenSnakbacr] = React.useState(false);
 
   const { id } = useParams();
 
@@ -40,7 +37,7 @@ function ProductsByCategory() {
   }, []);
 
   const handleAddToCart = (productId) => {
-    setOpen(true);
+    setOpenSnakbacr(true);
 
     console.log("Product ID:", productId);
     const existingCartItems = JSON.parse(localStorage.getItem("Mybag")) || [];
@@ -64,14 +61,11 @@ function ProductsByCategory() {
     console.log("Mybag:", existingCartItems);
   };
 
-  // const handleAddToCart = () => {
-  //   setOpen(true);
-  // };
   const handleclose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    setOpen(false);
+    setOpenSnakbacr(false);
   };
 
   return (
@@ -143,34 +137,6 @@ function ProductsByCategory() {
                       >
                         Add to Cart
                       </Button>
-                      <Snackbar
-                        open={open}
-                        autoHideDuration={3000}
-                        onClose={handleclose}
-                        message="Success"
-                        anchorOrigin={{
-                          vertical: "top",
-                          horizontal: "right",
-                        }}
-                      >
-                        <Alert
-                          onClose={handleclose}
-                          severity="success"
-                          sx={{ width: "80%" }}
-                          action={
-                            <IconButton
-                              size="small"
-                              aria-label="close"
-                              color="inherit"
-                              onClick={handleclose}
-                            >
-                              <CloseIcon fontSize="small" />
-                            </IconButton>
-                          }
-                        >
-                          This is a success message!
-                        </Alert>
-                      </Snackbar>
                     </Box>
                   </CommonCard>
                 </Grid>
@@ -179,6 +145,28 @@ function ProductsByCategory() {
           </Grid>
         </Container>
       )}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={handleclose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        TransitionComponent={(props) => <Slide {...props} direction="left" />}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleclose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
+      >
+        <Alert onClose={handleclose} severity="success">Products Added Successfully</Alert>
+      </Snackbar>
     </>
   );
 }
