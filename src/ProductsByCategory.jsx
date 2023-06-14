@@ -206,69 +206,70 @@ function ProductsByCategory() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {sizeResults.map((size, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      "&:last-child td, &:last-child th": {
-                        border: 0,
-                      },
-                    }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {size.size}
-                    </TableCell>
-                    <TableCell>{size.quantity}</TableCell>
-                    <TableCell>
-                      <ButtonGroup
-                        className="test"
-                        sx={{
-                          lineHeight: 1,
-                          padding: 0,
-                          "& .MuiButtonGroup-grouped": {
-                            minWidth: "32px !important",
-                          },
-                        }}
-                        size="small"
-                        aria-label="small outlined button group"
-                      >
-                        <Button
-                          //disabled={counters[size.size] <= 0}
-                          // onClick={() => {
-                          //   setCounters((prevCounters) => ({
-                          //     ...prevCounters,
-                          //     [size.size]: prevCounters[size.size] - 1,
-                          //   }));
-                          // }}
-                          color="primary"
+                {sizeResults &&
+                  sizeResults.map((size, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        "&:last-child td, &:last-child th": {
+                          border: 0,
+                        },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {size.size}
+                      </TableCell>
+                      <TableCell>{size.quantity}</TableCell>
+                      <TableCell>
+                        <ButtonGroup
+                          className="test"
                           sx={{
-                            lineHeight: 1.3,
+                            lineHeight: 1,
+                            padding: 0,
+                            "& .MuiButtonGroup-grouped": {
+                              minWidth: "32px !important",
+                            },
                           }}
+                          size="small"
+                          aria-label="small outlined button group"
                         >
-                          -
-                        </Button>
-                        <Button sx={{ lineHeight: 1.3 }} disabled>
-                          1
-                        </Button>
-                        <Button
-                          // onClick={() => {
-                          //   if (counters[size.size] < size.quantity) {
-                          //     setCounters((prevCounters) => ({
-                          //       ...prevCounters,
-                          //       [size.size]: prevCounters[size.size] + 1,
-                          //     }));
-                          //   }
-                          // }}
-                          sx={{
-                            lineHeight: 1.3,
-                          }}
-                        >
-                          +
-                        </Button>
-                      </ButtonGroup>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                          <Button
+                            //disabled={counters[size.size] <= 0}
+                            // onClick={() => {
+                            //   setCounters((prevCounters) => ({
+                            //     ...prevCounters,
+                            //     [size.size]: prevCounters[size.size] - 1,
+                            //   }));
+                            // }}
+                            color="primary"
+                            sx={{
+                              lineHeight: 1.3,
+                            }}
+                          >
+                            -
+                          </Button>
+                          <Button sx={{ lineHeight: 1.3 }} disabled>
+                            1
+                          </Button>
+                          <Button
+                            // onClick={() => {
+                            //   if (counters[size.size] < size.quantity) {
+                            //     setCounters((prevCounters) => ({
+                            //       ...prevCounters,
+                            //       [size.size]: prevCounters[size.size] + 1,
+                            //     }));
+                            //   }
+                            // }}
+                            sx={{
+                              lineHeight: 1.3,
+                            }}
+                          >
+                            +
+                          </Button>
+                        </ButtonGroup>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
