@@ -59,6 +59,7 @@ function Home() {
     appendDots: (dots) => (
       <div style={{ position: "absolute", bottom: "10px" }}>{dots}</div>
     ),
+    lazyLoad: "ondemand",
   };
 
   const imageUrls = [

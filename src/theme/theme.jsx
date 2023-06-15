@@ -20,12 +20,15 @@ const theme = createTheme({
     button: {
       textTransform: "none",
       fontWeight: 500,
+      textDecoration: "none",
     },
   },
 });
 
 // export const StyledButton = styled(Button)({
 //   textTransform: "none",
+//   fontWeight: 500,
+//   textDecoration: "none",
 // });
 
 export default theme;

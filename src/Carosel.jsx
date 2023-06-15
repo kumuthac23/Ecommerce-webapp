@@ -16,6 +16,7 @@ function Carosel(props) {
     slidesToShow: 2,
     slidesToScroll: 2,
     arrows: false,
+    lazyLoad: "ondemand",
   };
 
   return (
@@ -53,10 +54,6 @@ function Carosel(props) {
               size="small"
               sx={{
                 padding: 0.5,
-                // textDecoration: "none !important",
-                // "& .MuiButtonBase-root": {
-                //   textDecoration: "none !important",
-                // },
               }}
             >
               View All
