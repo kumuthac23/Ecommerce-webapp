@@ -31,16 +31,16 @@ import {
 } from "@mui/material";
 
 function ProductsByCategory() {
-  const [counter, setCounter] = useState(0);
   const [openAddToCart, setAddToCartOpen] = React.useState(false);
   const [sizeResults, setSizeResults] = useState([]);
-
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
   const [openSnackbar, setOpenSnakbacr] = React.useState(false);
+  const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
 
   const { id } = useParams();
 
   const handleAddToCart = (productId) => {
+    //need to get the data from the local storage for the product and set that to the sizeWithQuantity
     fetchProductSizeResults(productId);
   };
 
@@ -63,6 +63,8 @@ function ProductsByCategory() {
       );
       const { sizes } = response.data;
       setSizeResults(sizes);
+      // setCounter(sizes.reduce((obj, size) => ({ ...obj, [size.size]: 0 }), {}));
+
       setAddToCartOpen(true);
     } catch (error) {
       console.error("Error fetching size results:", error);
@@ -106,10 +108,90 @@ function ProductsByCategory() {
     setOpenSnakbacr(false);
   };
 
+  const handleQtyIncrement = (sizeObj) => {
+    debugger;
+    var itemExist =
+      sizeWithQuantity &&
+      sizeWithQuantity.length > 0 &&
+      sizeWithQuantity.find((item) => item.size == sizeObj.size);
+
+    if (!itemExist) {
+      var _sizeObj = {
+        size: sizeObj.size,
+        qty: 1,
+      };
+
+      sizeWithQuantity.push(_sizeObj);
+      setSizeWithQuantity([...sizeWithQuantity]);
+    } else {
+      var _localSizeWithQuantity = sizeWithQuantity;
+
+      var currentItem = sizeWithQuantity.find(
+        (item) => item.size == sizeObj.size
+      );
+
+      if (currentItem && currentItem.qty < sizeObj.Instock) {
+        _localSizeWithQuantity.map((item) => {
+          if (item.size == sizeObj.size) {
+            item.qty += 1;
+          }
+        });
+
+        setSizeWithQuantity([..._localSizeWithQuantity]);
+      } else {
+        return;
+      }
+    }
+  };
+
+  const handleQtyDecrement = (sizeObj) => {
+    debugger;
+    var itemExist =
+      sizeWithQuantity &&
+      sizeWithQuantity.length > 0 &&
+      sizeWithQuantity.find((item) => item.size == sizeObj.size);
+
+    var currentQty = 0;
+    if (itemExist) {
+      var currentItem = sizeWithQuantity.find(
+        (item) => item.size == sizeObj.size
+      );
+
+      var _localSizeWithQuantity = sizeWithQuantity;
+
+      if (currentItem && currentItem.qty - 1 === 0) {
+        _localSizeWithQuantity = _localSizeWithQuantity.filter(
+          (item) => item.size != sizeObj.size
+        );
+      } else {
+        _localSizeWithQuantity.map((item) => {
+          if (item.size == sizeObj.size) {
+            item.qty -= 1;
+            currentQty = item.qty;
+          }
+        });
+      }
+
+      setSizeWithQuantity([..._localSizeWithQuantity]);
+    }
+
+    return currentQty;
+  };
+
+  // const getCurrentSizeQty = (sizeObj) => {
+  //   var _sizeWithQuantity = sizeWithQuantity.find(
+  //     (item) => item.size == sizeObj.size
+  //   );
+  //   if (_sizeWithQuantity) {
+  //     return _sizeWithQuantity.qty;
+  //   }
+  //   return 0;
+  // };
+
   return (
     <>
       {categoryWithProducts && (
-        <Container sx={{ padding: "20px 20px" }}>
+        <Container sx={{ padding: "10px" }}>
           <Box
             sx={{
               display: "flex",
@@ -156,7 +238,7 @@ function ProductsByCategory() {
               </Typography>
             </Box>
           </Box>
-          <Grid container rowGap={1} pt={1}>
+          <Grid container spacing={0.5} pt={1}>
             {categoryWithProducts &&
             categoryWithProducts.products.length === 0 ? (
               <Typography>No products available.</Typography>
@@ -185,7 +267,10 @@ function ProductsByCategory() {
       <Dialog
         fullWidth
         open={openAddToCart}
-        onClose={() => setAddToCartOpen(false)}
+        onClose={() => {
+          setAddToCartOpen(false);
+          sizeWithQuantity([]);
+        }}
         sx={{
           padding: "10px 0",
         }}
@@ -250,13 +335,6 @@ function ProductsByCategory() {
                           aria-label="small outlined button group"
                         >
                           <Button
-                            //disabled={counters[size.size] <= 0}
-                            // onClick={() => {
-                            //   setCounters((prevCounters) => ({
-                            //     ...prevCounters,
-                            //     [size.size]: prevCounters[size.size] - 1,
-                            //   }));
-                            // }}
                             color="primary"
                             sx={{
                               lineHeight: 1,
@@ -267,21 +345,27 @@ function ProductsByCategory() {
                             }}
                             size="small"
                             aria-label="small outlined button group"
+                            onClick={() => {
+                              handleQtyDecrement(size);
+                            }}
                           >
                             -
                           </Button>
                           <Button sx={{ lineHeight: 1.3 }} disabled>
-                            1
+                            {sizeWithQuantity &&
+                            sizeWithQuantity.length > 0 &&
+                            sizeWithQuantity.find(
+                              (item) => item.size == size.size
+                            )
+                              ? sizeWithQuantity.find(
+                                  (item) => item.size == size.size
+                                )?.qty
+                              : 0}
                           </Button>
                           <Button
-                            // onClick={() => {
-                            //   if (counters[size.size] < size.Instock) {
-                            //     setCounters((prevCounters) => ({
-                            //       ...prevCounters,
-                            //       [size.size]: prevCounters[size.size] + 1,
-                            //     }));
-                            //   }
-                            // }}
+                            onClick={() => {
+                              handleQtyIncrement(size);
+                            }}
                             sx={{
                               lineHeight: 1.3,
                             }}
@@ -302,6 +386,11 @@ function ProductsByCategory() {
             color="primary"
             fullWidth
             sx={{ textTransform: "none" }}
+            onClick={() => {
+              setSizeWithQuantity([]);
+              console.log(sizeWithQuantity);
+              setAddToCartOpen(false);
+            }}
           >
             Add Now
           </Button>

@@ -1,5 +1,6 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, styled } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
+import { Button } from "@mui/material";
 
 // Create a theme instance.
 const theme = createTheme({
@@ -16,8 +17,15 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: "Inter-Regular",
-    textTransform: "none",
+    button: {
+      textTransform: "none",
+      fontWeight: 500,
+    },
   },
 });
+
+// export const StyledButton = styled(Button)({
+//   textTransform: "none",
+// });
 
 export default theme;
