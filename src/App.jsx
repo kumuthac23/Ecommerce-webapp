@@ -14,6 +14,7 @@ import Profile from "./Profile";
 import Signup from "./Signup";
 import Orders from "./Orders";
 import SizeModal from "./SizeModal";
+import ShippingAddress from "./ShippingAddress";
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
             <Route path="orders" element={<Orders />}></Route>
             <Route path="productDetail/:id" element={<ProductDetail />}></Route>
             <Route path="about" element={<About />}></Route>
-            <Route path="sizemodal" element={<SizeModal/>}></Route>
+            <Route path="sizemodal" element={<SizeModal />}></Route>
+            <Route path="shippingaddress" element={<ShippingAddress />}></Route>
             <Route
               path="productsByCategory/:id"
               element={<ProductsByCategory />}
