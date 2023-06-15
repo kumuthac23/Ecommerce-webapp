@@ -152,19 +152,19 @@ function ProductsByCategory() {
         }
       });
 
-      setSizeWithQuantity(_localSizeWithQuantity);
+      setSizeWithQuantity([..._localSizeWithQuantity]);
     }
   };
 
-  const getCurrentSizeQty = (sizeObj) => {
-    var _sizeWithQuantity = sizeWithQuantity.find(
-      (item) => item.size == sizeObj.size
-    );
-    if (_sizeWithQuantity) {
-      return _sizeWithQuantity.qty;
-    }
-    return 0;
-  };
+  // const getCurrentSizeQty = (sizeObj) => {
+  //   var _sizeWithQuantity = sizeWithQuantity.find(
+  //     (item) => item.size == sizeObj.size
+  //   );
+  //   if (_sizeWithQuantity) {
+  //     return _sizeWithQuantity.qty;
+  //   }
+  //   return 0;
+  // };
 
   return (
     <>
@@ -364,7 +364,10 @@ function ProductsByCategory() {
             color="primary"
             fullWidth
             sx={{ textTransform: "none" }}
-            onClick={() => setSizeWithQuantity([])}
+            onClick={() => {
+              setSizeWithQuantity([]);
+              console.log(sizeWithQuantity);
+            }}
           >
             Add Now
           </Button>
