@@ -47,7 +47,6 @@ function Home() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  console.log(isSmallScreen);
   const settings = {
     dots: true,
     infinite: true,
@@ -148,8 +147,7 @@ function Home() {
                       to={`productsByCategory/${category._id}`}
                       style={{
                         textDecoration: "none",
-                      color:"black",
-                     
+                        color: "black",
                       }}
                     >
                       <Box

@@ -184,14 +184,12 @@ function MyBag({ handleCloseIconClick }) {
           <Typography sx={{ fontSize: "small", fontWeight: 600 }}>
             {counter} Items
           </Typography>
-          <Typography
-            sx={{ fontSize: "1rem", fontFamily: "fangsong", fontWeight: 600 }}
-          >
+          <Typography sx={{ fontSize: "1rem", fontWeight: 600 }}>
             &#8377;&nbsp;1000
           </Typography>
         </Box>
         <Button variant="contained" size="large">
-          PROCEED TO CHECKOUT
+          Proceed to checkout
         </Button>
       </Box>
     </Box>

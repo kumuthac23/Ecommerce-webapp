@@ -13,13 +13,13 @@ function CommonCard(props) {
     <>
       <Box
         sx={{
-          padding: 1,
+          padding: 0.2,
         }}
       >
         <Card
           sx={{
             height: "100%",
-            boxShadow: 4,
+            boxShadow: 2,
             boxSizing: "border-box",
             display: "block",
           }}

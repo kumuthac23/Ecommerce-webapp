@@ -6,10 +6,6 @@ import CommonCard from "./CommonCard";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 
-
-
-
-
 function Carosel(props) {
   const { category } = props;
 
@@ -32,6 +28,7 @@ function Carosel(props) {
             justifyContent: "space-between",
             alignItems: "center",
           }}
+          pb={1}
           className="topic-head"
         >
           <Typography
