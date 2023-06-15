@@ -5,9 +5,11 @@ import Typography from "@mui/material/Typography";
 import CommonCard from "./CommonCard";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 function Carosel(props) {
   const { category } = props;
+  const navigate = useNavigate();
 
   const settingsProduct = {
     dots: false,
@@ -17,6 +19,10 @@ function Carosel(props) {
     slidesToScroll: 2,
     arrows: false,
     lazyLoad: "ondemand",
+  };
+
+  const handleClickViewAll = (categoryId) => {
+    navigate(`productsByCategory/${categoryId}`);
   };
 
   return (
@@ -43,22 +49,23 @@ function Carosel(props) {
           >
             {category.name}
           </Typography>
-          <Link
-            to={`productsByCategory/${category._id}`}
+          {/* <Link
+            to={}
             style={{
               textDecoration: "none !important",
             }}
+          > */}
+          <Button
+            variant="contained"
+            size="small"
+            sx={{
+              padding: 0.5,
+            }}
+            onClick={() => handleClickViewAll(category._id)}
           >
-            <Button
-              variant="contained"
-              size="small"
-              sx={{
-                padding: 0.5,
-              }}
-            >
-              View All
-            </Button>
-          </Link>
+            View All
+          </Button>
+          {/* </Link> */}
         </Box>
         <Slider {...settingsProduct}>
           {category.products.map((product, index) => (
