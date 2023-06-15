@@ -36,12 +36,29 @@ function ProductsByCategory() {
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
   const [openSnackbar, setOpenSnakbacr] = React.useState(false);
   const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
+  const [selectedProductId, setSelectedProductId] = useState();
 
   const { id } = useParams();
 
   const handleAddToCart = (productId) => {
     //need to get the data from the local storage for the product and set that to the sizeWithQuantity
-    fetchProductSizeResults(productId);
+    fetchProductSizeResults(productId).then((response) => {
+      debugger;
+      setSelectedProductId(productId);
+      setSizeWithQuantity([]);
+
+      const existingCartProducts =
+        JSON.parse(localStorage.getItem("items")) || [];
+
+      if (existingCartProducts && existingCartProducts.length > 0) {
+        var currentAddToCartProduct = existingCartProducts.find(
+          (product) => product.productId == productId
+        );
+
+        var existingSizes = currentAddToCartProduct.sizes;
+        setSizeWithQuantity([...existingSizes]);
+      }
+    });
   };
 
   const fetchAllProductsByCategoryId = async () => {
@@ -75,30 +92,37 @@ function ProductsByCategory() {
     fetchAllProductsByCategoryId();
   }, []);
 
-  const handleAddToCartLocalStorage = (productId) => {
-    console.log("Product ID:", productId);
+  const handleAddNowClick = () => {
+    const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
+    console.log(existingProducts);
+    // debugger;
 
-    const existingCartItems = JSON.parse(localStorage.getItem("Mybag")) || [];
+    if (existingProducts && existingProducts.length > 0) {
+      const existingProductIndex = existingProducts.findIndex(
+        (product) => product.productId === selectedProductId
+      );
 
-    const existingItemIndex = existingCartItems.findIndex(
-      (item) => item.productId === productId
-    );
-
-    if (existingItemIndex !== -1) {
-      // If the product exists in the cart, update the Instock
-      existingCartItems[existingItemIndex].Instock += 1;
+      if (existingProductIndex !== -1) {
+        existingProducts[existingProductIndex].sizes = sizeWithQuantity;
+      } else {
+        const newItem = {
+          productId: selectedProductId,
+          sizes: sizeWithQuantity,
+        };
+        existingProducts.push(newItem);
+      }
     } else {
-      // If the product is not in the cart, add it with Instock 1
-      existingCartItems.push({ productId, Instock: 1 });
+      const newItem = {
+        productId: selectedProductId,
+        sizes: sizeWithQuantity,
+      };
+      existingProducts.push(newItem);
     }
 
-    // Save the updated cart items in local storage
-    localStorage.setItem("Mybag", JSON.stringify(existingCartItems));
+    localStorage.setItem("items", JSON.stringify(existingProducts));
 
-    console.log("Product ID:", productId);
-    console.log("Mybag:", existingCartItems);
-
-    //code goes here
+    setSizeWithQuantity([]);
+    setAddToCartOpen(false);
   };
 
   const handleclose = (event, reason) => {
@@ -108,8 +132,12 @@ function ProductsByCategory() {
     setOpenSnakbacr(false);
   };
 
+  const handleAddToCartDialogClose = () => {
+    setAddToCartOpen(false);
+    sizeWithQuantity([]);
+  };
+
   const handleQtyIncrement = (sizeObj) => {
-    debugger;
     var itemExist =
       sizeWithQuantity &&
       sizeWithQuantity.length > 0 &&
@@ -145,7 +173,6 @@ function ProductsByCategory() {
   };
 
   const handleQtyDecrement = (sizeObj) => {
-    debugger;
     var itemExist =
       sizeWithQuantity &&
       sizeWithQuantity.length > 0 &&
@@ -177,16 +204,6 @@ function ProductsByCategory() {
 
     return currentQty;
   };
-
-  // const getCurrentSizeQty = (sizeObj) => {
-  //   var _sizeWithQuantity = sizeWithQuantity.find(
-  //     (item) => item.size == sizeObj.size
-  //   );
-  //   if (_sizeWithQuantity) {
-  //     return _sizeWithQuantity.qty;
-  //   }
-  //   return 0;
-  // };
 
   return (
     <>
@@ -267,15 +284,17 @@ function ProductsByCategory() {
       <Dialog
         fullWidth
         open={openAddToCart}
-        onClose={() => {
-          setAddToCartOpen(false);
-          sizeWithQuantity([]);
-        }}
+        onClose={handleAddToCartDialogClose}
         sx={{
           padding: "10px 0",
         }}
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle
+          id="alert-dialog-title"
+          sx={{
+            backgroundColor: "#ece7ee",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -283,8 +302,13 @@ function ProductsByCategory() {
               alignItems: "center",
             }}
           >
-            <Typography sx={{ fontWeight: 700 }}>Add To Cart</Typography>
-            <CloseIcon onClick={() => setAddToCartOpen(false)}></CloseIcon>
+            <Typography sx={{ fontWeight: 700 }} color="primary">
+              Add To Cart
+            </Typography>
+            <CloseIcon
+              onClick={handleAddToCartDialogClose}
+              color="primary"
+            ></CloseIcon>
           </Box>
         </DialogTitle>
         <Divider />
@@ -351,7 +375,14 @@ function ProductsByCategory() {
                           >
                             -
                           </Button>
-                          <Button sx={{ lineHeight: 1.3 }} disabled>
+                          <Button
+                            sx={{
+                              lineHeight: 1.3,
+                              fontWeight: 600,
+                              color: "black !important",
+                            }}
+                            disabled
+                          >
                             {sizeWithQuantity &&
                             sizeWithQuantity.length > 0 &&
                             sizeWithQuantity.find(
@@ -386,11 +417,7 @@ function ProductsByCategory() {
             color="primary"
             fullWidth
             sx={{ textTransform: "none" }}
-            onClick={() => {
-              setSizeWithQuantity([]);
-              console.log(sizeWithQuantity);
-              setAddToCartOpen(false);
-            }}
+            onClick={handleAddNowClick}
           >
             Add Now
           </Button>
