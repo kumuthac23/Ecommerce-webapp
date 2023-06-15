@@ -41,6 +41,7 @@ const ImageSlicker = () => {
       );
       const fetchedImages = response.data.image;
       const fetchTitle = response.data.title;
+     const fetchProductCode = response.data.productCode;
       const fetchSizeOptions = response.data.sizes;
       const fetchDescription = response.data.description;
       const fetchPrice = response.data.price;
@@ -50,6 +51,7 @@ const ImageSlicker = () => {
         images: fetchedImages,
         mainImage: fetchedImages.length > 0 ? fetchedImages[0] : "",
         mainTitle: fetchTitle,
+       productCode: fetchProductCode,
         sizeOptions: fetchSizeOptions,
         selectedSize: "",
         description: fetchDescription,
@@ -111,9 +113,8 @@ const ImageSlicker = () => {
           gutterBottom
           sx={{ fontWeight: "bold", fontSize: "15px" }}
         >
-          {product.mainTitle}
+          {product.productCode}&nbsp;&nbsp;{product.mainTitle}
         </Typography>
-
         {product.sizeOptions && (
           <Typography
             variant="h6"

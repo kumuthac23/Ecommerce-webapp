@@ -34,9 +34,9 @@ function ProductsByCategory() {
   const [counter, setCounter] = useState(0);
   const [openAddToCart, setAddToCartOpen] = React.useState(false);
   const [sizeResults, setSizeResults] = useState([]);
-
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
   const [openSnackbar, setOpenSnakbacr] = React.useState(false);
+  const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
 
   const { id } = useParams();
 
@@ -63,6 +63,8 @@ function ProductsByCategory() {
       );
       const { sizes } = response.data;
       setSizeResults(sizes);
+      // setCounter(sizes.reduce((obj, size) => ({ ...obj, [size.size]: 0 }), {}));
+
       setAddToCartOpen(true);
     } catch (error) {
       console.error("Error fetching size results:", error);
@@ -104,6 +106,64 @@ function ProductsByCategory() {
       return;
     }
     setOpenSnakbacr(false);
+  };
+
+  const handleQtyIncrement = (sizeObj) => {
+    debugger;
+    var itemExist =
+      sizeWithQuantity &&
+      sizeWithQuantity.length > 0 &&
+      sizeWithQuantity.find((item) => item.size == sizeObj.size);
+
+    if (!itemExist) {
+      var _sizeObj = {
+        size: sizeObj.size,
+        qty: 1,
+      };
+
+      sizeWithQuantity.push(_sizeObj);
+      setSizeWithQuantity([...sizeWithQuantity]);
+    } else {
+      var _localSizeWithQuantity = sizeWithQuantity;
+
+      _localSizeWithQuantity.map((item) => {
+        if (item.size == sizeObj.size) {
+          item.qty += 1;
+        }
+      });
+
+      setSizeWithQuantity([..._localSizeWithQuantity]);
+    }
+  };
+
+  const handleQtyDecrement = (sizeObj) => {
+    debugger;
+    var itemExist =
+      sizeWithQuantity &&
+      sizeWithQuantity.length > 0 &&
+      sizeWithQuantity.find((item) => item.size == sizeObj.size);
+
+    if (itemExist) {
+      var _localSizeWithQuantity = sizeWithQuantity;
+
+      _localSizeWithQuantity.map((item) => {
+        if (item.size == sizeObj.size) {
+          item.qty -= 1;
+        }
+      });
+
+      setSizeWithQuantity(_localSizeWithQuantity);
+    }
+  };
+
+  const getCurrentSizeQty = (sizeObj) => {
+    var _sizeWithQuantity = sizeWithQuantity.find(
+      (item) => item.size == sizeObj.size
+    );
+    if (_sizeWithQuantity) {
+      return _sizeWithQuantity.qty;
+    }
+    return 0;
   };
 
   return (
@@ -185,7 +245,10 @@ function ProductsByCategory() {
       <Dialog
         fullWidth
         open={openAddToCart}
-        onClose={() => setAddToCartOpen(false)}
+        onClose={() => {
+          setAddToCartOpen(false);
+          sizeWithQuantity([]);
+        }}
         sx={{
           padding: "10px 0",
         }}
@@ -250,13 +313,6 @@ function ProductsByCategory() {
                           aria-label="small outlined button group"
                         >
                           <Button
-                            //disabled={counters[size.size] <= 0}
-                            // onClick={() => {
-                            //   setCounters((prevCounters) => ({
-                            //     ...prevCounters,
-                            //     [size.size]: prevCounters[size.size] - 1,
-                            //   }));
-                            // }}
                             color="primary"
                             sx={{
                               lineHeight: 1,
@@ -267,21 +323,27 @@ function ProductsByCategory() {
                             }}
                             size="small"
                             aria-label="small outlined button group"
+                            onClick={() => {
+                              handleQtyDecrement(size);
+                              // var _qty = getCurrentSizeQty(size);
+                            }}
                           >
                             -
                           </Button>
                           <Button sx={{ lineHeight: 1.3 }} disabled>
-                            1
+                            {sizeWithQuantity && sizeWithQuantity.length > 0
+                              ? sizeWithQuantity.find(
+                                  (item) => item.size == size.size
+                                )?.qty
+                              : 0}
                           </Button>
                           <Button
-                            // onClick={() => {
-                            //   if (counters[size.size] < size.Instock) {
-                            //     setCounters((prevCounters) => ({
-                            //       ...prevCounters,
-                            //       [size.size]: prevCounters[size.size] + 1,
-                            //     }));
-                            //   }
-                            // }}
+                            onClick={() => {
+                              // var _qty = getCurrentSizeQty(size);
+                              // if (_qty < size.Instock) {
+                              // }
+                              handleQtyIncrement(size);
+                            }}
                             sx={{
                               lineHeight: 1.3,
                             }}
@@ -302,6 +364,7 @@ function ProductsByCategory() {
             color="primary"
             fullWidth
             sx={{ textTransform: "none" }}
+            onClick={() => setSizeWithQuantity([])}
           >
             Add Now
           </Button>

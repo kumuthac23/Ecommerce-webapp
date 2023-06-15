@@ -2,9 +2,13 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Slider from "react-slick";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import CommonCard from "./CommonCard";
 import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+
+
+
+
 
 function Carosel(props) {
   const { category } = props;
@@ -41,11 +45,10 @@ function Carosel(props) {
           >
             {category.name}
           </Typography>
-
           <Link
             to={`productsByCategory/${category._id}`}
             style={{
-              textDecoration: "none",
+              textDecoration: "none !important",
             }}
           >
             <Button
@@ -53,7 +56,10 @@ function Carosel(props) {
               size="small"
               sx={{
                 padding: 0.5,
-                textDecoration: "none",
+                // textDecoration: "none !important",
+                // "& .MuiButtonBase-root": {
+                //   textDecoration: "none !important",
+                // },
               }}
             >
               View All

@@ -62,7 +62,7 @@ function CommonCard(props) {
               }}
               variant="h6"
             >
-              {product.code}-{product.title}
+              {product.code}&nbsp;&nbsp;{product.title}
             </Typography>
             <Typography
               sx={{

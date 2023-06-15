@@ -190,7 +190,7 @@ function MyBag({ handleCloseIconClick }) {
             &#8377;&nbsp;1000
           </Typography>
         </Box>
-        <Button variant="contained" size="small">
+        <Button variant="contained" size="large">
           PROCEED TO CHECKOUT
         </Button>
       </Box>
