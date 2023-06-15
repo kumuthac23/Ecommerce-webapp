@@ -18,7 +18,7 @@ function MyBag({ handleCloseIconClick }) {
 
   const fetchMyBagProducts = async () => {
     // Retrieve the value from local storage
-    const value = localStorage.getItem("Mybag");
+    const value = localStorage.getItem("items");
     const data = JSON.parse(value);
 
     await axios
@@ -70,7 +70,7 @@ function MyBag({ handleCloseIconClick }) {
           myBagProducts.map((product) => {
             return (
               <Box my={2}>
-                <Card sx={{ height: "120px", boxShadow: 1 }} elevation={0}>
+                <Card sx={{ boxShadow: 1 }} elevation={0}>
                   <Grid
                     container
                     sx={{
@@ -101,8 +101,8 @@ function MyBag({ handleCloseIconClick }) {
                     <Grid item xs={8}>
                       <Typography
                         sx={{
-                          fontSize: "medium",
-                          fontWeight: 500,
+                          fontSize: "small",
+                          fontWeight: 600,
                           display: "-webkit-box",
                           WebkitLineClamp: 1,
                           WebkitBoxOrient: "vertical",
@@ -112,13 +112,19 @@ function MyBag({ handleCloseIconClick }) {
                       >
                         {product.title}
                       </Typography>
-                      <Typography sx={{ fontSize: "small", opacity: 0.3 }}>
-                        Size:{product.size}
+                      <Typography
+                        sx={{
+                          fontSize: "0.7rem",
+                          opacity: 0.7,
+                        }}
+                      >
+                        <b>Size:&nbsp;</b>
+                        S-1&#xd7;&#8377;1000,&nbsp;M-1&#xd7;&#8377;1000,&nbsp;XL-1&#xd7;&#8377;1000
                       </Typography>
-                      <Typography sx={{ fontSize: "1rem" }}>
+                      {/* <Typography sx={{ fontSize: "0.7rem" }}>
                         &#8377;&nbsp;{product.price}
-                      </Typography>
-                      <ButtonGroup
+                      </Typography> */}
+                      {/* <ButtonGroup
                         sx={{
                           display: "flex",
                         }}
@@ -152,7 +158,18 @@ function MyBag({ handleCloseIconClick }) {
                         >
                           +
                         </Button>
-                      </ButtonGroup>
+                      </ButtonGroup> */}
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          p: "2px",
+                        }}
+                      >
+                        <Typography sx={{ fontSize: "0.6rem" }}>
+                          Change Qty.
+                        </Typography>
+                      </Button>
                     </Grid>
                     <Grid
                       xs={1}
