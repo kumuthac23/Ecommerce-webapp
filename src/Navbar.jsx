@@ -211,7 +211,6 @@ export default function Navbar() {
         open={isOpenMyBag}
         onClose={handleMyBagDrawerOpen}
         sx={{
-          display: { xs: "block", sm: "none" },
           position: "relative",
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
