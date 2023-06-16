@@ -43,7 +43,6 @@ function ProductsByCategory() {
   const handleAddToCart = (productId) => {
     //need to get the data from the local storage for the product and set that to the sizeWithQuantity
     fetchProductSizeResults(productId).then((response) => {
-      debugger;
       setSelectedProductId(productId);
       setSizeWithQuantity([]);
 
