@@ -6,12 +6,13 @@ import {
   Link,
   TextField,
   Typography,
+  Container
 } from "@mui/material";
 import React from "react";
 
 function ShippingAddress() {
   return (
-    <Box>
+    <Container>
       <Typography
         fontSize="20px"
         fontWeight="bold"
@@ -97,7 +98,7 @@ function ShippingAddress() {
           </Grid>
         </Grid>
       </Box>
-    </Box>
+    </Container>
   );
 }
 

@@ -12,6 +12,7 @@ import Profile from "./Profile";
 import Signup from "./Signup";
 import Orders from "./Orders";
 import ShippingAddress from "./ShippingAddress";
+import CheckOut from "./CheckOut";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="productDetail/:id" element={<ProductDetail />}></Route>
             <Route path="about" element={<About />}></Route>
             <Route path="shippingaddress" element={<ShippingAddress />}></Route>
+            <Route path="checkout" element={<CheckOut />}></Route>
             <Route
               path="productsByCategory/:id"
               element={<ProductsByCategory />}

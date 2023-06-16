@@ -17,6 +17,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { useNavigate } from "react-router-dom";
 
 function createData(size, qty, price) {
   return { size, qty, price };
@@ -52,6 +53,12 @@ function MyBag({ handleCloseIconClick }) {
   useEffect(() => {
     fetchMyBagProducts();
   }, []);
+
+  const navigate = useNavigate();
+  const moveToCheckout = () => {
+    handleCloseIconClick();
+    navigate("/checkout");
+  };
 
   return (
     <Box
@@ -254,7 +261,7 @@ function MyBag({ handleCloseIconClick }) {
             &#8377;&nbsp;1000
           </Typography>
         </Box>
-        <Button variant="contained" size="large">
+        <Button variant="contained" size="large" onClick={moveToCheckout}>
           Proceed to checkout
         </Button>
       </Box>
