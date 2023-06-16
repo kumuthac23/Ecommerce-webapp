@@ -12,15 +12,6 @@ import {
   DialogTitle,
   Divider,
   DialogActions,
-} from "@mui/material";
-import Grid from "@mui/material/Grid";
-import CommonCard from "./CommonCard";
-import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
-import { IconButton, Slide } from "@mui/material";
-import Alert from "@mui/material/Alert";
-import CloseIcon from "@mui/icons-material/Close";
-import {
   ButtonGroup,
   Table,
   TableBody,
@@ -29,9 +20,17 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import CommonCard from "./CommonCard";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import { IconButton, Slide } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import CloseIcon from "@mui/icons-material/Close";
+import SizeModal from "./SizeModal";
 
 function ProductsByCategory() {
-  const [openAddToCart, setAddToCartOpen] = React.useState(false);
+  const [openAddToCart, setAddToCartOpen] = useState(false);
   const [sizeResults, setSizeResults] = useState([]);
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
   const [openSnackbar, setOpenSnakbacr] = React.useState(false);
@@ -41,9 +40,10 @@ function ProductsByCategory() {
   const { id } = useParams();
 
   const handleAddToCart = (productId) => {
+    setAddToCartOpen(true);
     //need to get the data from the local storage for the product and set that to the sizeWithQuantity
     fetchProductSizeResults(productId).then((response) => {
-      debugger;
+      // debugger;
       setSelectedProductId(productId);
       setSizeWithQuantity([]);
 
@@ -281,148 +281,13 @@ function ProductsByCategory() {
         </Container>
       )}
 
-      <Dialog
-        fullWidth
+     
+      <SizeModal
+        productId={selectedProductId}
         open={openAddToCart}
-        onClose={handleAddToCartDialogClose}
-        sx={{
-          padding: "10px 0",
-        }}
-      >
-        <DialogTitle
-          id="alert-dialog-title"
-          sx={{
-            backgroundColor: "#ece7ee",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography sx={{ fontWeight: 700 }} color="primary">
-              Add To Cart
-            </Typography>
-            <CloseIcon
-              onClick={handleAddToCartDialogClose}
-              color="primary"
-            ></CloseIcon>
-          </Box>
-        </DialogTitle>
-        <Divider />
-        <DialogContent
-          sx={{ display: "flex", flexDirection: "column", p: "0px 10px" }}
-        >
-          <TableContainer>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">
-                    <strong>Size</strong>
-                  </TableCell>
-                  <TableCell align="center">
-                    <strong>InStock</strong>
-                  </TableCell>
-                  <TableCell align="center">
-                    <strong>Required</strong>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {sizeResults &&
-                  sizeResults.map((size, index) => (
-                    <TableRow
-                      key={index}
-                      sx={{
-                        "&:last-child td, &:last-child th": {
-                          border: 0,
-                        },
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {size.size}
-                      </TableCell>
-                      <TableCell>{size.Instock}</TableCell>
-                      <TableCell>
-                        <ButtonGroup
-                          className="test"
-                          sx={{
-                            lineHeight: 1,
-                            padding: 0,
-                            "& .MuiButtonGroup-grouped": {
-                              minWidth: "32px !important",
-                            },
-                          }}
-                          size="small"
-                          aria-label="small outlined button group"
-                        >
-                          <Button
-                            color="primary"
-                            sx={{
-                              lineHeight: 1,
-                              padding: 0,
-                              "& .MuiButtonGroup-grouped": {
-                                minWidth: "32px !important",
-                              },
-                            }}
-                            size="small"
-                            aria-label="small outlined button group"
-                            onClick={() => {
-                              handleQtyDecrement(size);
-                            }}
-                          >
-                            -
-                          </Button>
-                          <Button
-                            sx={{
-                              lineHeight: 1.3,
-                              fontWeight: 600,
-                              color: "black !important",
-                            }}
-                            disabled
-                          >
-                            {sizeWithQuantity &&
-                            sizeWithQuantity.length > 0 &&
-                            sizeWithQuantity.find(
-                              (item) => item.size == size.size
-                            )
-                              ? sizeWithQuantity.find(
-                                  (item) => item.size == size.size
-                                )?.qty
-                              : 0}
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              handleQtyIncrement(size);
-                            }}
-                            sx={{
-                              lineHeight: 1.3,
-                            }}
-                          >
-                            +
-                          </Button>
-                        </ButtonGroup>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ textTransform: "none" }}
-            onClick={handleAddNowClick}
-          >
-            Add Now
-          </Button>
-        </DialogActions>
-      </Dialog>
+        onClose={() => setAddToCartOpen(false)}
+        onAddNow={handleAddNowClick}
+      />
 
       <Snackbar
         open={openSnackbar}
