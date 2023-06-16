@@ -218,25 +218,17 @@ function SizeModal({ productId, open, onClose }) {
                         },
                       }}
                     >
-                      <TableCell component="th" scope="row">
+                      <TableCell component="th" scope="row" align="center">
                         {size.size}
                       </TableCell>
-                      <TableCell>{size.Instock}</TableCell>
+                      <TableCell align="center">{size.Instock}</TableCell>
                       <TableCell>
-                        <ButtonGroup
-                          className="test"
-                          sx={{
-                            lineHeight: 1,
-                            padding: 0,
-                            "& .MuiButtonGroup-grouped": {
-                              minWidth: "32px !important",
-                            },
-                          }}
-                          size="small"
-                          aria-label="small outlined button group"
-                        >
-                          <Button
-                            color="primary"
+                              <Box
+                                  sx={{
+                                      display: "flex",
+                                  justifyContent:"center"}}>
+                          <ButtonGroup
+                            className="test"
                             sx={{
                               lineHeight: 1,
                               padding: 0,
@@ -246,41 +238,54 @@ function SizeModal({ productId, open, onClose }) {
                             }}
                             size="small"
                             aria-label="small outlined button group"
-                            onClick={() => {
-                              handleQtyDecrement(size);
-                            }}
                           >
-                            -
-                          </Button>
-                          <Button
-                            sx={{
-                              lineHeight: 1.3,
-                              fontWeight: 600,
-                              color: "black !important",
-                            }}
-                            disabled
-                          >
-                            {sizeWithQuantity &&
-                            sizeWithQuantity.length > 0 &&
-                            sizeWithQuantity.find(
-                              (item) => item.size == size.size
-                            )
-                              ? sizeWithQuantity.find(
-                                  (item) => item.size == size.size
-                                )?.qty
-                              : 0}
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              handleQtyIncrement(size);
-                            }}
-                            sx={{
-                              lineHeight: 1.3,
-                            }}
-                          >
-                            +
-                          </Button>
-                        </ButtonGroup>
+                            <Button
+                              color="primary"
+                              sx={{
+                                lineHeight: 1,
+                                padding: 0,
+                                "& .MuiButtonGroup-grouped": {
+                                  minWidth: "32px !important",
+                                },
+                              }}
+                              size="small"
+                              aria-label="small outlined button group"
+                              onClick={() => {
+                                handleQtyDecrement(size);
+                              }}
+                            >
+                              -
+                            </Button>
+                            <Button
+                              sx={{
+                                lineHeight: 1.3,
+                                fontWeight: 600,
+                                color: "black !important",
+                              }}
+                              disabled
+                            >
+                              {sizeWithQuantity &&
+                              sizeWithQuantity.length > 0 &&
+                              sizeWithQuantity.find(
+                                (item) => item.size == size.size
+                              )
+                                ? sizeWithQuantity.find(
+                                    (item) => item.size == size.size
+                                  )?.qty
+                                : 0}
+                            </Button>
+                            <Button
+                              onClick={() => {
+                                handleQtyIncrement(size);
+                              }}
+                              sx={{
+                                lineHeight: 1.3,
+                              }}
+                            >
+                              +
+                            </Button>
+                          </ButtonGroup>
+                        </Box>
                       </TableCell>
                     </TableRow>
                   ))}

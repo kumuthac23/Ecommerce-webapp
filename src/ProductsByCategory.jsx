@@ -7,18 +7,6 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import {
   Container,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  DialogActions,
-  ButtonGroup,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CommonCard from "./CommonCard";
