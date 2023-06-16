@@ -140,7 +140,7 @@ function MyBag({ handleCloseIconClick }) {
                         <TableContainer
                           sx={{
                             borderBottom: "none",
-                            maxWidth: "145px",
+                            maxWidth: "130px",
                           }}
                         >
                           <Table stickyHeader>
