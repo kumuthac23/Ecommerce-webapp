@@ -47,7 +47,6 @@ function Home() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  console.log(isSmallScreen);
   const settings = {
     dots: true,
     infinite: true,
@@ -60,6 +59,7 @@ function Home() {
     appendDots: (dots) => (
       <div style={{ position: "absolute", bottom: "10px" }}>{dots}</div>
     ),
+    lazyLoad: "ondemand",
   };
 
   const imageUrls = [
@@ -148,8 +148,7 @@ function Home() {
                       to={`productsByCategory/${category._id}`}
                       style={{
                         textDecoration: "none",
-                      color:"black",
-                     
+                        color: "black",
                       }}
                     >
                       <Box

@@ -41,7 +41,8 @@ const ImageSlicker = () => {
       );
       const fetchedImages = response.data.image;
       const fetchTitle = response.data.title;
-      const fetchSizeOptions = response.data.size;
+     const fetchProductCode = response.data.productCode;
+      const fetchSizeOptions = response.data.sizes;
       const fetchDescription = response.data.description;
       const fetchPrice = response.data.price;
       const fetchDiscount = response.data.discount;
@@ -50,6 +51,7 @@ const ImageSlicker = () => {
         images: fetchedImages,
         mainImage: fetchedImages.length > 0 ? fetchedImages[0] : "",
         mainTitle: fetchTitle,
+       productCode: fetchProductCode,
         sizeOptions: fetchSizeOptions,
         selectedSize: "",
         description: fetchDescription,
@@ -95,32 +97,36 @@ const ImageSlicker = () => {
           />
         </Box>
         <Slider {...settings}>
-          {product.images.map((image, index) => (
-            <div key={index} onClick={() => handleImageClick(image)}>
-              <img
-                src={image}
-                alt={`Image ${index + 1}`}
-                style={{ height: "87px", width: "75px", borderRadius: "5px" }}
-              />
-            </div>
-          ))}
+          {product &&
+            product.images.map((image, index) => (
+              <div key={index} onClick={() => handleImageClick(image)}>
+                <img
+                  src={image}
+                  alt={`Image ${index + 1}`}
+                  style={{ height: "87px", width: "75px", borderRadius: "5px" }}
+                />
+              </div>
+            ))}
         </Slider>
         <Typography
           variant="h5"
           gutterBottom
           sx={{ fontWeight: "bold", fontSize: "15px" }}
         >
-          {product.mainTitle}
+          {product.productCode}&nbsp;&nbsp;{product.mainTitle}
         </Typography>
-        <Typography
-          variant="h6"
-          gutterBottom
-          sx={{ fontWeight: "bold", fontSize: "16px" }}
-        >
-          Size
-        </Typography>
+        {product.sizeOptions && (
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{ fontWeight: "regular", fontSize: "15px" }}
+          >
+            <strong>Size: </strong>
+            {product.sizeOptions.map((item) => item.size).join(", ")}
+          </Typography>
+        )}
 
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
+        {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
           <Select
             value={product.selectedSize}
             onChange={handleSizeChange}
@@ -131,13 +137,14 @@ const ImageSlicker = () => {
             <MenuItem value="" disabled>
               Select Size
             </MenuItem>
-            {product.sizeOptions.map((size, index) => (
-              <MenuItem key={index} value={size}>
-                {size}
-              </MenuItem>
-            ))}
+            {product.sizeOptions &&
+              product.sizeOptions.map((item, index) => (
+                <MenuItem key={index} value={item.size}>
+                  {item.size}
+                </MenuItem>
+              ))}
           </Select>
-        </FormControl>
+        </FormControl> */}
 
         <Typography
           variant="h6"

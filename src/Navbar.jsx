@@ -26,15 +26,22 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import InfoIcon from "@mui/icons-material/Info";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
-
-const drawerWidth = "50vw";
-  const seconddrawerWidth = "100vw";
+const drawerWidth = "60vw";
+const seconddrawerWidth = "100vw";
 
 const navItems = [
-  { label: " Home", link: "/", icon: <HomeIcon /> },
-  { label: "Profile", link: "/profile",icon:<AccountCircleIcon/> },
-  { label: "Orders", link: "/orders" , icon:<AddShoppingCartIcon/>},
-  { label: "About", link: "/about", icon:<InfoIcon/> },
+  { label: " Home", link: "/", icon: <HomeIcon color="primary" /> },
+  {
+    label: "Profile",
+    link: "/profile",
+    icon: <AccountCircleIcon color="primary" />,
+  },
+  {
+    label: "Orders",
+    link: "/orders",
+    icon: <AddShoppingCartIcon color="primary" />,
+  },
+  { label: "About", link: "/about", icon: <InfoIcon color="primary" /> },
 ];
 
 export default function Navbar() {
@@ -64,8 +71,8 @@ export default function Navbar() {
 
   const drawer = (
     <Box
-      onClick={handleDrawerToggle}
       sx={{ textAlign: "start", height: "100%" }}
+      onClick={handleDrawerToggle}
     >
       <Box
         sx={{
@@ -74,13 +81,15 @@ export default function Navbar() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          backgroundColor: "#ece7ee",
         }}
       >
-        <Typography color="primary" sx={{ fontWeight: 600 }}>
+        <Typography color="primary" sx={{ fontWeight: 600 }} fontSize={"large"}>
           NKS Collections
         </Typography>
-        <ArrowBackIosIcon sx={{ fontSize: "large" }} />
+        <ArrowBackIosIcon sx={{ fontSize: "large" }} color="primary" />
       </Box>
+      <Divider />
       <List>
         {navItems.map((item) => (
           <ListItem
@@ -93,11 +102,20 @@ export default function Navbar() {
             }
             sx={{ justifyContent: "center" }}
           >
-            <ListItemButton sx={{ borderRadius: "10px" }}>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
+            <ListItemButton sx={{ borderRadius: "0 10px 10px 0" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 {item.icon}
                 <ListItemText
-                  sx={{ textAlign: "start", marginLeft: "8px" }}
+                  sx={{
+                    textAlign: "start",
+                    marginLeft: "8px",
+                    color: "primary.main",
+                  }}
                   primary={item.label.trim()}
                 />
               </Box>
@@ -131,7 +149,7 @@ export default function Navbar() {
               gap: 1,
             }}
           >
-            <NavLink to="/" style={{ textDecoration: "none",display:"flex" }}>
+            <NavLink to="/" style={{ textDecoration: "none", display: "flex" }}>
               <img
                 style={{
                   width: "45px",
@@ -145,10 +163,7 @@ export default function Navbar() {
           </Box>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
-              <Button
-                key={item.label}
-                sx={{ color: "#fff", paddingLeft:0 }}
-              >
+              <Button key={item.label} sx={{ color: "#ffff", paddingLeft: 0 }}>
                 {item.icon} {item.label.trim()}
               </Button>
             ))}
