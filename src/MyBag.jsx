@@ -1,4 +1,4 @@
-import { Container, Typography } from "@mui/material";
+import { Container, Paper, Typography } from "@mui/material";
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
@@ -11,10 +11,28 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Divider from "@mui/material/Divider";
 import axios from "axios";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+
+function createData(size, qty, price) {
+  return { size, qty, price };
+}
+const rows = [
+  createData("L", 3, 1000),
+  createData("M", 2, 1000),
+  createData("XL", 1, 1000),
+  createData("XXL", 2, 1000),
+  createData("XXL", 4, 1000),
+];
 
 function MyBag({ handleCloseIconClick }) {
   const [counter, setCounter] = useState(0);
   const [myBagProducts, setMyBagProducts] = useState([]);
+  const [setsizeDetails, setSetsizeDetails] = useState([]);
 
   const fetchMyBagProducts = async () => {
     // Retrieve the value from local storage
@@ -92,6 +110,7 @@ function MyBag({ handleCloseIconClick }) {
                         sx={{
                           overflow: "hidden",
                           objectFit: "cover",
+                          height: "100px",
                         }}
                         image={product.posterURL}
                         title="green iguana"
@@ -110,66 +129,96 @@ function MyBag({ handleCloseIconClick }) {
                           textOverflow: "ellipsis",
                         }}
                       >
-                        {product.title}
+                        {product.productCode}&nbsp;&nbsp;{product.title}
                       </Typography>
-                      <Typography
-                        sx={{
-                          fontSize: "0.7rem",
-                          opacity: 0.7,
-                        }}
+                      <Box
+                        py={0.5}
+                        display={"flex"}
+                        gap={1}
+                        alignItems={"center"}
                       >
-                        <b>Size:&nbsp;</b>
-                        S-1&#xd7;&#8377;1000,&nbsp;M-1&#xd7;&#8377;1000,&nbsp;XL-1&#xd7;&#8377;1000
-                      </Typography>
-                      {/* <Typography sx={{ fontSize: "0.7rem" }}>
-                        &#8377;&nbsp;{product.price}
-                      </Typography> */}
-                      {/* <ButtonGroup
-                        sx={{
-                          display: "flex",
-                        }}
-                      >
-                        <Button
-                          disabled={counter <= 0}
-                          onClick={() => {
-                            setCounter(counter - 1);
-                          }}
-                          color="primary"
+                        <TableContainer
                           sx={{
-                            lineHeight: 1.3,
+                            borderBottom: "none",
+                            maxWidth: "130px",
                           }}
                         >
-                          -
-                        </Button>
-                        <Button
+                          <Table stickyHeader>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell
+                                  style={{ padding: 0, fontSize: "0.7rem" }}
+                                  align="center"
+                                >
+                                  Size
+                                </TableCell>
+                                <TableCell
+                                  style={{ padding: 0, fontSize: "0.7rem" }}
+                                  align="center"
+                                >
+                                  Qty
+                                </TableCell>
+                                <TableCell
+                                  style={{ padding: 0, fontSize: "0.7rem" }}
+                                  align="center"
+                                >
+                                  Price
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {rows.map((row) => (
+                                <TableRow key={row.name}>
+                                  <TableCell
+                                    style={{
+                                      padding: 0,
+                                      fontSize: "0.7rem",
+                                    }}
+                                    align="center"
+                                  >
+                                    {row.size}
+                                  </TableCell>
+                                  <TableCell
+                                    style={{
+                                      padding: 0,
+                                      fontSize: "0.7rem",
+                                    }}
+                                    align="center"
+                                  >
+                                    {row.qty}
+                                  </TableCell>
+                                  <TableCell
+                                    style={{
+                                      padding: 0,
+                                      fontSize: "0.7rem",
+                                    }}
+                                    align="center"
+                                  >
+                                    &#8377;{row.price}
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                        <Box
                           sx={{
-                            lineHeight: 1.3,
+                            marginTop: "-16px",
                           }}
                         >
-                          {counter}
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            setCounter(counter + 1);
-                          }}
-                          sx={{
-                            lineHeight: 1.3,
-                          }}
-                        >
-                          +
-                        </Button>
-                      </ButtonGroup> */}
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        sx={{
-                          p: "2px",
-                        }}
-                      >
-                        <Typography sx={{ fontSize: "0.6rem" }}>
-                          Change Qty.
-                        </Typography>
-                      </Button>
+                          <Button
+                            variant="outlined"
+                            size="medium"
+                            sx={{
+                              padding: "2px 5px",
+                            }}
+                          >
+                            <Typography sx={{ fontSize: "0.6rem" }}>
+                              Change Qty.
+                            </Typography>
+                          </Button>
+                        </Box>
+                      </Box>
                     </Grid>
                     <Grid
                       xs={1}
