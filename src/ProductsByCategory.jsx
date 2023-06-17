@@ -10,7 +10,6 @@ import Grid from "@mui/material/Grid";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
 import SizeModel from "./SizeModel";
-import CustomSnackBar from "./CustomSnackBar";
 
 function ProductsByCategory() {
   const [openAddToCart, setAddToCartOpen] = useState(false);
@@ -18,26 +17,22 @@ function ProductsByCategory() {
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
   const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState();
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const { id } = useParams();
 
-  
   const handleAddToCart = (productId) => {
-    // Need to get the data from the local storage for the product and set that to the sizeWithQuantity
     fetchProductSizeResults(productId).then((response) => {
       setSelectedProductId(productId);
       setSizeWithQuantity([]);
-  
+
       const existingCartProducts =
         JSON.parse(localStorage.getItem("items")) || [];
-  
+
       if (existingCartProducts && existingCartProducts.length > 0) {
         var currentAddToCartProduct = existingCartProducts.find(
           (product) => product.productId === productId
         );
-  
+
         if (currentAddToCartProduct && currentAddToCartProduct.sizes) {
           var existingSizes = currentAddToCartProduct.sizes;
           setSizeWithQuantity([...existingSizes]);
@@ -46,7 +41,6 @@ function ProductsByCategory() {
       }
     });
   };
-  
 
   const fetchAllProductsByCategoryId = async () => {
     try {
@@ -78,116 +72,6 @@ function ProductsByCategory() {
   useEffect(() => {
     fetchAllProductsByCategoryId();
   }, []);
-
-  const handleAddNowClick = () => {
-    const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
-    console.log(existingProducts);
-    // debugger;
-
-    if (existingProducts && existingProducts.length > 0) {
-      const existingProductIndex = existingProducts.findIndex(
-        (product) => product.productId === selectedProductId
-      );
-
-      if (existingProductIndex !== -1) {
-        existingProducts[existingProductIndex].sizes = sizeWithQuantity;
-      } else {
-        const newItem = {
-          productId: selectedProductId,
-          sizes: sizeWithQuantity,
-        };
-        existingProducts.push(newItem);
-      }
-    } else {
-      const newItem = {
-        productId: selectedProductId,
-        sizes: sizeWithQuantity,
-      };
-      existingProducts.push(newItem);
-    }
-
-    localStorage.setItem("items", JSON.stringify(existingProducts));
-
-    setSizeWithQuantity([]);
-    setAddToCartOpen(false);
-    
- // Show the snackbar with a success message
-    setSnackbarMessage("Product added successfully.");
-    setSnackbarOpen(true);
-  };
-
-  const handleAddToCartDialogClose = () => {
-    setAddToCartOpen(false);
-    sizeWithQuantity([]);
-  };
-
-  const handleQtyIncrement = (sizeObj) => {
-    var itemExist =
-      sizeWithQuantity &&
-      sizeWithQuantity.length > 0 &&
-      sizeWithQuantity.find((item) => item.size == sizeObj.size);
-
-    if (!itemExist) {
-      var _sizeObj = {
-        size: sizeObj.size,
-        qty: 1,
-      };
-
-      sizeWithQuantity.push(_sizeObj);
-      setSizeWithQuantity([...sizeWithQuantity]);
-    } else {
-      var _localSizeWithQuantity = sizeWithQuantity;
-
-      var currentItem = sizeWithQuantity.find(
-        (item) => item.size == sizeObj.size
-      );
-
-      if (currentItem && currentItem.qty < sizeObj.Instock) {
-        _localSizeWithQuantity.map((item) => {
-          if (item.size == sizeObj.size) {
-            item.qty += 1;
-          }
-        });
-
-        setSizeWithQuantity([..._localSizeWithQuantity]);
-      } else {
-        return;
-      }
-    }
-  };
-
-  const handleQtyDecrement = (sizeObj) => {
-    var itemExist =
-      sizeWithQuantity &&
-      sizeWithQuantity.length > 0 &&
-      sizeWithQuantity.find((item) => item.size == sizeObj.size);
-
-    var currentQty = 0;
-    if (itemExist) {
-      var currentItem = sizeWithQuantity.find(
-        (item) => item.size == sizeObj.size
-      );
-
-      var _localSizeWithQuantity = sizeWithQuantity;
-
-      if (currentItem && currentItem.qty - 1 === 0) {
-        _localSizeWithQuantity = _localSizeWithQuantity.filter(
-          (item) => item.size != sizeObj.size
-        );
-      } else {
-        _localSizeWithQuantity.map((item) => {
-          if (item.size == sizeObj.size) {
-            item.qty -= 1;
-            currentQty = item.qty;
-          }
-        });
-      }
-
-      setSizeWithQuantity([..._localSizeWithQuantity]);
-    }
-
-    return currentQty;
-  };
 
   return (
     <>
@@ -268,12 +152,9 @@ function ProductsByCategory() {
         productId={selectedProductId}
         openAddToCart={openAddToCart}
         onClose={() => setAddToCartOpen(false)}
-        onAddNow={handleAddNowClick}
         sizeResults={sizeResults}
         data={sizeWithQuantity}
       />
-      {/* <CustomSnackBar open={snackbarOpen} message={snackbarMessage} onClose={() => setSnackbarOpen(false)} /> */}
-
     </>
   );
 }

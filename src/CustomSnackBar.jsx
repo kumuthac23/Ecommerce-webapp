@@ -7,9 +7,7 @@ import Alert from "@mui/material/Alert";
 function CustomSnackBar({ snackbarOpen, snackbarMessage, onClose,severity }) {
   return (
     <div>
-      
       <Snackbar
-      
         open={snackbarOpen}
         autoHideDuration={2000}
         onClose={onClose}
