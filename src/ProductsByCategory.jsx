@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
 import SizeModel from "./SizeModel";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 function ProductsByCategory() {
   const [openAddToCart, setAddToCartOpen] = useState(false);
@@ -61,8 +62,6 @@ function ProductsByCategory() {
       );
       const { sizes } = response.data;
       setSizeResults(sizes);
-      // setCounter(sizes.reduce((obj, size) => ({ ...obj, [size.size]: 0 }), {}));
-
       setAddToCartOpen(true);
     } catch (error) {
       console.error("Error fetching size results:", error);
@@ -132,15 +131,20 @@ function ProductsByCategory() {
               categoryWithProducts.products.map((product, index) => (
                 <Grid item key={index} xs={6}>
                   <CommonCard product={product} height="100%">
-                    <Button
-                      variant="contained"
-                      size="small"
-                      fullWidth
-                      onClick={() => handleAddToCart(product._id)}
-                      sx={{ boxShadow: 4, textTransform: "none" }}
-                    >
-                      Add to Cart
-                    </Button>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        fullWidth
+                        onClick={() => handleAddToCart(product._id)}
+                        sx={{
+                          boxShadow: 4,
+                          textTransform: "none",
+                          display: "flex",
+                          gap:1,
+                        }}
+                      >
+                        <AddShoppingCartIcon sx={{ fontSize: "medium" }} /> Add to Cart
+                      </Button>
                   </CommonCard>
                 </Grid>
               ))
