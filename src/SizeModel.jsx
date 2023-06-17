@@ -20,13 +20,13 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
-import Snackbar from "@mui/material/Snackbar";
-import { IconButton, Slide } from "@mui/material";
-import Alert from "@mui/material/Alert";
+import CustomSnackBar from "./CustomSnackBar";
 
 function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
   const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
-  const [openSnackbar, setOpenSnakbacr] = React.useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -100,6 +100,7 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
       }
 
       setSizeWithQuantity([..._localSizeWithQuantity]);
+
     }
 
     return currentQty;
@@ -110,55 +111,41 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
     setSizeWithQuantity([]);
   };
 
-  // const handleAddNowClick = () => {
-  //   const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
-
-  //   if (existingProducts && existingProducts.length > 0) {
-  //     const existingProductIndex = existingProducts.findIndex(
-  //       (product) => product.productId === productId
-  //     );
-
-  //     if (existingProductIndex !== -1) {
-  //       existingProducts[existingProductIndex].sizes = sizeWithQuantity;
-  //     } else {
-  //       const newItem = {
-  //         productId: productId,
-  //         sizes: sizeWithQuantity,
-  //       };
-  //       existingProducts.push(newItem);
-  //     }
-  //   } else {
-  //     const newItem = {
-  //       productId: productId,
-  //       sizes: sizeWithQuantity,
-  //     };
-  //     existingProducts.push(newItem);
-  //   }
-
-  //   localStorage.setItem("items", JSON.stringify(existingProducts));
-
-  //   onClose();
-  //   setSizeWithQuantity([]);
-  //   setOpenSnakbacr(true);
-  // };
-
   const handleAddNowClick = () => {
     const updatedSizes = sizeWithQuantity.filter((size) => size.qty > 0);
-  
+
     if (updatedSizes.length === 0) {
       // Remove the product from local storage
       const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
+
+      var alreadyExist = existingProducts.find((product) => product.productId == productId);
+
       const updatedProducts = existingProducts.filter(
         (product) => product.productId !== productId
       );
       localStorage.setItem("items", JSON.stringify(updatedProducts));
+      
+      // Show the snackbar with a success message for product removal
+      if(alreadyExist && updatedSizes.length == 0){
+        onClose();
+        setSnackbarSeverity("success");
+        setSnackbarMessage("Product removed successfully.");
+        setSnackbarOpen(true);
+      }
+
+      if(!alreadyExist && updatedSizes.length == 0){
+        setSnackbarSeverity("error");
+        setSnackbarMessage("No product selected");
+        setSnackbarOpen(true);
+      }
+      
     } else {
       // Update the sizes and store in local storage
       const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
       const existingProductIndex = existingProducts.findIndex(
         (product) => product.productId === productId
       );
-  
+
       if (existingProductIndex !== -1) {
         existingProducts[existingProductIndex].sizes = updatedSizes;
       } else {
@@ -168,21 +155,24 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
         };
         existingProducts.push(newItem);
       }
-  
-      localStorage.setItem("items", JSON.stringify(existingProducts));
-    }
-  
-    onClose();
-    setSizeWithQuantity([]);
-    setOpenSnakbacr(true);
-  };
-  
 
-  const handleclose = (event, reason) => {
+      localStorage.setItem("items", JSON.stringify(existingProducts));
+
+      onClose();
+      setSizeWithQuantity([]);
+
+      // Show the snackbar with a success message for product addition
+      setSnackbarSeverity("success");
+      setSnackbarMessage("Product added successfully.");
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleSnackBarClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    setOpenSnakbacr(false);
+    setSnackbarOpen(false);
   };
 
   return (
@@ -232,7 +222,7 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
                     <strong>InStock</strong>
                   </TableCell>
                   <TableCell align="center">
-                    <strong>Required</strong>
+                    <strong>Quantity</strong>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -337,30 +327,12 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
         </DialogActions>
       </Dialog>
 
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={2000}
-        onClose={handleclose}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        TransitionComponent={(props) => <Slide {...props} direction="left" />}
-        action={
-          <IconButton
-            size="small"
-            aria-label="close"
-            color="inherit"
-            onClick={handleclose}
-          >
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        }
-      >
-        <Alert onClose={handleclose} severity="success">
-          Products Added Successfully
-        </Alert>
-      </Snackbar>
+      <CustomSnackBar
+        snackbarOpen={snackbarOpen}
+        snackbarMessage={snackbarMessage}
+        severity={snackbarSeverity}
+        onClose={handleSnackBarClose}
+      />
     </>
   );
 }

@@ -9,11 +9,8 @@ import { Container } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
-import { IconButton, Slide } from "@mui/material";
-import Alert from "@mui/material/Alert";
-import CloseIcon from "@mui/icons-material/Close";
 import SizeModel from "./SizeModel";
+import CustomSnackBar from "./CustomSnackBar";
 
 function ProductsByCategory() {
   const [openAddToCart, setAddToCartOpen] = useState(false);
@@ -21,29 +18,35 @@ function ProductsByCategory() {
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
   const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const { id } = useParams();
 
+  
   const handleAddToCart = (productId) => {
-    //need to get the data from the local storage for the product and set that to the sizeWithQuantity
+    // Need to get the data from the local storage for the product and set that to the sizeWithQuantity
     fetchProductSizeResults(productId).then((response) => {
       setSelectedProductId(productId);
       setSizeWithQuantity([]);
-
+  
       const existingCartProducts =
         JSON.parse(localStorage.getItem("items")) || [];
-
+  
       if (existingCartProducts && existingCartProducts.length > 0) {
         var currentAddToCartProduct = existingCartProducts.find(
-          (product) => product.productId == productId
+          (product) => product.productId === productId
         );
-
-        var existingSizes = currentAddToCartProduct.sizes;
-        setSizeWithQuantity([...existingSizes]);
-        setAddToCartOpen(true);
+  
+        if (currentAddToCartProduct && currentAddToCartProduct.sizes) {
+          var existingSizes = currentAddToCartProduct.sizes;
+          setSizeWithQuantity([...existingSizes]);
+          setAddToCartOpen(true);
+        }
       }
     });
   };
+  
 
   const fetchAllProductsByCategoryId = async () => {
     try {
@@ -107,6 +110,10 @@ function ProductsByCategory() {
 
     setSizeWithQuantity([]);
     setAddToCartOpen(false);
+    
+ // Show the snackbar with a success message
+    setSnackbarMessage("Product added successfully.");
+    setSnackbarOpen(true);
   };
 
   const handleAddToCartDialogClose = () => {
@@ -265,6 +272,8 @@ function ProductsByCategory() {
         sizeResults={sizeResults}
         data={sizeWithQuantity}
       />
+      {/* <CustomSnackBar open={snackbarOpen} message={snackbarMessage} onClose={() => setSnackbarOpen(false)} /> */}
+
     </>
   );
 }
