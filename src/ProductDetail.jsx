@@ -5,8 +5,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Typography
+} from "@mui/material";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 const ImageSlicker = () => {
   const [product, setProduct] = useState({
@@ -188,9 +191,12 @@ const ImageSlicker = () => {
             width: "100%",
             textAlign: "center",
             fontSize: "18px",
+            fontWeight: 600,
           }}
         >
-          <ShoppingCartIcon style={{ paddingRight: "10px" }} />
+          <AddShoppingCartIcon
+            style={{ paddingRight: "10px", fontSize: "2rem" }}
+          />
           Add to cart
         </Button>
       </Box>
