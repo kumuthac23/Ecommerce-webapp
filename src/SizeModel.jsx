@@ -20,9 +20,13 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
+import Snackbar from "@mui/material/Snackbar";
+import { IconButton, Slide } from "@mui/material";
+import Alert from "@mui/material/Alert";
 
 function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
   const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
+  const [openSnackbar, setOpenSnakbacr] = React.useState(false);
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -106,35 +110,79 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
     setSizeWithQuantity([]);
   };
 
+  // const handleAddNowClick = () => {
+  //   const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
+
+  //   if (existingProducts && existingProducts.length > 0) {
+  //     const existingProductIndex = existingProducts.findIndex(
+  //       (product) => product.productId === productId
+  //     );
+
+  //     if (existingProductIndex !== -1) {
+  //       existingProducts[existingProductIndex].sizes = sizeWithQuantity;
+  //     } else {
+  //       const newItem = {
+  //         productId: productId,
+  //         sizes: sizeWithQuantity,
+  //       };
+  //       existingProducts.push(newItem);
+  //     }
+  //   } else {
+  //     const newItem = {
+  //       productId: productId,
+  //       sizes: sizeWithQuantity,
+  //     };
+  //     existingProducts.push(newItem);
+  //   }
+
+  //   localStorage.setItem("items", JSON.stringify(existingProducts));
+
+  //   onClose();
+  //   setSizeWithQuantity([]);
+  //   setOpenSnakbacr(true);
+  // };
+
   const handleAddNowClick = () => {
-    const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
-   
-    if (existingProducts && existingProducts.length > 0) {
+    const updatedSizes = sizeWithQuantity.filter((size) => size.qty > 0);
+  
+    if (updatedSizes.length === 0) {
+      // Remove the product from local storage
+      const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
+      const updatedProducts = existingProducts.filter(
+        (product) => product.productId !== productId
+      );
+      localStorage.setItem("items", JSON.stringify(updatedProducts));
+    } else {
+      // Update the sizes and store in local storage
+      const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
       const existingProductIndex = existingProducts.findIndex(
         (product) => product.productId === productId
       );
-
+  
       if (existingProductIndex !== -1) {
-        existingProducts[existingProductIndex].sizes = sizeWithQuantity;
+        existingProducts[existingProductIndex].sizes = updatedSizes;
       } else {
         const newItem = {
           productId: productId,
-          sizes: sizeWithQuantity,
+          sizes: updatedSizes,
         };
         existingProducts.push(newItem);
       }
-    } else {
-      const newItem = {
-        productId: productId,
-        sizes: sizeWithQuantity,
-      };
-      existingProducts.push(newItem);
+  
+      localStorage.setItem("items", JSON.stringify(existingProducts));
     }
-
-    localStorage.setItem("items", JSON.stringify(existingProducts));
-
+  
     onClose();
     setSizeWithQuantity([]);
+    setOpenSnakbacr(true);
+  };
+  
+
+  const handleclose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnakbacr(false);
   };
 
   return (
@@ -288,6 +336,31 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={handleclose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        TransitionComponent={(props) => <Slide {...props} direction="left" />}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleclose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
+      >
+        <Alert onClose={handleclose} severity="success">
+          Products Added Successfully
+        </Alert>
+      </Snackbar>
     </>
   );
 }

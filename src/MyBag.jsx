@@ -18,7 +18,7 @@ function MyBag({ handleCloseIconClick }) {
 
   const fetchMyBagProducts = async () => {
     // Retrieve the value from local storage
-    const value = localStorage.getItem("Mybag");
+    const value = localStorage.getItem("items");
     const data = JSON.parse(value);
 
     await axios
@@ -34,6 +34,21 @@ function MyBag({ handleCloseIconClick }) {
   useEffect(() => {
     fetchMyBagProducts();
   }, []);
+
+  const handleDeleteProduct = (product) => {
+    const productIndex = myBagProducts.findIndex(
+      (item) => item.id === product.id
+    );
+    if (productIndex !== -1) {
+      const updatedProducts = [...myBagProducts];
+      updatedProducts.splice(productIndex, 1);
+      setMyBagProducts(updatedProducts);
+
+      // Update the local storage value
+      const updatedData = JSON.stringify(updatedProducts);
+      localStorage.setItem("items", updatedData);
+    }
+  };
 
   return (
     <Box
@@ -159,7 +174,9 @@ function MyBag({ handleCloseIconClick }) {
                       item
                       sx={{ display: "flex", justifyContent: "center" }}
                     >
-                      <DeleteIcon></DeleteIcon>
+                      <DeleteIcon
+                        onClick={() => handleDeleteProduct(product)}
+                      ></DeleteIcon>
                     </Grid>
                   </Grid>
                 </Card>
