@@ -33,24 +33,24 @@ const rows = [
 ];
 
 function MyBag({ handleCloseIconClick }) {
-  const [counter, setCounter] = useState(0);
   const [myBagProducts, setMyBagProducts] = useState([]);
-  const [setsizeDetails, setSetsizeDetails] = useState([]);
+const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
 
   const fetchMyBagProducts = async () => {
-    // Retrieve the value from local storage
     const value = localStorage.getItem("items");
     const data = JSON.parse(value);
 
+    setIsGetMyBagIsLoading(true);
     await axios
       .post("https://drab-rose-xerus-toga.cyclic.app/getMyBag", data)
       .then((response) => {
-        // if (response.data) setMyBagProducts(response.data);
         if (response.data && response.data !== "") {
           setMyBagProducts(response.data);
         } else {
           setMyBagProducts([]);
         }
+
+        setIsGetMyBagIsLoading(false)
       })
       .catch((error) => {
         console.error("Error sending data to backend:", error);
@@ -108,7 +108,7 @@ function MyBag({ handleCloseIconClick }) {
       </Box>
       <Divider />
 
-      {myBagProducts !== "" && myBagProducts.length > 0 ? (
+      {myBagProducts && myBagProducts.length > 0 ? (
         myBagProducts.map((product) => {
           return (
             <Box
@@ -277,7 +277,7 @@ function MyBag({ handleCloseIconClick }) {
               >
                 <Box>
                   <Typography sx={{ fontSize: "small", fontWeight: 600 }}>
-                    {counter} Items
+                    1 Items
                   </Typography>
                   <Typography sx={{ fontSize: "1rem", fontWeight: 600 }}>
                     &#8377;&nbsp;1000
@@ -291,7 +291,7 @@ function MyBag({ handleCloseIconClick }) {
           );
         })
       ) : (
-        <Box sx={{ height: "100vh", width: "100%" }}>
+        !isGetMyBagIsLoading  && (<Box sx={{ height: "100vh", width: "100%" }}>
           <Box
             sx={{
               display: "flex",
@@ -327,7 +327,7 @@ function MyBag({ handleCloseIconClick }) {
               </Link>
             </Box>
           </Box>
-        </Box>
+        </Box>)
       )}
     </Box>
   );
