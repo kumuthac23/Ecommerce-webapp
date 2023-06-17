@@ -15,6 +15,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { IconButton, Slide } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import CloseIcon from "@mui/icons-material/Close";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import SizeModal from "./SizeModal";
 
 function ProductsByCategory() {
@@ -252,15 +253,21 @@ function ProductsByCategory() {
               categoryWithProducts.products.map((product, index) => (
                 <Grid item key={index} xs={6}>
                   <CommonCard product={product} height="100%">
-                    <Button
-                      variant="contained"
-                      size="small"
-                      fullWidth
-                      onClick={() => handleAddToCart(product._id)}
-                      sx={{ boxShadow: 4, textTransform: "none" }}
-                    >
-                      Add to Cart
-                    </Button>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        fullWidth
+                        onClick={() => handleAddToCart(product._id)}
+                        sx={{
+                          boxShadow: 4,
+                          textTransform: "none",
+                          display: "flex",
+                          gap:1,
+                        }}
+                      >
+                        <AddShoppingCartIcon sx={{ fontSize: "medium" }} /> Add
+                        to Cart
+                      </Button>
                   </CommonCard>
                 </Grid>
               ))
