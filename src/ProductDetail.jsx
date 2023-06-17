@@ -45,7 +45,8 @@ const ImageSlicker = () => {
         mainTitle: fetchTitle,
         productCode: fetchProductCode,
         sizeOptions: fetchSizeOptions,
-        selectedSize: "",
+        // selectedSize: "",
+         selectedSize: fetchSizeOptions.length > 0 ? fetchSizeOptions[0].size : "",
         description: fetchDescription,
         price: fetchPrice,
         discount: fetchDiscount,
@@ -121,25 +122,31 @@ const ImageSlicker = () => {
         </Typography>
         {product.sizeOptions && (
           <Box>
-            {product.sizeOptions.map((item) => (
-              <Button
-                key={item.size}
-                variant={
-                  product.selectedSize === item.size ? "contained" : "outlined"
-                }
-                color="primary"
-                sx={{
-                  minWidth: "40px",
-                  padding: "6px 6px",
-                  margin: "5px",
-                  maxHeight: "20px",
-                }}
-                onClick={handleSizeChange}
-                value={item.size}
-              >
-                {item.size}
-              </Button>
-            ))}
+            {product.sizeOptions && (
+              <Box>
+                {product.sizeOptions.map((item) => (
+                  <Button
+                    key={item.size}
+                    variant={
+                      product.selectedSize === item.size
+                        ? "contained"
+                        : "outlined"
+                    }
+                    color="primary"
+                    sx={{
+                      minWidth: "40px",
+                      padding: "6px 6px",
+                      margin: "5px",
+                      maxHeight: "20px",
+                    }}
+                    onClick={handleSizeChange}
+                    value={item.size}
+                  >
+                    {item.size}
+                  </Button>
+                ))}
+              </Box>
+            )}
           </Box>
         )}
 
