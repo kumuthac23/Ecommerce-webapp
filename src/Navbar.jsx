@@ -70,7 +70,10 @@ export default function Navbar() {
   ));
 
   const drawer = (
-    <Box sx={{ textAlign: "start", height: "100%" }}>
+    <Box
+      sx={{ textAlign: "start", height: "100%" }}
+      onClick={handleDrawerToggle}
+    >
       <Box
         sx={{
           padding: 3,
@@ -80,12 +83,11 @@ export default function Navbar() {
           alignItems: "center",
           backgroundColor: "#ece7ee",
         }}
-        onClick={handleDrawerToggle}
       >
         <Typography color="primary" sx={{ fontWeight: 600 }} fontSize={"large"}>
           NKS Collections
         </Typography>
-        <ArrowBackIosIcon sx={{ fontSize: "large" }} color="primary"/>
+        <ArrowBackIosIcon sx={{ fontSize: "large" }} color="primary" />
       </Box>
       <Divider />
       <List>
@@ -209,7 +211,6 @@ export default function Navbar() {
         open={isOpenMyBag}
         onClose={handleMyBagDrawerOpen}
         sx={{
-          display: { xs: "block", sm: "none" },
           position: "relative",
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",

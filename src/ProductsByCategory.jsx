@@ -19,7 +19,6 @@ function ProductsByCategory() {
   const [openAddToCart, setAddToCartOpen] = useState(false);
   const [sizeResults, setSizeResults] = useState([]);
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
-
   const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState();
 
@@ -115,6 +114,74 @@ function ProductsByCategory() {
     sizeWithQuantity([]);
   };
 
+  const handleQtyIncrement = (sizeObj) => {
+    var itemExist =
+      sizeWithQuantity &&
+      sizeWithQuantity.length > 0 &&
+      sizeWithQuantity.find((item) => item.size == sizeObj.size);
+
+    if (!itemExist) {
+      var _sizeObj = {
+        size: sizeObj.size,
+        qty: 1,
+      };
+
+      sizeWithQuantity.push(_sizeObj);
+      setSizeWithQuantity([...sizeWithQuantity]);
+    } else {
+      var _localSizeWithQuantity = sizeWithQuantity;
+
+      var currentItem = sizeWithQuantity.find(
+        (item) => item.size == sizeObj.size
+      );
+
+      if (currentItem && currentItem.qty < sizeObj.Instock) {
+        _localSizeWithQuantity.map((item) => {
+          if (item.size == sizeObj.size) {
+            item.qty += 1;
+          }
+        });
+
+        setSizeWithQuantity([..._localSizeWithQuantity]);
+      } else {
+        return;
+      }
+    }
+  };
+
+  const handleQtyDecrement = (sizeObj) => {
+    var itemExist =
+      sizeWithQuantity &&
+      sizeWithQuantity.length > 0 &&
+      sizeWithQuantity.find((item) => item.size == sizeObj.size);
+
+    var currentQty = 0;
+    if (itemExist) {
+      var currentItem = sizeWithQuantity.find(
+        (item) => item.size == sizeObj.size
+      );
+
+      var _localSizeWithQuantity = sizeWithQuantity;
+
+      if (currentItem && currentItem.qty - 1 === 0) {
+        _localSizeWithQuantity = _localSizeWithQuantity.filter(
+          (item) => item.size != sizeObj.size
+        );
+      } else {
+        _localSizeWithQuantity.map((item) => {
+          if (item.size == sizeObj.size) {
+            item.qty -= 1;
+            currentQty = item.qty;
+          }
+        });
+      }
+
+      setSizeWithQuantity([..._localSizeWithQuantity]);
+    }
+
+    return currentQty;
+  };
+
   return (
     <>
       {categoryWithProducts && (
@@ -190,7 +257,6 @@ function ProductsByCategory() {
           </Grid>
         </Container>
       )}
-
       <SizeModel
         productId={selectedProductId}
         openAddToCart={openAddToCart}

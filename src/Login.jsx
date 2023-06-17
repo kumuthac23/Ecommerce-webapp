@@ -1,46 +1,22 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Box, TextField, Typography, Button } from "@mui/material";
-import axios from "axios";
 
-function Login() {
-  const [email, setEmail] = useState("");
+function Login({ onLogin }) {
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const navigate = useNavigate();
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+  const handlePhoneChange = (event) => {
+    setPhone(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/login",
-        {
-          email: email,
-          password: password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (response.data.status === "200") {
-        console.log("Login successful");
-        navigate("/");
-      } else {
-        setError(response.data.message);
-      }
-    } catch (error) {
-      console.error(error);
-      setError("An error occurred while signing in!");
-    }
+  const handleLogin = () => {
+    // Perform login logic here
+    // ...
+    onLogin(); // Call the onLogin function to move to the next step
   };
 
   return (
@@ -49,7 +25,7 @@ function Login() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        // height: "100vh",
       }}
     >
       <Box sx={{ width: 300 }}>
@@ -57,13 +33,13 @@ function Login() {
           Login
         </Typography>
         <TextField
-          label="Email"
+          label="PhoneNumber"
           variant="outlined"
           margin="normal"
           fullWidth
-          type="email"
-          value={email}
-          onChange={handleEmailChange}
+          type="number"
+          value={phone}
+          onChange={handlePhoneChange}
         />
         <TextField
           label="Password"
@@ -79,7 +55,7 @@ function Login() {
           color="primary"
           fullWidth
           sx={{ marginTop: 3 }}
-          onClick={handleSubmit}
+          onClick={handleLogin}
         >
           Login
         </Button>

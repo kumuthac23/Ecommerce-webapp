@@ -13,13 +13,13 @@ function CommonCard(props) {
     <>
       <Box
         sx={{
-          padding: 1,
+          padding: 0.2,
         }}
       >
         <Card
           sx={{
             height: "100%",
-            boxShadow: 4,
+            boxShadow: 2,
             boxSizing: "border-box",
             display: "block",
           }}
@@ -62,7 +62,7 @@ function CommonCard(props) {
               }}
               variant="h6"
             >
-              {product.code}-{product.title}
+              {product.code}&nbsp;&nbsp;{product.title}
             </Typography>
             <Typography
               sx={{

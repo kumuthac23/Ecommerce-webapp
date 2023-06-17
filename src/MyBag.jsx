@@ -1,4 +1,4 @@
-import { Container, Typography } from "@mui/material";
+import { Container, Paper, Typography } from "@mui/material";
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
@@ -11,10 +11,29 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Divider from "@mui/material/Divider";
 import axios from "axios";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import { useNavigate } from "react-router-dom";
+
+function createData(size, qty, price) {
+  return { size, qty, price };
+}
+const rows = [
+  createData("L", 3, 1000),
+  createData("M", 2, 1000),
+  createData("XL", 1, 1000),
+  createData("XXL", 2, 1000),
+  createData("XXL", 4, 1000),
+];
 
 function MyBag({ handleCloseIconClick }) {
   const [counter, setCounter] = useState(0);
   const [myBagProducts, setMyBagProducts] = useState([]);
+  const [setsizeDetails, setSetsizeDetails] = useState([]);
 
   const fetchMyBagProducts = async () => {
     // Retrieve the value from local storage
@@ -48,6 +67,13 @@ function MyBag({ handleCloseIconClick }) {
       const updatedData = JSON.stringify(updatedProducts);
       localStorage.setItem("items", updatedData);
     }
+  }
+
+  const navigate = useNavigate();
+  
+  const moveToCheckout = () => {
+    handleCloseIconClick();
+    navigate("/checkout");
   };
 
   return (
@@ -85,7 +111,7 @@ function MyBag({ handleCloseIconClick }) {
           myBagProducts.map((product) => {
             return (
               <Box my={2}>
-                <Card sx={{ height: "120px", boxShadow: 1 }} elevation={0}>
+                <Card sx={{ boxShadow: 1 }} elevation={0}>
                   <Grid
                     container
                     sx={{
@@ -107,6 +133,7 @@ function MyBag({ handleCloseIconClick }) {
                         sx={{
                           overflow: "hidden",
                           objectFit: "cover",
+                          height: "100px",
                         }}
                         image={product.posterURL}
                         title="green iguana"
@@ -116,8 +143,8 @@ function MyBag({ handleCloseIconClick }) {
                     <Grid item xs={8}>
                       <Typography
                         sx={{
-                          fontSize: "medium",
-                          fontWeight: 500,
+                          fontSize: "small",
+                          fontWeight: 600,
                           display: "-webkit-box",
                           WebkitLineClamp: 1,
                           WebkitBoxOrient: "vertical",
@@ -125,49 +152,96 @@ function MyBag({ handleCloseIconClick }) {
                           textOverflow: "ellipsis",
                         }}
                       >
-                        {product.title}
+                        {product.productCode}&nbsp;&nbsp;{product.title}
                       </Typography>
-                      <Typography sx={{ fontSize: "small", opacity: 0.3 }}>
-                        Size:{product.size}
-                      </Typography>
-                      <Typography sx={{ fontSize: "1rem" }}>
-                        &#8377;&nbsp;{product.price}
-                      </Typography>
-                      <ButtonGroup
-                        sx={{
-                          display: "flex",
-                        }}
+                      <Box
+                        py={0.5}
+                        display={"flex"}
+                        gap={1}
+                        alignItems={"center"}
                       >
-                        <Button
-                          disabled={counter <= 0}
-                          onClick={() => {
-                            setCounter(counter - 1);
-                          }}
-                          color="primary"
+                        <TableContainer
                           sx={{
-                            lineHeight: 1.3,
+                            borderBottom: "none",
+                            maxWidth: "130px",
                           }}
                         >
-                          -
-                        </Button>
-                        <Button
+                          <Table stickyHeader>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell
+                                  style={{ padding: 0, fontSize: "0.7rem" }}
+                                  align="center"
+                                >
+                                  Size
+                                </TableCell>
+                                <TableCell
+                                  style={{ padding: 0, fontSize: "0.7rem" }}
+                                  align="center"
+                                >
+                                  Qty
+                                </TableCell>
+                                <TableCell
+                                  style={{ padding: 0, fontSize: "0.7rem" }}
+                                  align="center"
+                                >
+                                  Price
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {rows.map((row) => (
+                                <TableRow key={row.name}>
+                                  <TableCell
+                                    style={{
+                                      padding: 0,
+                                      fontSize: "0.7rem",
+                                    }}
+                                    align="center"
+                                  >
+                                    {row.size}
+                                  </TableCell>
+                                  <TableCell
+                                    style={{
+                                      padding: 0,
+                                      fontSize: "0.7rem",
+                                    }}
+                                    align="center"
+                                  >
+                                    {row.qty}
+                                  </TableCell>
+                                  <TableCell
+                                    style={{
+                                      padding: 0,
+                                      fontSize: "0.7rem",
+                                    }}
+                                    align="center"
+                                  >
+                                    &#8377;{row.price}
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                        <Box
                           sx={{
-                            lineHeight: 1.3,
+                            marginTop: "-16px",
                           }}
                         >
-                          {counter}
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            setCounter(counter + 1);
-                          }}
-                          sx={{
-                            lineHeight: 1.3,
-                          }}
-                        >
-                          +
-                        </Button>
-                      </ButtonGroup>
+                          <Button
+                            variant="outlined"
+                            size="medium"
+                            sx={{
+                              padding: "2px 5px",
+                            }}
+                          >
+                            <Typography sx={{ fontSize: "0.6rem" }}>
+                              Change Qty.
+                            </Typography>
+                          </Button>
+                        </Box>
+                      </Box>
                     </Grid>
                     <Grid
                       xs={1}
@@ -201,14 +275,12 @@ function MyBag({ handleCloseIconClick }) {
           <Typography sx={{ fontSize: "small", fontWeight: 600 }}>
             {counter} Items
           </Typography>
-          <Typography
-            sx={{ fontSize: "1rem", fontFamily: "fangsong", fontWeight: 600 }}
-          >
+          <Typography sx={{ fontSize: "1rem", fontWeight: 600 }}>
             &#8377;&nbsp;1000
           </Typography>
         </Box>
-        <Button variant="contained" size="small">
-          PROCEED TO CHECKOUT
+        <Button variant="contained" size="large" onClick={moveToCheckout}>
+          Proceed to checkout
         </Button>
       </Box>
     </Box>
