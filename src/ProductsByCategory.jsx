@@ -5,34 +5,24 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import {
-  Container,
-} from "@mui/material";
+import { Container } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
-import { IconButton, Slide } from "@mui/material";
-import Alert from "@mui/material/Alert";
-import CloseIcon from "@mui/icons-material/Close";
+import SizeModel from "./SizeModel";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import SizeModal from "./SizeModal";
 
 function ProductsByCategory() {
   const [openAddToCart, setAddToCartOpen] = useState(false);
   const [sizeResults, setSizeResults] = useState([]);
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
-  const [openSnackbar, setOpenSnakbacr] = React.useState(false);
   const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState();
 
   const { id } = useParams();
 
   const handleAddToCart = (productId) => {
-    setAddToCartOpen(true);
-    //need to get the data from the local storage for the product and set that to the sizeWithQuantity
     fetchProductSizeResults(productId).then((response) => {
-      // debugger;
       setSelectedProductId(productId);
       setSizeWithQuantity([]);
 
@@ -41,11 +31,14 @@ function ProductsByCategory() {
 
       if (existingCartProducts && existingCartProducts.length > 0) {
         var currentAddToCartProduct = existingCartProducts.find(
-          (product) => product.productId == productId
+          (product) => product.productId === productId
         );
 
-        var existingSizes = currentAddToCartProduct.sizes;
-        setSizeWithQuantity([...existingSizes]);
+        if (currentAddToCartProduct && currentAddToCartProduct.sizes) {
+          var existingSizes = currentAddToCartProduct.sizes;
+          setSizeWithQuantity([...existingSizes]);
+          setAddToCartOpen(true);
+        }
       }
     });
   };
@@ -69,8 +62,6 @@ function ProductsByCategory() {
       );
       const { sizes } = response.data;
       setSizeResults(sizes);
-      // setCounter(sizes.reduce((obj, size) => ({ ...obj, [size.size]: 0 }), {}));
-
       setAddToCartOpen(true);
     } catch (error) {
       console.error("Error fetching size results:", error);
@@ -80,119 +71,6 @@ function ProductsByCategory() {
   useEffect(() => {
     fetchAllProductsByCategoryId();
   }, []);
-
-  const handleAddNowClick = () => {
-    const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
-    console.log(existingProducts);
-    // debugger;
-
-    if (existingProducts && existingProducts.length > 0) {
-      const existingProductIndex = existingProducts.findIndex(
-        (product) => product.productId === selectedProductId
-      );
-
-      if (existingProductIndex !== -1) {
-        existingProducts[existingProductIndex].sizes = sizeWithQuantity;
-      } else {
-        const newItem = {
-          productId: selectedProductId,
-          sizes: sizeWithQuantity,
-        };
-        existingProducts.push(newItem);
-      }
-    } else {
-      const newItem = {
-        productId: selectedProductId,
-        sizes: sizeWithQuantity,
-      };
-      existingProducts.push(newItem);
-    }
-
-    localStorage.setItem("items", JSON.stringify(existingProducts));
-
-    setSizeWithQuantity([]);
-    setAddToCartOpen(false);
-  };
-
-  const handleclose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnakbacr(false);
-  };
-
-  const handleAddToCartDialogClose = () => {
-    setAddToCartOpen(false);
-    sizeWithQuantity([]);
-  };
-
-  const handleQtyIncrement = (sizeObj) => {
-    var itemExist =
-      sizeWithQuantity &&
-      sizeWithQuantity.length > 0 &&
-      sizeWithQuantity.find((item) => item.size == sizeObj.size);
-
-    if (!itemExist) {
-      var _sizeObj = {
-        size: sizeObj.size,
-        qty: 1,
-      };
-
-      sizeWithQuantity.push(_sizeObj);
-      setSizeWithQuantity([...sizeWithQuantity]);
-    } else {
-      var _localSizeWithQuantity = sizeWithQuantity;
-
-      var currentItem = sizeWithQuantity.find(
-        (item) => item.size == sizeObj.size
-      );
-
-      if (currentItem && currentItem.qty < sizeObj.Instock) {
-        _localSizeWithQuantity.map((item) => {
-          if (item.size == sizeObj.size) {
-            item.qty += 1;
-          }
-        });
-
-        setSizeWithQuantity([..._localSizeWithQuantity]);
-      } else {
-        return;
-      }
-    }
-  };
-
-  const handleQtyDecrement = (sizeObj) => {
-    var itemExist =
-      sizeWithQuantity &&
-      sizeWithQuantity.length > 0 &&
-      sizeWithQuantity.find((item) => item.size == sizeObj.size);
-
-    var currentQty = 0;
-    if (itemExist) {
-      var currentItem = sizeWithQuantity.find(
-        (item) => item.size == sizeObj.size
-      );
-
-      var _localSizeWithQuantity = sizeWithQuantity;
-
-      if (currentItem && currentItem.qty - 1 === 0) {
-        _localSizeWithQuantity = _localSizeWithQuantity.filter(
-          (item) => item.size != sizeObj.size
-        );
-      } else {
-        _localSizeWithQuantity.map((item) => {
-          if (item.size == sizeObj.size) {
-            item.qty -= 1;
-            currentQty = item.qty;
-          }
-        });
-      }
-
-      setSizeWithQuantity([..._localSizeWithQuantity]);
-    }
-
-    return currentQty;
-  };
 
   return (
     <>
@@ -265,8 +143,7 @@ function ProductsByCategory() {
                           gap:1,
                         }}
                       >
-                        <AddShoppingCartIcon sx={{ fontSize: "medium" }} /> Add
-                        to Cart
+                        <AddShoppingCartIcon sx={{ fontSize: "medium" }} /> Add to Cart
                       </Button>
                   </CommonCard>
                 </Grid>
@@ -275,39 +152,13 @@ function ProductsByCategory() {
           </Grid>
         </Container>
       )}
-
-     
-      <SizeModal
+      <SizeModel
         productId={selectedProductId}
-        open={openAddToCart}
+        openAddToCart={openAddToCart}
         onClose={() => setAddToCartOpen(false)}
-        onAddNow={handleAddNowClick}
+        sizeResults={sizeResults}
+        data={sizeWithQuantity}
       />
-
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={2000}
-        onClose={handleclose}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        TransitionComponent={(props) => <Slide {...props} direction="left" />}
-        action={
-          <IconButton
-            size="small"
-            aria-label="close"
-            color="inherit"
-            onClick={handleclose}
-          >
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        }
-      >
-        <Alert onClose={handleclose} severity="success">
-          Products Added Successfully
-        </Alert>
-      </Snackbar>
     </>
   );
 }
