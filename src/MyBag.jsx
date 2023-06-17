@@ -3,7 +3,6 @@ import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -17,11 +16,10 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { useNavigate } from "react-router-dom";
 
 function createData(size, qty, price) {
   return { size, qty, price };
@@ -62,6 +60,12 @@ function MyBag({ handleCloseIconClick }) {
   useEffect(() => {
     fetchMyBagProducts();
   }, []);
+
+  const navigate = useNavigate();
+  const moveToCheckout = () => {
+    handleCloseIconClick();
+    navigate("/checkout");
+  };
 
   return (
     <Box
