@@ -1,93 +1,90 @@
-import React, { useState } from "react";
 import {
-  Modal,
-  Paper,
-  Typography,
-  Button,
   Box,
+  Button,
+  Container,
+  FormHelperText,
   TextField,
+  Typography,
 } from "@mui/material";
-import Otp from "./Otp";
+import React from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const Signup = ({ onClose }) => {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [name, setName] = useState("");
-  const [showOtp, setShowOtp] = useState(false);
-
-  const handlePhoneNumberChange = (event) => {
-    setPhoneNumber(event.target.value);
+function Signup() {
+  const navigate = useNavigate();
+  const moveToLogin = () => {
+    navigate("/checkout");
   };
-
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleRequestOTP = () => {
-    if (phoneNumber.trim() !== "" && name.trim() !== "") {
-      setShowOtp(true);
-    }
-  };
-
-  const handleOtpClose = () => {
-    setShowOtp(false);
-    onClose();
-  };
-
-  const isFormValid = phoneNumber.trim() !== "" && name.trim() !== "";
 
   return (
-    <Modal open={true} onClose={onClose}>
-      <Box>
-        <Box
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-          textAlign="center"
-        >
-          <Paper sx={{ p: 2, minWidth: 300, height: 200 }}>
-            <Typography variant="h6" gutterBottom fontWeight="bold">
-              Signup
-            </Typography>
-            <Box>
-              <TextField
-                required
-                type="text"
-                id="standard-basic"
-                label="Enter Name"
-                variant="standard"
-                value={name}
-                onChange={handleNameChange}
-              />
-            </Box>
-            <Box>
-              <TextField
-                type="number"
-                required
-                id="standard-basic"
-                label="Enter Phone Number"
-                variant="standard"
-                value={phoneNumber}
-                onChange={handlePhoneNumberChange}
-              />
-            </Box>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleRequestOTP}
-              style={{ marginTop: "16px" }}
-              disabled={!isFormValid}
-            >
-              Request OTP
-            </Button>
-          </Paper>
-        </Box>
-        {showOtp && <Otp phoneNumber={phoneNumber} onClose={handleOtpClose} />}
+    <Container>
+      <Typography
+        variant="h5"
+        fontWeight="bold"
+        textAlign="center"
+        padding="20px 0px 10px 0px"
+      >
+        SignUp
+      </Typography>
+      <Box paddingBottom="20px">
+        <Typography padding="5px 0px 5px 0px">
+          Name<span style={{ color: "red" }}>*</span>
+        </Typography>
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          fullWidth
+          inputProps={{ style: { padding: "10px" } }}
+          required
+        />
+        <Typography padding="5px 0px 5px 0px">
+          PhoneNumber<span style={{ color: "red" }}>*</span>
+        </Typography>
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          fullWidth
+          inputProps={{ style: { padding: "10px" } }}
+          required
+        />
+        <Typography padding="5px 0px 5px 0px">Email</Typography>
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          fullWidth
+          inputProps={{ style: { padding: "10px" } }}
+        />
+        <Typography padding="5px 0px 5px 0px">
+          Password<span style={{ color: "red" }}>*</span>
+        </Typography>
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          fullWidth
+          inputProps={{ style: { padding: "10px" } }}
+          required
+        />
+        <Typography padding="5px 0px 5px 0px">
+          Confirm Password<span style={{ color: "red" }}>*</span>
+        </Typography>
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          fullWidth
+          inputProps={{ style: { padding: "10px" } }}
+          required
+        />
       </Box>
-    </Modal>
+      <Button variant="contained" fullWidth>
+        Signup
+      </Button>
+      <FormHelperText onClick={moveToLogin}>
+        <Link style={{ textDecoration: "none" }}>
+          Already have an Account?. Login
+        </Link>
+      </FormHelperText>
+    </Container>
   );
-};
+}
 
 export default Signup;

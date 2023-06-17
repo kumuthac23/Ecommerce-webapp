@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Box, TextField, Typography, Button } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Typography,
+  Button,
+  FormHelperText,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login({ onLogin }) {
   const [phone, setPhone] = useState("");
@@ -17,6 +25,11 @@ function Login({ onLogin }) {
     // Perform login logic here
     // ...
     onLogin(); // Call the onLogin function to move to the next step
+  };
+
+  const navigate = useNavigate();
+  const moveToSignUp = () => {
+    navigate("/signup");
   };
 
   return (
@@ -59,6 +72,9 @@ function Login({ onLogin }) {
         >
           Login
         </Button>
+        <FormHelperText onClick={moveToSignUp}>
+          <Link style={{ textDecoration: "none" }}>New User?</Link>
+        </FormHelperText>
       </Box>
     </Box>
   );
