@@ -1,4 +1,3 @@
-import { Container, Paper, Typography } from "@mui/material";
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
@@ -20,6 +19,16 @@ import { Link } from "react-router-dom";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useNavigate } from "react-router-dom";
+import {
+  Container,
+  Paper,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import CustomSnackBar from "./CustomSnackBar";
 
 function createData(size, qty, price) {
   return { size, qty, price };
@@ -35,6 +44,13 @@ const rows = [
 function MyBag({ handleCloseIconClick }) {
   const [myBagProducts, setMyBagProducts] = useState([]);
   const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
+  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [productIdToDelete, setProductIdToDelete] = useState(null);
+  const [snackBarProps, setSnackBarProps] = useState({
+    snackbarOpen: false,
+    snackbarMessage: "",
+    snackbarSeverity: "",
+  });
 
   const fetchMyBagProducts = async () => {
     const value = localStorage.getItem("items");
@@ -42,7 +58,7 @@ function MyBag({ handleCloseIconClick }) {
 
     setIsGetMyBagIsLoading(true);
     await axios
-      .post("https://drab-rose-xerus-toga.cyclic.app/getMyBag", data)
+      .post("http://localhost:3000/getMyBag", data)
       .then((response) => {
         if (response.data) {
           setMyBagProducts(response.data);
@@ -62,18 +78,32 @@ function MyBag({ handleCloseIconClick }) {
   }, []);
 
   const handleDeleteProduct = (product) => {
-    const productIndex = myBagProducts.findIndex(
-      (item) => item.id === product.id
-    );
-    if (productIndex !== -1) {
-      const updatedProducts = [...myBagProducts];
-      updatedProducts.splice(productIndex, 1);
-      setMyBagProducts(updatedProducts);
+    setProductIdToDelete(product._id);
+    setDeleteConfirmationOpen(true);
+  };
 
-      // Update the local storage value
-      const updatedData = JSON.stringify(updatedProducts);
-      localStorage.setItem("items", updatedData);
+  const handleDeleteConfirmation = () => {
+    setDeleteConfirmationOpen(false);
+    if (productIdToDelete) {
+      const existingCartProducts =
+        JSON.parse(localStorage.getItem("items")) || [];
+
+      const updatedCardProducts = existingCartProducts.filter(
+        (item) => item.productId !== productIdToDelete
+      );
+      localStorage.setItem("items", JSON.stringify(updatedCardProducts));
+
+      var _myBagProducts = myBagProducts.filter(
+        (item) => item._id !== productIdToDelete
+      );
+      setMyBagProducts([..._myBagProducts]);
     }
+
+    setSnackBarProps({
+      snackbarOpen: true,
+      snackbarMessage: "Product removed successfully.",
+      snackbarSeverity: "success",
+    });
   };
 
   const navigate = useNavigate();
@@ -81,6 +111,15 @@ function MyBag({ handleCloseIconClick }) {
   const moveToCheckout = () => {
     handleCloseIconClick();
     navigate("/checkout");
+  };
+
+  const handleSnackBarClose = (event, reason) => {
+    // if (reason === "clickaway") {
+    //   return;
+    // }
+    setSnackBarProps({
+      snackbarOpen: false,
+    });
   };
 
   return (
@@ -339,6 +378,38 @@ function MyBag({ handleCloseIconClick }) {
           </Button>
         </Box>
       )}
+
+      <Dialog
+        open={deleteConfirmationOpen}
+        onClose={() => setDeleteConfirmationOpen(false)}
+      >
+        <DialogTitle>Remove Product</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to remove this product?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="outlined"
+            onClick={() => setDeleteConfirmationOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleDeleteConfirmation}
+            autoFocus
+          >
+            Remove
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* <CustomSnackBar
+        snackbarOpen={snackBarProps.snackbarOpen}
+        snackbarMessage={snackBarProps.snackbarMessage}
+        severity={snackBarProps.snackbarSeverity}
+        onClose={handleSnackBarClose}
+      /> */}
     </Box>
   );
 }
