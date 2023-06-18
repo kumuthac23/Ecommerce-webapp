@@ -34,7 +34,7 @@ const rows = [
 
 function MyBag({ handleCloseIconClick }) {
   const [myBagProducts, setMyBagProducts] = useState([]);
-const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
+  const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
 
   const fetchMyBagProducts = async () => {
     const value = localStorage.getItem("items");
@@ -44,13 +44,13 @@ const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
     await axios
       .post("https://drab-rose-xerus-toga.cyclic.app/getMyBag", data)
       .then((response) => {
-        if (response.data && response.data !== "") {
+        if (response.data) {
           setMyBagProducts(response.data);
         } else {
           setMyBagProducts([]);
         }
 
-        setIsGetMyBagIsLoading(false)
+        setIsGetMyBagIsLoading(false);
       })
       .catch((error) => {
         console.error("Error sending data to backend:", error);
@@ -74,10 +74,10 @@ const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
       const updatedData = JSON.stringify(updatedProducts);
       localStorage.setItem("items", updatedData);
     }
-  }
+  };
 
   const navigate = useNavigate();
-  
+
   const moveToCheckout = () => {
     handleCloseIconClick();
     navigate("/checkout");
@@ -107,11 +107,15 @@ const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
         <CloseIcon onClick={handleCloseIconClick} />
       </Box>
       <Divider />
-      {myBagProducts && myBagProducts.length > 0 ? (
-        myBagProducts.map((product) => {
-          return (
-            <Box>
-              <Container>
+      <Container
+        sx={{
+          overflow: "auto",
+          height: "calc(90vh - 100px)",
+        }}
+      >
+        {myBagProducts && myBagProducts.length > 0
+          ? myBagProducts.map((product) => {
+              return (
                 <Box my={2}>
                   <Card sx={{ boxShadow: 1 }} elevation={0}>
                     <Grid
@@ -172,19 +176,28 @@ const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
                               <TableHead>
                                 <TableRow>
                                   <TableCell
-                                    style={{ padding: 0, fontSize: "0.7rem" }}
+                                    style={{
+                                      padding: 0,
+                                      fontSize: "0.7rem",
+                                    }}
                                     align="center"
                                   >
                                     Size
                                   </TableCell>
                                   <TableCell
-                                    style={{ padding: 0, fontSize: "0.7rem" }}
+                                    style={{
+                                      padding: 0,
+                                      fontSize: "0.7rem",
+                                    }}
                                     align="center"
                                   >
                                     Qty
                                   </TableCell>
                                   <TableCell
-                                    style={{ padding: 0, fontSize: "0.7rem" }}
+                                    style={{
+                                      padding: 0,
+                                      fontSize: "0.7rem",
+                                    }}
                                     align="center"
                                   >
                                     Price
@@ -257,74 +270,73 @@ const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
                     </Grid>
                   </Card>
                 </Box>
-              </Container>
-              <Box
-                sx={{
-                  position: "fixed",
-                  bottom: 0,
-                  height: "80px",
-                  display: "flex",
-                  paddingX: 2,
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                  boxShadow: 2,
-                }}
-              >
-                <Box>
-                  <Typography sx={{ fontSize: "small", fontWeight: 600 }}>
-                    1 Items
-                  </Typography>
-                  <Typography sx={{ fontSize: "1rem", fontWeight: 600 }}>
-                    &#8377;&nbsp;1000
-                  </Typography>
+              );
+            })
+          : !isGetMyBagIsLoading && (
+              <Box sx={{ width: "100%" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    paddingTop: "100px",
+                  }}
+                >
+                  <ProductionQuantityLimitsIcon
+                    sx={{ fontSize: "7rem" }}
+                  ></ProductionQuantityLimitsIcon>
+                  <h2>YOUR BAG IS EMPTY</h2>
                 </Box>
-                <Button variant="contained" size="large" onClick={moveToCheckout}>
-                  Proceed to checkout
-                </Button>
+                <Box>
+                  <Box>
+                    <Typography sx={{ fontSize: "small", textAlign: "center" }}>
+                      Before Proceed to checkout you must add some
+                      <br />
+                      products to Your shopping Card.
+                      <br />
+                      You will find a lot of interesting products on our
+                      <br />
+                      "Shop" page.
+                    </Typography>
+                  </Box>
+                  <Box sx={{ padding: "20px" }}>
+                    <Link to={"/"} onClick={handleCloseIconClick}>
+                      <Button variant="contained" fullWidth>
+                        Return to Shop
+                        <ArrowRightAltIcon />
+                      </Button>
+                    </Link>
+                  </Box>
+                </Box>
               </Box>
-            </Box>
-          );
-        })
-      ) : !isGetMyBagIsLoading && (
-        <Box>
-          <Box sx={{ height: "100vh", width: "100%" }}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-                paddingTop: "100px",
-              }}
-            >
-              <ProductionQuantityLimitsIcon
-                sx={{ fontSize: "7rem" }}
-              ></ProductionQuantityLimitsIcon>
-              <h2>YOUR BAG IS EMPTY</h2>
-            </Box>
-            <Box>
-              <Box>
-                <Typography sx={{ fontSize: "small", textAlign: "center" }}>
-                  Before Proceed to checkout you must add some
-                  <br />
-                  products to Your shopping Card.
-                  <br />
-                  You will find a lot of interesting products on our
-                  <br />
-                  "Shop" page.
-                </Typography>
-              </Box>
-              <Box sx={{ padding: "20px" }}>
-                <Link to={"/"} onClick={handleCloseIconClick}>
-                  <Button variant="contained" fullWidth>
-                    Return to Shop
-                    <ArrowRightAltIcon />
-                  </Button>
-                </Link>
-              </Box>
-            </Box>
+            )}
+      </Container>
+      {myBagProducts && myBagProducts.length != 0 && (
+        <Box
+          sx={{
+            position: "fixed",
+            bottom: 0,
+            height: "100px",
+            display: "flex",
+            paddingX: 2,
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+            boxShadow: 2,
+          }}
+        >
+          <Box>
+            <Typography sx={{ fontSize: "small", fontWeight: 600 }}>
+              1 Items
+            </Typography>
+            <Typography sx={{ fontSize: "1rem", fontWeight: 600 }}>
+              &#8377;&nbsp;1000
+            </Typography>
           </Box>
+          <Button variant="contained" size="large" onClick={moveToCheckout}>
+            Proceed to checkout
+          </Button>
         </Box>
       )}
     </Box>
@@ -332,5 +344,3 @@ const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
 }
 
 export default MyBag;
-
-
