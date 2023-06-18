@@ -77,23 +77,7 @@ function MyBag({ handleCloseIconClick }) {
     fetchMyBagProducts();
   }, []);
 
-  // const handleDeleteProduct = (product) => {
-  //   const productIndex = myBagProducts.findIndex(
-  //     (item) => item.id === product.id
-  //   );
-  //   if (productIndex !== -1) {
-  //     const updatedProducts = [...myBagProducts];
-  //     updatedProducts.splice(productIndex, 1);
-  //     setMyBagProducts(updatedProducts);
-
-  //     // Update the local storage value
-  //     const updatedData = JSON.stringify(updatedProducts);
-  //     localStorage.setItem("items", updatedData);
-  //   }
-
-  // }
-
-  const handleDeleteProduct = (product) => {
+ const handleDeleteProduct = (product) => {
     setProductToDelete(product);
     setDeleteConfirmationOpen(true);
   };
