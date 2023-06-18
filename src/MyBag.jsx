@@ -337,7 +337,11 @@ function MyBag({ handleCloseIconClick }) {
                       &#8377;&nbsp;1000
                     </Typography>
                   </Box>
-                  <Button variant="contained" size="large">
+                  <Button
+                    variant="contained"
+                    size="large"
+                    onClick={moveToCheckout}
+                  >
                     Proceed to checkout
                   </Button>
                 </Box>
@@ -387,12 +391,12 @@ function MyBag({ handleCloseIconClick }) {
         open={deleteConfirmationOpen}
         onClose={() => setDeleteConfirmationOpen(false)}
       >
-        <DialogTitle>Delete Product</DialogTitle>
+        <DialogTitle>Remove Product</DialogTitle>
         <DialogContent>
-          <Typography>Are you sure you want to delete this product?</Typography>
+          <Typography>Are you sure you want to remove this product?</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDeleteConfirmationOpen(false)}>
+          <Button   variant="outlined" onClick={() => setDeleteConfirmationOpen(false)}>
             Cancel
           </Button>
           <Button
@@ -400,7 +404,7 @@ function MyBag({ handleCloseIconClick }) {
             onClick={handleDeleteConfirmation}
             autoFocus
           >
-            Delete
+            Remove
           </Button>
         </DialogActions>
       </Dialog>

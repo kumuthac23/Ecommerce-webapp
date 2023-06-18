@@ -5,16 +5,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
   Box,
-  Typography,
-  MenuItem,
-  FormControl,
-  TextField,
-  Divider,
+  Typography
 } from "@mui/material";
-import Select from "@mui/material/Select";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 const ImageSlicker = () => {
@@ -54,7 +48,8 @@ const ImageSlicker = () => {
         mainTitle: fetchTitle,
         productCode: fetchProductCode,
         sizeOptions: fetchSizeOptions,
-        selectedSize: "",
+        // selectedSize: "",
+         selectedSize: fetchSizeOptions.length > 0 ? fetchSizeOptions[0].size : "",
         description: fetchDescription,
         price: fetchPrice,
         discount: fetchDiscount,
@@ -65,7 +60,16 @@ const ImageSlicker = () => {
   };
 
   const handleSizeChange = (event) => {
-    setProduct({ ...product, selectedSize: event.target.value });
+    const selectedSize = event.target.value;
+    const selectedPrice = product.sizeOptions.find(
+      (option) => option.size === selectedSize
+    ).Price;
+
+    setProduct({
+      ...product,
+      selectedSize: selectedSize,
+      price: selectedPrice,
+    });
   };
 
   const settings = {
@@ -98,66 +102,68 @@ const ImageSlicker = () => {
           />
         </Box>
         <Slider {...settings}>
-          {product &&
-            product.images.map((image, index) => (
-              <div key={index} onClick={() => handleImageClick(image)}>
-                <img
-                  src={image}
-                  alt={`Image ${index + 1}`}
-                  style={{ height: "87px", width: "75px", borderRadius: "5px" }}
-                />
-              </div>
-            ))}
+          {product.images.map((image, index) => (
+            <div key={index} onClick={() => handleImageClick(image)}>
+              <img
+                src={image}
+                alt={`Image ${index + 1}`}
+                style={{ height: "87px", width: "75px", borderRadius: "5px" }}
+              />
+            </div>
+          ))}
         </Slider>
         <Typography
           variant="h5"
           gutterBottom
-          sx={{ fontWeight: "bold", fontSize: "15px" }}
+          sx={{ fontWeight: "bold", fontSize: "20px" }}
         >
           {product.productCode}&nbsp;&nbsp;{product.mainTitle}
         </Typography>
-        {product.sizeOptions && (
-          <Typography
-            variant="h6"
-            gutterBottom
-            sx={{ fontWeight: "regular", fontSize: "15px" }}
-          >
-            <strong>Size: </strong>
-            {product.sizeOptions.map((item) => item.size).join(", ")}
-          </Typography>
-        )}
 
-        {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <Select
-            value={product.selectedSize}
-            onChange={handleSizeChange}
-            displayEmpty
-            inputProps={{ "aria-label": "Without label" }}
-            style={{ height: "30px", marginLeft: "-7px" }}
-          >
-            <MenuItem value="" disabled>
-              Select Size
-            </MenuItem>
-            {product.sizeOptions &&
-              product.sizeOptions.map((item, index) => (
-                <MenuItem key={index} value={item.size}>
-                  {item.size}
-                </MenuItem>
-              ))}
-          </Select>
-        </FormControl> */}
+        <Typography fontWeight="bold" fontSize="14px">
+          Size:{" "}
+        </Typography>
+        {product.sizeOptions && (
+          <Box>
+            {product.sizeOptions && (
+              <Box>
+                {product.sizeOptions.map((item) => (
+                  <Button
+                    key={item.size}
+                    variant={
+                      product.selectedSize === item.size
+                        ? "contained"
+                        : "outlined"
+                    }
+                    color="primary"
+                    sx={{
+                      minWidth: "40px",
+                      padding: "6px 6px",
+                      margin: "5px",
+                      maxHeight: "20px",
+                    }}
+                    onClick={handleSizeChange}
+                    value={item.size}
+                  >
+                    {item.size}
+                  </Button>
+                ))}
+              </Box>
+            )}
+          </Box>
+        )}
 
         <Typography
           variant="h6"
           gutterBottom
-          sx={{ fontWeight: "regular", fontSize: "12px" }}
+          sx={{ fontWeight: "regular", fontSize: "15px" }}
         >
           {product.description}
         </Typography>
         <Typography
           variant="h6"
           gutterBottom
-          sx={{ fontWeight: "bold", fontSize: "16px" }}
+          sx={{ fontWeight: "bold", fontSize: "14px" }}
         >
           Price
         </Typography>
@@ -184,6 +190,7 @@ const ImageSlicker = () => {
             height: "50px",
             width: "100%",
             textAlign: "center",
+            fontSize: "18px",
             fontWeight: 600,
           }}
         >
