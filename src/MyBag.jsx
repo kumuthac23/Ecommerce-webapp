@@ -44,7 +44,7 @@ function MyBag({ handleCloseIconClick }) {
     await axios
       .post("https://drab-rose-xerus-toga.cyclic.app/getMyBag", data)
       .then((response) => {
-        if (response.data && response.data !== "") {
+        if (response.data) {
           setMyBagProducts(response.data);
         } else {
           setMyBagProducts([]);
@@ -107,17 +107,16 @@ function MyBag({ handleCloseIconClick }) {
         <CloseIcon onClick={handleCloseIconClick} />
       </Box>
       <Divider />
-
-      {myBagProducts && myBagProducts.length > 0
-        ? myBagProducts.map((product) => {
-            return (
-              <Box
-                sx={{
-                  overflow: "auto",
-                  height: "calc(90vh - 100px)",
-                }}
-              >
-                <Box my={2} sx={{ padding: 1 }}>
+      <Container
+        sx={{
+          overflow: "auto",
+          height: "calc(90vh - 100px)",
+        }}
+      >
+        {myBagProducts && myBagProducts.length > 0
+          ? myBagProducts.map((product) => {
+              return (
+                <Box my={2}>
                   <Card sx={{ boxShadow: 1 }} elevation={0}>
                     <Grid
                       container
@@ -177,19 +176,28 @@ function MyBag({ handleCloseIconClick }) {
                               <TableHead>
                                 <TableRow>
                                   <TableCell
-                                    style={{ padding: 0, fontSize: "0.7rem" }}
+                                    style={{
+                                      padding: 0,
+                                      fontSize: "0.7rem",
+                                    }}
                                     align="center"
                                   >
                                     Size
                                   </TableCell>
                                   <TableCell
-                                    style={{ padding: 0, fontSize: "0.7rem" }}
+                                    style={{
+                                      padding: 0,
+                                      fontSize: "0.7rem",
+                                    }}
                                     align="center"
                                   >
                                     Qty
                                   </TableCell>
                                   <TableCell
-                                    style={{ padding: 0, fontSize: "0.7rem" }}
+                                    style={{
+                                      padding: 0,
+                                      fontSize: "0.7rem",
+                                    }}
                                     align="center"
                                   >
                                     Price
@@ -262,77 +270,75 @@ function MyBag({ handleCloseIconClick }) {
                     </Grid>
                   </Card>
                 </Box>
+              );
+            })
+          : !isGetMyBagIsLoading && (
+              <Box sx={{ width: "100%" }}>
                 <Box
                   sx={{
-                    position: "fixed",
-                    bottom: 0,
-                    height: "80px",
                     display: "flex",
-                    paddingX: 2,
-                    justifyContent: "space-between",
+                    justifyContent: "center",
                     alignItems: "center",
-                    width: "100%",
-                    boxShadow: 2,
+                    flexDirection: "column",
+                    paddingTop: "100px",
                   }}
                 >
+                  <ProductionQuantityLimitsIcon
+                    sx={{ fontSize: "7rem" }}
+                  ></ProductionQuantityLimitsIcon>
+                  <h2>YOUR BAG IS EMPTY</h2>
+                </Box>
+                <Box>
                   <Box>
-                    <Typography sx={{ fontSize: "small", fontWeight: 600 }}>
-                      1 Items
-                    </Typography>
-                    <Typography sx={{ fontSize: "1rem", fontWeight: 600 }}>
-                      &#8377;&nbsp;1000
+                    <Typography sx={{ fontSize: "small", textAlign: "center" }}>
+                      Before Proceed to checkout you must add some
+                      <br />
+                      products to Your shopping Card.
+                      <br />
+                      You will find a lot of interesting products on our
+                      <br />
+                      "Shop" page.
                     </Typography>
                   </Box>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    onClick={moveToCheckout}
-                  >
-                    Proceed to checkout
-                  </Button>
+                  <Box sx={{ padding: "20px" }}>
+                    <Link to={"/"} onClick={handleCloseIconClick}>
+                      <Button variant="contained" fullWidth>
+                        Return to Shop
+                        <ArrowRightAltIcon />
+                      </Button>
+                    </Link>
+                  </Box>
                 </Box>
               </Box>
-            );
-          })
-        : !isGetMyBagIsLoading && (
-            <Box sx={{ height: "100vh", width: "100%" }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                  paddingTop: "100px",
-                }}
-              >
-                <ProductionQuantityLimitsIcon
-                  sx={{ fontSize: "7rem" }}
-                ></ProductionQuantityLimitsIcon>
-                <h2>YOUR BAG IS EMPTY</h2>
-              </Box>
-              <Box>
-                <Box>
-                  <Typography sx={{ fontSize: "small", textAlign: "center" }}>
-                    Before Proceed to checkout you must add some
-                    <br />
-                    products to Your shopping Card.
-                    <br />
-                    You will find a lot of interesting products on our
-                    <br />
-                    "Shop" page.
-                  </Typography>
-                </Box>
-                <Box sx={{ padding: "20px" }}>
-                  <Link to={"/"} onClick={handleCloseIconClick}>
-                    <Button variant="contained" fullWidth>
-                      Return to Shop
-                      <ArrowRightAltIcon />
-                    </Button>
-                  </Link>
-                </Box>
-              </Box>
-            </Box>
-          )}
+            )}
+      </Container>
+      {myBagProducts && myBagProducts.length != 0 && (
+        <Box
+          sx={{
+            position: "fixed",
+            bottom: 0,
+            height: "100px",
+            display: "flex",
+            paddingX: 2,
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+            boxShadow: 2,
+          }}
+        >
+          <Box>
+            <Typography sx={{ fontSize: "small", fontWeight: 600 }}>
+              1 Items
+            </Typography>
+            <Typography sx={{ fontSize: "1rem", fontWeight: 600 }}>
+              &#8377;&nbsp;1000
+            </Typography>
+          </Box>
+          <Button variant="contained" size="large" onClick={moveToCheckout}>
+            Proceed to checkout
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 }

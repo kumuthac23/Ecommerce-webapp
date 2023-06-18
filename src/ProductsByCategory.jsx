@@ -25,7 +25,6 @@ function ProductsByCategory() {
     fetchProductSizeResults(productId).then((response) => {
       setSelectedProductId(productId);
       setSizeWithQuantity([]);
-
       const existingCartProducts =
         JSON.parse(localStorage.getItem("items")) || [];
 
