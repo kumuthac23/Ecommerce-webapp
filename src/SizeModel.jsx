@@ -340,12 +340,12 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
         </DialogActions>
       </Dialog>
 
-      <CustomSnackBar
+      {/* <CustomSnackBar
         snackbarOpen={snackBarProps.snackbarOpen}
         snackbarMessage={snackBarProps.snackbarMessage}
         severity={snackBarProps.snackbarSeverity}
         onClose={handleSnackBarClose}
-      />
+      /> */}
     </>
   );
 }
