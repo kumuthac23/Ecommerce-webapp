@@ -279,7 +279,7 @@ const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
                     &#8377;&nbsp;1000
                   </Typography>
                 </Box>
-                <Button variant="contained" size="large">
+                <Button variant="contained" size="large" onClick={moveToCheckout}>
                   Proceed to checkout
                 </Button>
               </Box>
