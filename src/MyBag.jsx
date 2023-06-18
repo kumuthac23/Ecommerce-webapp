@@ -107,161 +107,157 @@ const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
         <CloseIcon onClick={handleCloseIconClick} />
       </Box>
       <Divider />
-
       {myBagProducts && myBagProducts.length > 0 ? (
         myBagProducts.map((product) => {
           return (
-            <Box
-              sx={{
-                overflow: "auto",
-                height: "calc(90vh - 100px)",
-              }}
-            >
-              <Box my={2} sx={{ padding: 1}}>
-                <Card sx={{ boxShadow: 1 }} elevation={0}>
-                  <Grid
-                    container
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    spacing={2}
-                    py={1}
-                  >
+            <Box>
+              <Container>
+                <Box my={2}>
+                  <Card sx={{ boxShadow: 1 }} elevation={0}>
                     <Grid
-                      item
-                      xs={2}
+                      container
                       sx={{
-                        paddingLeft: "10px !important",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
+                      spacing={2}
+                      py={1}
                     >
-                      <CardMedia
+                      <Grid
+                        item
+                        xs={2}
                         sx={{
-                          overflow: "hidden",
-                          objectFit: "cover",
-                          height: "100px",
-                        }}
-                        image={product.posterURL}
-                        title="green iguana"
-                        component={"img"}
-                      />
-                    </Grid>
-                    <Grid item xs={8}>
-                      <Typography
-                        sx={{
-                          fontSize: "small",
-                          fontWeight: 600,
-                          display: "-webkit-box",
-                          WebkitLineClamp: 1,
-                          WebkitBoxOrient: "vertical",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
+                          paddingLeft: "10px !important",
                         }}
                       >
-                        {product.productCode}&nbsp;&nbsp;{product.title}
-                      </Typography>
-                      <Box
-                        py={0.5}
-                        display={"flex"}
-                        gap={1}
-                        alignItems={"center"}
-                      >
-                        <TableContainer
+                        <CardMedia
                           sx={{
-                            borderBottom: "none",
-                            maxWidth: "130px",
+                            overflow: "hidden",
+                            objectFit: "cover",
+                            height: "100px",
+                          }}
+                          image={product.posterURL}
+                          title="green iguana"
+                          component={"img"}
+                        />
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography
+                          sx={{
+                            fontSize: "small",
+                            fontWeight: 600,
+                            display: "-webkit-box",
+                            WebkitLineClamp: 1,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
                           }}
                         >
-                          <Table stickyHeader>
-                            <TableHead>
-                              <TableRow>
-                                <TableCell
-                                  style={{ padding: 0, fontSize: "0.7rem" }}
-                                  align="center"
-                                >
-                                  Size
-                                </TableCell>
-                                <TableCell
-                                  style={{ padding: 0, fontSize: "0.7rem" }}
-                                  align="center"
-                                >
-                                  Qty
-                                </TableCell>
-                                <TableCell
-                                  style={{ padding: 0, fontSize: "0.7rem" }}
-                                  align="center"
-                                >
-                                  Price
-                                </TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {rows.map((row) => (
-                                <TableRow key={row.name}>
-                                  <TableCell
-                                    style={{
-                                      padding: 0,
-                                      fontSize: "0.7rem",
-                                    }}
-                                    align="center"
-                                  >
-                                    {row.size}
-                                  </TableCell>
-                                  <TableCell
-                                    style={{
-                                      padding: 0,
-                                      fontSize: "0.7rem",
-                                    }}
-                                    align="center"
-                                  >
-                                    {row.qty}
-                                  </TableCell>
-                                  <TableCell
-                                    style={{
-                                      padding: 0,
-                                      fontSize: "0.7rem",
-                                    }}
-                                    align="center"
-                                  >
-                                    &#8377;{row.price}
-                                  </TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
+                          {product.productCode}&nbsp;&nbsp;{product.title}
+                        </Typography>
                         <Box
-                          sx={{
-                            marginTop: "-16px",
-                          }}
+                          py={0.5}
+                          display={"flex"}
+                          gap={1}
+                          alignItems={"center"}
                         >
-                          <Button
-                            variant="outlined"
-                            size="medium"
+                          <TableContainer
                             sx={{
-                              padding: "2px 5px",
+                              borderBottom: "none",
+                              maxWidth: "130px",
                             }}
                           >
-                            <Typography sx={{ fontSize: "0.6rem" }}>
-                              Change Qty.
-                            </Typography>
-                          </Button>
+                            <Table stickyHeader>
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell
+                                    style={{ padding: 0, fontSize: "0.7rem" }}
+                                    align="center"
+                                  >
+                                    Size
+                                  </TableCell>
+                                  <TableCell
+                                    style={{ padding: 0, fontSize: "0.7rem" }}
+                                    align="center"
+                                  >
+                                    Qty
+                                  </TableCell>
+                                  <TableCell
+                                    style={{ padding: 0, fontSize: "0.7rem" }}
+                                    align="center"
+                                  >
+                                    Price
+                                  </TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {rows.map((row) => (
+                                  <TableRow key={row.name}>
+                                    <TableCell
+                                      style={{
+                                        padding: 0,
+                                        fontSize: "0.7rem",
+                                      }}
+                                      align="center"
+                                    >
+                                      {row.size}
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        padding: 0,
+                                        fontSize: "0.7rem",
+                                      }}
+                                      align="center"
+                                    >
+                                      {row.qty}
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        padding: 0,
+                                        fontSize: "0.7rem",
+                                      }}
+                                      align="center"
+                                    >
+                                      &#8377;{row.price}
+                                    </TableCell>
+                                  </TableRow>
+                                ))}
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+                          <Box
+                            sx={{
+                              marginTop: "-16px",
+                            }}
+                          >
+                            <Button
+                              variant="outlined"
+                              size="medium"
+                              sx={{
+                                padding: "2px 5px",
+                              }}
+                            >
+                              <Typography sx={{ fontSize: "0.6rem" }}>
+                                Change Qty.
+                              </Typography>
+                            </Button>
+                          </Box>
                         </Box>
-                      </Box>
+                      </Grid>
+                      <Grid
+                        xs={1}
+                        item
+                        sx={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <DeleteIcon
+                          onClick={() => handleDeleteProduct(product)}
+                        ></DeleteIcon>
+                      </Grid>
                     </Grid>
-                    <Grid
-                      xs={1}
-                      item
-                      sx={{ display: "flex", justifyContent: "center" }}
-                    >
-                      <DeleteIcon
-                        onClick={() => handleDeleteProduct(product)}
-                      ></DeleteIcon>
-                    </Grid>
-                  </Grid>
-                </Card>
-              </Box>
+                  </Card>
+                </Box>
+              </Container>
               <Box
                 sx={{
                   position: "fixed",
@@ -290,44 +286,46 @@ const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
             </Box>
           );
         })
-      ) : (
-        !isGetMyBagIsLoading  && (<Box sx={{ height: "100vh", width: "100%" }}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-              paddingTop: "100px",
-            }}
-          >
-            <ProductionQuantityLimitsIcon
-              sx={{ fontSize: "7rem" }}
-            ></ProductionQuantityLimitsIcon>
-            <h2>YOUR BAG IS EMPTY</h2>
-          </Box>
-          <Box>
+      ) : !isGetMyBagIsLoading && (
+        <Box>
+          <Box sx={{ height: "100vh", width: "100%" }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                paddingTop: "100px",
+              }}
+            >
+              <ProductionQuantityLimitsIcon
+                sx={{ fontSize: "7rem" }}
+              ></ProductionQuantityLimitsIcon>
+              <h2>YOUR BAG IS EMPTY</h2>
+            </Box>
             <Box>
-              <Typography sx={{ fontSize: "small", textAlign: "center" }}>
-                Before Proceed to checkout you must add some
-                <br />
-                products to Your shopping Card.
-                <br />
-                You will find a lot of interesting products on our
-                <br />
-                "Shop" page.
-              </Typography>
-            </Box>
-            <Box sx={{ padding: "20px" }}>
-              <Link to={"/"} onClick={handleCloseIconClick}>
-                <Button variant="contained" fullWidth>
-                  Return to Shop
-                  <ArrowRightAltIcon />
-                </Button>
-              </Link>
+              <Box>
+                <Typography sx={{ fontSize: "small", textAlign: "center" }}>
+                  Before Proceed to checkout you must add some
+                  <br />
+                  products to Your shopping Card.
+                  <br />
+                  You will find a lot of interesting products on our
+                  <br />
+                  "Shop" page.
+                </Typography>
+              </Box>
+              <Box sx={{ padding: "20px" }}>
+                <Link to={"/"} onClick={handleCloseIconClick}>
+                  <Button variant="contained" fullWidth>
+                    Return to Shop
+                    <ArrowRightAltIcon />
+                  </Button>
+                </Link>
+              </Box>
             </Box>
           </Box>
-        </Box>)
+        </Box>
       )}
     </Box>
   );
