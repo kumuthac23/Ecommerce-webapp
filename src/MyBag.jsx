@@ -57,8 +57,9 @@ function MyBag({ handleCloseIconClick }) {
     const data = JSON.parse(value);
 
     setIsGetMyBagIsLoading(true);
+    
     await axios
-      .post("http://localhost:3000/getMyBag", data)
+      .post("https://drab-rose-xerus-toga.cyclic.app/getMyBag", data)
       .then((response) => {
         if (response.data) {
           setMyBagProducts(response.data);
