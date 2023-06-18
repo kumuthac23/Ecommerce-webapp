@@ -24,9 +24,11 @@ import CustomSnackBar from "./CustomSnackBar";
 
 function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
   const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("");
+  const [snackBarProps, setSnackBarProps] = useState({
+    snackbarOpen: false,
+    snackbarMessage: "",
+    snackbarSeverity: "",
+  });
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -100,7 +102,6 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
       }
 
       setSizeWithQuantity([..._localSizeWithQuantity]);
-
     }
 
     return currentQty;
@@ -118,27 +119,33 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
       // Remove the product from local storage
       const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
 
-      var alreadyExist = existingProducts.find((product) => product.productId == productId);
+      var alreadyExist = existingProducts.find(
+        (product) => product.productId == productId
+      );
 
       const updatedProducts = existingProducts.filter(
         (product) => product.productId !== productId
       );
       localStorage.setItem("items", JSON.stringify(updatedProducts));
-      
+
       // Show the snackbar with a success message for product removal
-      if(alreadyExist && updatedSizes.length == 0){
+      if (alreadyExist && updatedSizes.length == 0) {
         onClose();
-        setSnackbarSeverity("success");
-        setSnackbarMessage("Product removed successfully.");
-        setSnackbarOpen(true);
+
+        setSnackBarProps({
+          snackbarOpen: true,
+          snackbarMessage: "Product removed successfully.",
+          snackbarSeverity: "success",
+        });
       }
 
-      if(!alreadyExist && updatedSizes.length == 0){
-        setSnackbarSeverity("error");
-        setSnackbarMessage("No product selected");
-        setSnackbarOpen(true);
+      if (!alreadyExist && updatedSizes.length == 0) {
+        setSnackBarProps({
+          snackbarOpen: true,
+          snackbarMessage: "No product selected.",
+          snackbarSeverity: "error",
+        });
       }
-      
     } else {
       // Update the sizes and store in local storage
       const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
@@ -162,9 +169,12 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
       setSizeWithQuantity([]);
 
       // Show the snackbar with a success message for product addition
-      setSnackbarSeverity("success");
-      setSnackbarMessage("Product added successfully.");
-      setSnackbarOpen(true);
+
+      setSnackBarProps({
+        snackbarOpen: true,
+        snackbarMessage: "Product added successfully.",
+        snackbarSeverity: "success",
+      });
     }
   };
 
@@ -172,7 +182,10 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
     if (reason === "clickaway") {
       return;
     }
-    setSnackbarOpen(false);
+
+    setSnackBarProps({
+      snackbarOpen: false,
+    });
   };
 
   return (
@@ -328,9 +341,9 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
       </Dialog>
 
       <CustomSnackBar
-        snackbarOpen={snackbarOpen}
-        snackbarMessage={snackbarMessage}
-        severity={snackbarSeverity}
+        snackbarOpen={snackBarProps.snackbarOpen}
+        snackbarMessage={snackBarProps.snackbarMessage}
+        severity={snackBarProps.snackbarSeverity}
         onClose={handleSnackBarClose}
       />
     </>
