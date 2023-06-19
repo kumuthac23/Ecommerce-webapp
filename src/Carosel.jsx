@@ -49,12 +49,6 @@ function Carosel(props) {
           >
             {category.name}
           </Typography>
-          {/* <Link
-            to={}
-            style={{
-              textDecoration: "none !important",
-            }}
-          > */}
           <Button
             variant="contained"
             size="small"
@@ -65,7 +59,6 @@ function Carosel(props) {
           >
             View All
           </Button>
-          {/* </Link> */}
         </Box>
         <Slider {...settingsProduct}>
           {category.products.map((product, index) => (

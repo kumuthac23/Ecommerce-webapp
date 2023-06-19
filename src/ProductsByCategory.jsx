@@ -11,6 +11,7 @@ import CommonCard from "./CommonCard";
 import Button from "@mui/material/Button";
 import SizeModel from "./SizeModel";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import StoreIcon from "@mui/icons-material/Store";
 
 function ProductsByCategory() {
   const [openAddToCart, setAddToCartOpen] = useState(false);
@@ -25,7 +26,6 @@ function ProductsByCategory() {
     fetchProductSizeResults(productId).then((response) => {
       setSelectedProductId(productId);
       setSizeWithQuantity([]);
-
       const existingCartProducts =
         JSON.parse(localStorage.getItem("items")) || [];
 
@@ -122,15 +122,39 @@ function ProductsByCategory() {
               </Typography>
             </Box>
           </Box>
-          <Grid container spacing={0.5} pt={1}>
-            {categoryWithProducts &&
-            categoryWithProducts.products.length === 0 ? (
-              <Typography>No products available.</Typography>
-            ) : (
-              categoryWithProducts &&
-              categoryWithProducts.products.map((product, index) => (
-                <Grid item key={index} xs={6}>
-                  <CommonCard product={product} height="100%">
+
+          {categoryWithProducts &&
+          categoryWithProducts.products.length === 0 ? (
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+              sx={{
+                  height: "60vh",
+                overflow:"hidden"
+                }}     
+            >
+              <StoreIcon sx={{ fontSize: "5rem", opacity: 0.5 }}></StoreIcon>
+              <Typography sx={{ opacity: 0.5 }}>
+                No products available
+              </Typography>
+            </Box>
+          ) : (
+            <Grid
+              container
+              spacing={0.5}
+              pt={1}
+              sx={{
+                display: "flex",
+                justifyContent: "Space-around",
+                alignItems: "center",
+              }}
+            >
+              {categoryWithProducts &&
+                categoryWithProducts.products.map((product, index) => (
+                  <Grid item key={index} xs={6}>
+                    <CommonCard product={product} height="100%">
                       <Button
                         variant="contained"
                         size="small"
@@ -140,16 +164,17 @@ function ProductsByCategory() {
                           boxShadow: 4,
                           textTransform: "none",
                           display: "flex",
-                          gap:1,
+                          gap: 1,
                         }}
                       >
-                        <AddShoppingCartIcon sx={{ fontSize: "medium" }} /> Add to Cart
+                        <AddShoppingCartIcon sx={{ fontSize: "medium" }} /> Add
+                        to Cart
                       </Button>
-                  </CommonCard>
-                </Grid>
-              ))
-            )}
-          </Grid>
+                    </CommonCard>
+                  </Grid>
+                ))}
+            </Grid>
+          )}
         </Container>
       )}
       <SizeModel

@@ -25,6 +25,9 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import InfoIcon from "@mui/icons-material/Info";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import SearchIcon from '@mui/icons-material/Search';
+import SearchProduct from "./SearchProduct";
+
 
 const drawerWidth = "60vw";
 const seconddrawerWidth = "100vw";
@@ -47,10 +50,16 @@ const navItems = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isOpenMyBag, setMyBagOpen] = React.useState(false);
+    const [openSearch , setOpenSearch] = React.useState(false);
+
 
   const handleMyBagDrawerOpen = () => {
     setMyBagOpen((prevState) => !prevState);
   };
+
+  const handleMySearchDrawerOpen = () => {
+    setOpenSearch((prevState) => !prevState);
+  }
 
   const classes = useNavbarStyle();
 
@@ -161,6 +170,15 @@ export default function Navbar() {
             </NavLink>
             <Typography sx={{ fontWeight: 600 }}>NKS Collection</Typography>
           </Box>
+          <Stack
+            sx={{
+              p: 0,
+              position: "absolute",
+              right: "70px",
+            }}
+          >
+            <SearchIcon sx={{fontSize:"1.7rem"}} onClick={handleMySearchDrawerOpen} />
+          </Stack>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
               <Button key={item.label} sx={{ color: "#ffff", paddingLeft: 0 }}>
@@ -174,7 +192,6 @@ export default function Navbar() {
               height: 25,
               p: 0,
               position: "absolute",
-              top: "18px",
               right: "30px",
             }}
           >
@@ -206,6 +223,21 @@ export default function Navbar() {
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
       </Box>
+      <Drawer
+        anchor="right"
+        open={openSearch}
+        onClose={handleMySearchDrawerOpen}
+        sx={{
+          position: "relative",
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            width: seconddrawerWidth,
+          },
+        }}
+      >
+        <SearchProduct handleSearchCloseIconClick={handleMySearchDrawerOpen} />
+      </Drawer>
+
       <Drawer
         anchor="right"
         open={isOpenMyBag}
