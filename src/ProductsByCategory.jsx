@@ -45,9 +45,7 @@ function ProductsByCategory() {
 
   const fetchAllProductsByCategoryId = async () => {
     try {
-      const response = await axios.get(
-        `https://drab-rose-xerus-toga.cyclic.app/fetchProductsByCategory/${id}`
-      );
+      const response = await axios.get(`fetchProductsByCategory/${id}`);
 
       setCategoryWithProducts(response.data);
     } catch (error) {
@@ -57,9 +55,7 @@ function ProductsByCategory() {
 
   const fetchProductSizeResults = async (productId) => {
     try {
-      const response = await axios.get(
-        `https://drab-rose-xerus-toga.cyclic.app/getSizesById/${productId}`
-      );
+      const response = await axios.get(`getSizesById/${productId}`);
       const { sizes } = response.data;
       setSizeResults(sizes);
       setAddToCartOpen(true);
@@ -125,15 +121,15 @@ function ProductsByCategory() {
 
           {categoryWithProducts &&
           categoryWithProducts.products.length === 0 ? (
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                flexDirection="column"
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column"
               sx={{
-                  height: "60vh",
-                overflow:"hidden"
-                }}     
+                height: "60vh",
+                overflow: "hidden",
+              }}
             >
               <StoreIcon sx={{ fontSize: "5rem", opacity: 0.5 }}></StoreIcon>
               <Typography sx={{ opacity: 0.5 }}>

@@ -59,7 +59,7 @@ function MyBag({ handleCloseIconClick }) {
     setIsGetMyBagIsLoading(true);
 
     await axios
-      .post("https://drab-rose-xerus-toga.cyclic.app/getMyBag", data)
+      .post("getMyBag", data)
       .then((response) => {
         if (response.data) {
           setMyBagProducts(response.data);
@@ -115,8 +115,8 @@ function MyBag({ handleCloseIconClick }) {
   };
   const moveToHome = () => {
     handleCloseIconClick();
-        navigate("/");
-  }
+    navigate("/");
+  };
 
   const handleSnackBarClose = (event, reason) => {
     // if (reason === "clickaway") {
@@ -332,7 +332,7 @@ function MyBag({ handleCloseIconClick }) {
                   }}
                 >
                   <ProductionQuantityLimitsIcon
-                    sx={{ fontSize: "7rem",opacity:0.5 }}
+                    sx={{ fontSize: "7rem", opacity: 0.5 }}
                   ></ProductionQuantityLimitsIcon>
                   <h2>YOUR BAG IS EMPTY</h2>
                 </Box>
@@ -349,14 +349,10 @@ function MyBag({ handleCloseIconClick }) {
                     </Typography>
                   </Box>
                   <Box sx={{ padding: "20px" }}>
-                      <Button
-                        variant="contained"
-                        fullWidth
-                        onClick={moveToHome}
-                      >
-                        Return to Shop
-                        <ArrowRightAltIcon />
-                      </Button>
+                    <Button variant="contained" fullWidth onClick={moveToHome}>
+                      Return to Shop
+                      <ArrowRightAltIcon />
+                    </Button>
                   </Box>
                 </Box>
               </Box>

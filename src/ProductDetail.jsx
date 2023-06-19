@@ -28,9 +28,7 @@ const ImageSlicker = () => {
 
   const fetchImages = async () => {
     try {
-      const response = await axios.get(
-        `https://drab-rose-xerus-toga.cyclic.app/fetchProductByID/${id}`
-      );
+      const response = await axios.get(`fetchProductByID/${id}`);
       const fetchedImages = response.data.image;
       const fetchTitle = response.data.title;
       const fetchProductCode = response.data.productCode;
@@ -70,14 +68,13 @@ const ImageSlicker = () => {
     });
   };
 
-  
   const handleAddToCard = () => {
     const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
     const existingProductIndex = existingProducts.findIndex(
       (product) => product.productId === id
     );
-  
-    debugger
+
+    debugger;
     if (existingProductIndex != -1) {
       const existingProduct = existingProducts.find(
         (product) => product.productId === id
@@ -88,29 +85,29 @@ const ImageSlicker = () => {
       );
       if (foundSize) {
         var _updatedSizes = existingProduct.sizes.map((size) => {
-          if(size.size == product.selectedSize){
+          if (size.size == product.selectedSize) {
             size.qty += 1;
           }
 
           return size;
-        })
+        });
 
         existingProducts[existingProductIndex].sizes = _updatedSizes;
       } else {
-        existingProduct.sizes.push({ size: product.selectedSize, qty: 1 }); 
+        existingProduct.sizes.push({ size: product.selectedSize, qty: 1 });
         existingProducts[existingProductIndex] = existingProduct;
       }
     } else {
       const newItem = {
         productId: id,
-        sizes: [{ size: product.selectedSize, qty: 1 }] 
+        sizes: [{ size: product.selectedSize, qty: 1 }],
       };
       existingProducts.push(newItem);
     }
-    
+
     localStorage.setItem("items", JSON.stringify(existingProducts));
   };
-  
+
   const settings = {
     infinite: false,
     speed: 500,

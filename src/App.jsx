@@ -13,6 +13,13 @@ import Orders from "./Orders";
 import ShippingAddress from "./ShippingAddress";
 import CheckOut from "./CheckOut";
 import Signup from "./Signup";
+import axios from "axios";
+
+//Only when we deploy the code use this line
+axios.defaults.baseURL = "https://tam-ecommerce.onrender.com/";
+
+//For Development use this
+// axios.defaults.baseURL = "http://localhost:3000/";
 
 function App() {
   return (
@@ -29,7 +36,7 @@ function App() {
             <Route path="about" element={<About />}></Route>
             <Route path="shippingaddress" element={<ShippingAddress />}></Route>
             <Route path="checkout" element={<CheckOut />}></Route>
-            <Route path="signup" element={<Signup/>}></Route>
+            <Route path="signup" element={<Signup />}></Route>
             <Route
               path="productsByCategory/:id"
               element={<ProductsByCategory />}

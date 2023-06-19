@@ -19,9 +19,7 @@ function Home() {
   const fetchCategories = async () => {
     setIsCategoryLoading(true);
     try {
-      const response = await axios.get(
-        "https://drab-rose-xerus-toga.cyclic.app/fetchCategory"
-      );
+      const response = await axios.get("fetchCategory");
       const fetchedCategories = response.data;
       setCategories(fetchedCategories);
       setIsCategoryLoading(false);
@@ -32,9 +30,7 @@ function Home() {
   };
 
   const fetchProductByCategories = async () => {
-    var response = await axios.get(
-      "https://drab-rose-xerus-toga.cyclic.app/getAllProductsByCategory"
-    );
+    var response = await axios.get("getAllProductsByCategory");
     var fetchedProduct = response.data;
     setProducts(fetchedProduct);
   };
