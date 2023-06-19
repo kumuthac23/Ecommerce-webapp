@@ -133,8 +133,7 @@ function ProductsByCategory() {
               sx={{
                   height: "60vh",
                 overflow:"hidden"
-                }}
-                
+                }}     
             >
               <StoreIcon sx={{ fontSize: "5rem", opacity: 0.5 }}></StoreIcon>
               <Typography sx={{ opacity: 0.5 }}>

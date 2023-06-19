@@ -15,7 +15,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useNavigate } from "react-router-dom";
@@ -179,16 +179,19 @@ function MyBag({ handleCloseIconClick }) {
                           paddingLeft: "10px !important",
                         }}
                       >
-                        <CardMedia
-                          sx={{
-                            overflow: "hidden",
-                            objectFit: "cover",
-                            height: "100px",
-                          }}
-                          image={product.posterURL}
-                          title="green iguana"
-                          component={"img"}
-                        />
+                        <Link to={`/productDetail/${product.id}`}>
+                          <CardMedia
+                            sx={{
+                              overflow: "hidden",
+                              objectFit: "cover",
+                              height: "100px",
+                            }}
+                            image={product.posterURL}
+                            title="green iguana"
+                            component={"img"}
+                            onClick={moveToHome}
+                          />
+                        </Link>
                       </Grid>
                       <Grid item xs={8}>
                         <Typography
