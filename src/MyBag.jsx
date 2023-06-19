@@ -57,9 +57,9 @@ function MyBag({ handleCloseIconClick }) {
     const data = JSON.parse(value);
 
     setIsGetMyBagIsLoading(true);
-    
+
     await axios
-      .post("https://drab-rose-xerus-toga.cyclic.app/getMyBag", data)
+      .post("http://localhost:3000/getMyBag", data)
       .then((response) => {
         if (response.data) {
           setMyBagProducts(response.data);
@@ -245,37 +245,38 @@ function MyBag({ handleCloseIconClick }) {
                                 </TableRow>
                               </TableHead>
                               <TableBody>
-                                {rows.map((row) => (
-                                  <TableRow key={row.name}>
-                                    <TableCell
-                                      style={{
-                                        padding: 0,
-                                        fontSize: "0.7rem",
-                                      }}
-                                      align="center"
-                                    >
-                                      {row.size}
-                                    </TableCell>
-                                    <TableCell
-                                      style={{
-                                        padding: 0,
-                                        fontSize: "0.7rem",
-                                      }}
-                                      align="center"
-                                    >
-                                      {row.qty}
-                                    </TableCell>
-                                    <TableCell
-                                      style={{
-                                        padding: 0,
-                                        fontSize: "0.7rem",
-                                      }}
-                                      align="center"
-                                    >
-                                      &#8377;{row.price}
-                                    </TableCell>
-                                  </TableRow>
-                                ))}
+                                {product.sizes &&
+                                  product.sizes.map((size) => (
+                                    <TableRow key={size.name}>
+                                      <TableCell
+                                        style={{
+                                          padding: 0,
+                                          fontSize: "0.7rem",
+                                        }}
+                                        align="center"
+                                      >
+                                        {size.size}
+                                      </TableCell>
+                                      <TableCell
+                                        style={{
+                                          padding: 0,
+                                          fontSize: "0.7rem",
+                                        }}
+                                        align="center"
+                                      >
+                                        {size.qty}&#xd7;
+                                      </TableCell>
+                                      <TableCell
+                                        style={{
+                                          padding: 0,
+                                          fontSize: "0.7rem",
+                                        }}
+                                        align="center"
+                                      >
+                                        &#8377;{size.price}
+                                      </TableCell>
+                                    </TableRow>
+                                  ))}
                               </TableBody>
                             </Table>
                           </TableContainer>
