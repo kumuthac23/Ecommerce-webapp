@@ -179,7 +179,7 @@ function MyBag({ handleCloseIconClick }) {
                           paddingLeft: "10px !important",
                         }}
                       >
-                        <Link to={`/productDetail/${product.id}`}>
+                        <Link to={`/productDetail/${product._id}`}>
                           <CardMedia
                             sx={{
                               overflow: "hidden",
