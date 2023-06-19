@@ -113,6 +113,10 @@ function MyBag({ handleCloseIconClick }) {
     handleCloseIconClick();
     navigate("/checkout");
   };
+  const moveToHome = () => {
+    handleCloseIconClick();
+        navigate("/");
+  }
 
   const handleSnackBarClose = (event, reason) => {
     // if (reason === "clickaway") {
@@ -324,7 +328,7 @@ function MyBag({ handleCloseIconClick }) {
                   }}
                 >
                   <ProductionQuantityLimitsIcon
-                    sx={{ fontSize: "7rem" }}
+                    sx={{ fontSize: "7rem",opacity:0.5 }}
                   ></ProductionQuantityLimitsIcon>
                   <h2>YOUR BAG IS EMPTY</h2>
                 </Box>
@@ -341,12 +345,14 @@ function MyBag({ handleCloseIconClick }) {
                     </Typography>
                   </Box>
                   <Box sx={{ padding: "20px" }}>
-                    <Link to={"/"} onClick={handleCloseIconClick}>
-                      <Button variant="contained" fullWidth>
+                      <Button
+                        variant="contained"
+                        fullWidth
+                        onClick={moveToHome}
+                      >
                         Return to Shop
                         <ArrowRightAltIcon />
                       </Button>
-                    </Link>
                   </Box>
                 </Box>
               </Box>
