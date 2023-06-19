@@ -15,7 +15,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useNavigate } from "react-router-dom";
@@ -113,6 +113,10 @@ function MyBag({ handleCloseIconClick }) {
     handleCloseIconClick();
     navigate("/checkout");
   };
+  const moveToHome = () => {
+    handleCloseIconClick();
+        navigate("/");
+  }
 
   const handleSnackBarClose = (event, reason) => {
     // if (reason === "clickaway") {
@@ -175,16 +179,19 @@ function MyBag({ handleCloseIconClick }) {
                           paddingLeft: "10px !important",
                         }}
                       >
-                        <CardMedia
-                          sx={{
-                            overflow: "hidden",
-                            objectFit: "cover",
-                            height: "100px",
-                          }}
-                          image={product.posterURL}
-                          title="green iguana"
-                          component={"img"}
-                        />
+                        <Link to={`/productDetail/${product.id}`}>
+                          <CardMedia
+                            sx={{
+                              overflow: "hidden",
+                              objectFit: "cover",
+                              height: "100px",
+                            }}
+                            image={product.posterURL}
+                            title="green iguana"
+                            component={"img"}
+                            onClick={moveToHome}
+                          />
+                        </Link>
                       </Grid>
                       <Grid item xs={8}>
                         <Typography
@@ -325,7 +332,7 @@ function MyBag({ handleCloseIconClick }) {
                   }}
                 >
                   <ProductionQuantityLimitsIcon
-                    sx={{ fontSize: "7rem" }}
+                    sx={{ fontSize: "7rem",opacity:0.5 }}
                   ></ProductionQuantityLimitsIcon>
                   <h2>YOUR BAG IS EMPTY</h2>
                 </Box>
@@ -342,12 +349,14 @@ function MyBag({ handleCloseIconClick }) {
                     </Typography>
                   </Box>
                   <Box sx={{ padding: "20px" }}>
-                    <Link to={"/"} onClick={handleCloseIconClick}>
-                      <Button variant="contained" fullWidth>
+                      <Button
+                        variant="contained"
+                        fullWidth
+                        onClick={moveToHome}
+                      >
                         Return to Shop
                         <ArrowRightAltIcon />
                       </Button>
-                    </Link>
                   </Box>
                 </Box>
               </Box>
