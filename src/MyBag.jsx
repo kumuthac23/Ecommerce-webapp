@@ -80,7 +80,7 @@ function MyBag({ handleCloseIconClick }) {
 
   const moveToCheckout = () => {
     handleCloseIconClick();
-    navigate("/checkout");
+    navigate("checkout");
   };
 
   return (

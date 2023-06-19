@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const navigate = useNavigate();
+  
   const moveToLogin = () => {
     navigate("/checkout");
   };
@@ -78,9 +79,9 @@ function Signup() {
       <Button variant="contained" fullWidth>
         Signup
       </Button>
-      <FormHelperText onClick={moveToLogin}>
+      <FormHelperText onClick={moveToLogin} sx={{textAlign:"right",paddingTop:"5px"}}>
         <Link style={{ textDecoration: "none" }}>
-          Already have an Account?. Login
+          Already have an Account? Login
         </Link>
       </FormHelperText>
     </Container>
