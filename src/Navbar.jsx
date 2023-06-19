@@ -174,7 +174,6 @@ export default function Navbar() {
             sx={{
               p: 0,
               position: "absolute",
-              top: "19px",
               right: "70px",
             }}
           >
@@ -193,7 +192,6 @@ export default function Navbar() {
               height: 25,
               p: 0,
               position: "absolute",
-              top: "18px",
               right: "30px",
             }}
           >
