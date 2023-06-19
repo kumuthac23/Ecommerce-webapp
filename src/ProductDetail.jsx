@@ -5,10 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
-import {
-  Box,
-  Typography
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 const ImageSlicker = () => {
@@ -49,7 +46,8 @@ const ImageSlicker = () => {
         productCode: fetchProductCode,
         sizeOptions: fetchSizeOptions,
         // selectedSize: "",
-         selectedSize: fetchSizeOptions.length > 0 ? fetchSizeOptions[0].size : "",
+        selectedSize:
+          fetchSizeOptions.length > 0 ? fetchSizeOptions[0].size : "",
         description: fetchDescription,
         price: fetchPrice,
         discount: fetchDiscount,
@@ -72,6 +70,47 @@ const ImageSlicker = () => {
     });
   };
 
+  
+  const handleAddToCard = () => {
+    const existingProducts = JSON.parse(localStorage.getItem("items")) || [];
+    const existingProductIndex = existingProducts.findIndex(
+      (product) => product.productId === id
+    );
+  
+    debugger
+    if (existingProductIndex != -1) {
+      const existingProduct = existingProducts.find(
+        (product) => product.productId === id
+      );
+
+      const foundSize = existingProduct.sizes.find(
+        (size) => size.size === product.selectedSize
+      );
+      if (foundSize) {
+        var _updatedSizes = existingProduct.sizes.map((size) => {
+          if(size.size == product.selectedSize){
+            size.qty += 1;
+          }
+
+          return size;
+        })
+
+        existingProducts[existingProductIndex].sizes = _updatedSizes;
+      } else {
+        existingProduct.sizes.push({ size: product.selectedSize, qty: 1 }); 
+        existingProducts[existingProductIndex] = existingProduct;
+      }
+    } else {
+      const newItem = {
+        productId: id,
+        sizes: [{ size: product.selectedSize, qty: 1 }] 
+      };
+      existingProducts.push(newItem);
+    }
+    
+    localStorage.setItem("items", JSON.stringify(existingProducts));
+  };
+  
   const settings = {
     infinite: false,
     speed: 500,
@@ -193,6 +232,7 @@ const ImageSlicker = () => {
             fontSize: "18px",
             fontWeight: 600,
           }}
+          onClick={handleAddToCard}
         >
           <AddShoppingCartIcon
             style={{ paddingRight: "10px", fontSize: "2rem" }}
