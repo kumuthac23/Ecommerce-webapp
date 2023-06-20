@@ -5,85 +5,42 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
 import Grid from "@mui/material/Grid";
-import { Category } from "@mui/icons-material";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
-
+import { DebounceInput } from "react-debounce-input";
+import { useNavigate } from "react-router";
 
 function SearchProduct({ handleSearchCloseIconClick }) {
-  const [searchText, setSearchText] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [isIconHidden, setIsIconHidden] = useState(false);
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const value = event.target.value;
-    setSearchText(value);
+    setSearchTerm(value);
     setIsIconHidden(value !== "");
   };
 
-  const handleSearch = () => {
-    // Perform the search functionality here
-    console.log("Searching for:", searchText);
-    setIsIconHidden(true);
-  };
-  const categories = [
-    {
-      img: "https://image.wedmegood.com/resized-nw/600X/wp-content/uploads/2018/02/1512124529__B4_7968.jpg",
-      name: "Silk Saree",
-      sizes: "L,XL,XXL",
-      price: 550,
-      code: "A321",
-    },
-    {
-      img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
-      name: "Cotton Saree",
-      sizes: "L,XL,XXL",
-      price: 550,
-      code:"D451",
-    },
-    {
-      img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
-      name: "Cotton Saree",
-      sizes: "L,XL,XXL",
-      price: 550,
-      code: "B681"
-    },
-    {
-      img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
-      name: "Cotton Saree",
-      sizes: "L,XL,XXL",
-      price: 550,
-      code: "C567"
-    },
-    // {
-    //   img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
-    //   name: "Cotton Saree",
-    //   sizes: "L,XL,XXL",
-    //   price: 550,
-    // },
-    // {
-    //   img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
-    //   name: "Cotton Saree",
-    //   sizes: "L,XL,XXL",
-    //   price: 550,
-    // },
-    // {
-    //   img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
-    //   name: "Cotton Saree",
-    //   sizes: "L,XL,XXL",
-    //   price: 550,
-    // },
+  useEffect(() => {
+    if (searchTerm && searchTerm.trim() !== "") {
+      fetch(`http://localhost:3000/searchproduct?searchTerm=${searchTerm}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setProducts(data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  }, [searchTerm]);
 
-    // {
-    //   img: "https://cdn.shopify.com/s/files/1/0503/7303/4147/products/KP-2053_3_900x1350_crop_center@2x.jpg?v=1660648270",
-    //   name: "Art Saree",
-    //   sizes: "L,XL,XXL",
-    //   price: 550,
-    // },
-  ];
+  const handleProductClick = (productId) => {
+    navigate(`productDetail/${productId}`);
+    handleSearchCloseIconClick();
+  };
 
   return (
     <Box>
@@ -115,23 +72,20 @@ function SearchProduct({ handleSearchCloseIconClick }) {
             alignItems: "center",
           }}
         >
-          <TextField
+          <DebounceInput
+            element={TextField}
+            debounceTimeout={1000}
             fullWidth
             sx={{
               "& .MuiInputBase-input": {
-                padding: 0,
+                padding: 1,
               },
             }}
-            value={searchText}
+            value={searchTerm}
             onChange={handleInputChange}
-            placeholder="Search Code..."
-            InputProps={{
-              startAdornment: (
-                <IconButton onClick={handleSearch} size="small">
-                  <SearchIcon sx={{ opacity: 0.5 }} />
-                </IconButton>
-              ),
-            }}
+            placeholder="Search..."
+            autoComplete="new"
+            autoFocus
           />
         </Box>
         <Box
@@ -141,50 +95,54 @@ function SearchProduct({ handleSearchCloseIconClick }) {
             overflow: "auto",
           }}
         >
-          {categories && categories.length > 0 ? (
-            categories.map((category, index) => (
-              <>
-                <Card sx={{ padding: 1 }} elevation={0}>
-                  <Grid
-                    container
-                    spacing={2}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Grid item xs={3}>
-                      <CardMedia
-                        sx={{
-                          overflow: "hidden",
-                          objectFit: "cover",
-                          height: "60px",
-                          width: "100%",
-                        }}
-                        image={category.img}
-                        title="green iguana"
-                        component={"img"}
-                      />
+          {searchTerm.trim() !== "" && products && products.length > 0 ? (
+            products.map((product, index) => (
+              <Box key={index}>
+                <Box onClick={() => handleProductClick(product._id)}>
+                  <Card sx={{ padding: 1 }} elevation={0}>
+                    <Grid
+                      container
+                      spacing={2}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Grid item xs={3}>
+                        <CardMedia
+                          sx={{
+                            overflow: "hidden",
+                            objectFit: "cover",
+                            height: "60px",
+                            width: "100%",
+                          }}
+                          image={product.posterURL}
+                          title="green iguana"
+                          component={"img"}
+                        />
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Box>
+                          <Typography
+                            sx={{ fontSize: "small", fontWeight: 600 }}
+                          >
+                            {product.productCode}&nbsp;{product.title}
+                          </Typography>
+                          <Typography sx={{ fontSize: "small" }}>
+                            Sizes:&nbsp;
+                            {product.sizes}
+                          </Typography>
+                          <Typography sx={{ fontSize: "0.9rem" }}>
+                            &#8377; {product.price}
+                          </Typography>
+                        </Box>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={8}>
-                      <Box>
-                        <Typography sx={{fontSize:"small", fontWeight: 600 }}>
-                          {category.code}&nbsp;{category.name}
-                        </Typography>
-                        <Typography sx={{ fontSize: "small" }}>
-                          Sizes:&nbsp;
-                          {category.sizes}
-                        </Typography>
-                        <Typography sx={{ fontSize: "0.9rem" }}>
-                          &#8377; {category.price}
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Card>
-                <Divider />
-              </>
+                  </Card>
+                  <Divider />
+                </Box>
+              </Box>
             ))
           ) : (
             <Box

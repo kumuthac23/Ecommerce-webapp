@@ -10,6 +10,8 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useMyBag } from "./BagContext";
 
 const ImageSlicker = () => {
+  const { id } = useParams();
+
   const [product, setProduct] = useState({
     images: [],
     mainImage: "",
@@ -20,16 +22,15 @@ const ImageSlicker = () => {
     price: "",
     discount: "",
   });
-    const { setMyBagCountValue } = useMyBag();
-  
+  const { setMyBagCountValue } = useMyBag();
 
   useEffect(() => {
-    fetchImages();
-  }, []);
+    if (id && id.trim() != "") {
+      fetchProductDetailById();
+    }
+  }, [id]);
 
-  const { id } = useParams();
-
-  const fetchImages = async () => {
+  const fetchProductDetailById = async () => {
     try {
       const response = await axios.get(`fetchProductByID/${id}`);
       const fetchedImages = response.data.image;
@@ -77,7 +78,6 @@ const ImageSlicker = () => {
       (product) => product.productId === id
     );
 
-  
     if (existingProductIndex != -1) {
       const existingProduct = existingProducts.find(
         (product) => product.productId === id
@@ -109,7 +109,7 @@ const ImageSlicker = () => {
     }
 
     localStorage.setItem("items", JSON.stringify(existingProducts));
-    setMyBagCountValue ();
+    setMyBagCountValue();
   };
 
   const settings = {

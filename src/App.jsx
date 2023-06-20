@@ -16,14 +16,11 @@ import Signup from "./Signup";
 import axios from "axios";
 import BagProvider from "./BagContext";
 
-
-
 //Only when we deploy the code use this line
 axios.defaults.baseURL = "https://tam-ecommerce.onrender.com/";
 
 //For Development use this
-//axios.defaults.baseURL = "http://localhost:3000/";
-
+// axios.defaults.baseURL = "http://localhost:3000/";
 
 function App() {
   return (
