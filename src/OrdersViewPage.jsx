@@ -5,7 +5,7 @@ import Login from "./Login";
 function OrdersViewPage() {
   return (
     <div>
-      <Card>
+      <Card elevation={0}>
         <CardMedia
           component="img"
           style={{ height: "200px", width: "auto", objectFit: "cover" }}
