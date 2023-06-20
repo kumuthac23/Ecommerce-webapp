@@ -30,30 +30,34 @@ function SearchProduct({ handleSearchCloseIconClick }) {
     setIsIconHidden(true);
   };
   const categories = [
-    // {
-    //   img: "https://image.wedmegood.com/resized-nw/600X/wp-content/uploads/2018/02/1512124529__B4_7968.jpg",
-    //   name: "Silk Saree",
-    //   sizes: "L,XL,XXL",
-    //   price: 550,
-    // },
-    // {
-    //   img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
-    //   name: "Cotton Saree",
-    //   sizes: "L,XL,XXL",
-    //   price: 550,
-    // },
-    // {
-    //   img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
-    //   name: "Cotton Saree",
-    //   sizes: "L,XL,XXL",
-    //   price: 550,
-    // },
-    // {
-    //   img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
-    //   name: "Cotton Saree",
-    //   sizes: "L,XL,XXL",
-    //   price: 550,
-    // },
+    {
+      img: "https://image.wedmegood.com/resized-nw/600X/wp-content/uploads/2018/02/1512124529__B4_7968.jpg",
+      name: "Silk Saree",
+      sizes: "L,XL,XXL",
+      price: 550,
+      code: "A321",
+    },
+    {
+      img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
+      name: "Cotton Saree",
+      sizes: "L,XL,XXL",
+      price: 550,
+      code:"D451",
+    },
+    {
+      img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
+      name: "Cotton Saree",
+      sizes: "L,XL,XXL",
+      price: 550,
+      code: "B681"
+    },
+    {
+      img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
+      name: "Cotton Saree",
+      sizes: "L,XL,XXL",
+      price: 550,
+      code: "C567"
+    },
     // {
     //   img: "https://getethnic.com/wp-content/uploads/2020/05/South-Indian-Wedding-Saree-19.jpeg",
     //   name: "Cotton Saree",
@@ -120,7 +124,7 @@ function SearchProduct({ handleSearchCloseIconClick }) {
             }}
             value={searchText}
             onChange={handleInputChange}
-            placeholder="Search..."
+            placeholder="Search Code..."
             InputProps={{
               startAdornment: (
                 <IconButton onClick={handleSearch} size="small">
@@ -165,8 +169,8 @@ function SearchProduct({ handleSearchCloseIconClick }) {
                     </Grid>
                     <Grid item xs={8}>
                       <Box>
-                        <Typography sx={{ fontWeight: 600 }}>
-                          {category.name}
+                        <Typography sx={{fontSize:"small", fontWeight: 600 }}>
+                          {category.code}&nbsp;{category.name}
                         </Typography>
                         <Typography sx={{ fontSize: "small" }}>
                           Sizes:&nbsp;
