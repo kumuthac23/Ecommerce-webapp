@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Paper, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -11,6 +11,7 @@ import CardMedia from "@mui/material/CardMedia";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 import { DebounceInput } from "react-debounce-input";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 function SearchProduct({ handleSearchCloseIconClick }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,16 +24,22 @@ function SearchProduct({ handleSearchCloseIconClick }) {
     setIsIconHidden(value !== "");
   };
 
+  const fetchSearchProduct = async () => {
+    await axios
+      .get(`searchproduct?searchTerm=${searchTerm}`)
+      .then((response) => {
+        if (response && response.data.length > 0) {
+          setProducts(response.data || []);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   useEffect(() => {
     if (searchTerm && searchTerm.trim() !== "") {
-      fetch(`searchproduct?searchTerm=${searchTerm}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setProducts(data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      fetchSearchProduct();
     }
   }, [searchTerm]);
 

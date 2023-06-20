@@ -1,28 +1,29 @@
 import React, { useEffect } from "react";
-import CloseIcon from "@mui/icons-material/Close";
-import Snackbar from "@mui/material/Snackbar";
-import { IconButton, Slide } from "@mui/material";
-import Alert from "@mui/material/Alert";
 import { Toaster, toast } from "react-hot-toast";
+import { useSnackBar } from "./CommonContext";
 
-function CustomSnackBar({ snackBarObj, onClose }) {
+function CustomSnackBar() {
+  const { updateSnackBarState, snackBarState } = useSnackBar();
+
   useEffect(() => {
-    if (snackBarObj && snackBarObj.snackbarOpen) {
-      if (snackBarObj.snackbarSeverity == "success") {
-        toast.success(snackBarObj.snackbarMessage, {});
-      } else if (snackBarObj.snackbarSeverity == "error") {
-        toast.error(snackBarObj.snackbarMessage);
+    if (snackBarState && snackBarState.snackbarOpen) {
+      if (snackBarState.snackbarSeverity == "success") {
+        toast.success(snackBarState.snackbarMessage, {});
+      } else if (snackBarState.snackbarSeverity == "error") {
+        toast.error(snackBarState.snackbarMessage);
       }
     }
-  }, [snackBarObj]);
+  }, [snackBarState]);
+
   return (
     <>
-      <Toaster 
-      position="top-center" 
-      reverseOrder={false} 
-      autoClose="3000" 
-      closeOnClick= {true}
-      toastOptions={{}} />
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        autoClose="3000"
+        closeOnClick={true}
+        toastOptions={{}}
+      />
     </>
   );
 }
