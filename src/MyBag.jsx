@@ -30,18 +30,57 @@ import {
 } from "@mui/material";
 import CustomSnackBar from "./CustomSnackBar";
 import { useMyBag } from "./BagContext";
+import SizeModel from "./SizeModel";
 
-function MyBag({ handleCloseIconClick }) {
+function MyBag({ handleCloseIconClick, open }) {
   const [myBagProducts, setMyBagProducts] = useState([]);
   const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState(null);
-  const [snackBarProps, setSnackBarProps] = useState({
-    snackbarOpen: false,
-    snackbarMessage: "",
-    snackbarSeverity: "",
-  });
-  const { setMyBagCountValue, mybagCount } = useMyBag();
+  const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
+  const [selectedProductId, setSelectedProductId] = useState();
+  const [openAddToCart, setAddToCartOpen] = useState(false);
+  const [sizeResults, setSizeResults] = useState([]);
+
+    const { setMyBagCountValue, mybagCount } = useMyBag();
+
+  // const [snackBarProps, setSnackBarProps] = useState({
+  //   snackbarOpen: false,
+  //   snackbarMessage: "",
+  //   snackbarSeverity: "",
+  // });
+
+  const handleChangeQuantity = (productId) => {
+    fetchProductSizeResults(productId).then((response) => {
+      setSelectedProductId(productId);
+      setSizeWithQuantity([]);
+      const existingCartProducts =
+        JSON.parse(localStorage.getItem("items")) || [];
+
+      if (existingCartProducts && existingCartProducts.length > 0) {
+        var currentAddToCartProduct = existingCartProducts.find(
+          (product) => product.productId === productId
+        );
+
+        if (currentAddToCartProduct && currentAddToCartProduct.sizes) {
+          var existingSizes = currentAddToCartProduct.sizes;
+          setSizeWithQuantity([...existingSizes]);
+          setAddToCartOpen(true);
+        }
+      }
+    });
+  };
+
+  const fetchProductSizeResults = async (productId) => {
+    try {
+      const response = await axios.get(`getSizesById/${productId}`);
+      const { sizes } = response.data;
+      setSizeResults(sizes);
+      setAddToCartOpen(true);
+    } catch (error) {
+      console.error("Error fetching size results:", error);
+    }
+  };
 
   const fetchMyBagProducts = async () => {
     const value = localStorage.getItem("items");
@@ -53,7 +92,7 @@ function MyBag({ handleCloseIconClick }) {
       .post("getMyBag", data)
       .then((response) => {
         if (response.data) {
-          setMyBagProducts(response.data);
+          setMyBagProducts([...response.data]);
         } else {
           setMyBagProducts([]);
         }
@@ -66,8 +105,10 @@ function MyBag({ handleCloseIconClick }) {
   };
 
   useEffect(() => {
-    fetchMyBagProducts();
-  }, []);
+    if (open) {
+      fetchMyBagProducts();
+    }
+  }, [open]);
 
   const handleDeleteProduct = (product) => {
     setProductIdToDelete(product._id);
@@ -91,11 +132,11 @@ function MyBag({ handleCloseIconClick }) {
       setMyBagProducts([..._myBagProducts]);
     }
 
-    setSnackBarProps({
-      snackbarOpen: true,
-      snackbarMessage: "Product removed successfully.",
-      snackbarSeverity: "success",
-    });
+    // setSnackBarProps({
+    //   snackbarOpen: true,
+    //   snackbarMessage: "Product removed successfully.",
+    //   snackbarSeverity: "success",
+    // });
     setMyBagCountValue();
   };
 
@@ -292,6 +333,7 @@ function MyBag({ handleCloseIconClick }) {
                               sx={{
                                 padding: "2px 5px",
                               }}
+                              onClick={() => handleChangeQuantity(product._id)}
                             >
                               <Typography sx={{ fontSize: "0.6rem" }}>
                                 Change Qty.
@@ -404,6 +446,17 @@ function MyBag({ handleCloseIconClick }) {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <SizeModel
+        productId={selectedProductId}
+        openAddToCart={openAddToCart}
+        onClose={() => {
+          fetchMyBagProducts();
+          setAddToCartOpen(false);
+        }}
+        sizeResults={sizeResults}
+        data={sizeWithQuantity}
+      />
 
       {/* <CustomSnackBar
         snackbarOpen={snackBarProps.snackbarOpen}
