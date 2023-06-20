@@ -14,7 +14,6 @@ import { useNavigate } from "react-router";
 
 function SearchProduct({ handleSearchCloseIconClick }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [isIconHidden, setIsIconHidden] = useState(false);
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
@@ -26,7 +25,7 @@ function SearchProduct({ handleSearchCloseIconClick }) {
 
   useEffect(() => {
     if (searchTerm && searchTerm.trim() !== "") {
-      fetch(`http://localhost:3000/searchproduct?searchTerm=${searchTerm}`)
+      fetch(`searchproduct?searchTerm=${searchTerm}`)
         .then((response) => response.json())
         .then((data) => {
           setProducts(data);
