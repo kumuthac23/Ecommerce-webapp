@@ -250,7 +250,7 @@ export default function Navbar() {
           },
         }}
       >
-        <MyBag handleCloseIconClick={handleMyBagDrawerOpen} />
+        <MyBag  open={isOpenMyBag} handleCloseIconClick={handleMyBagDrawerOpen} />
       </Drawer>
     </Box>
   );
