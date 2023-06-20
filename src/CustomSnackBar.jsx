@@ -1,35 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Snackbar from "@mui/material/Snackbar";
 import { IconButton, Slide } from "@mui/material";
 import Alert from "@mui/material/Alert";
+import { Toaster, toast } from "react-hot-toast";
 
-function CustomSnackBar({ snackbarOpen, snackbarMessage, onClose,severity }) {
+function CustomSnackBar({ snackBarObj, onClose }) {
+  useEffect(() => {
+    if (snackBarObj && snackBarObj.snackbarOpen) {
+      if (snackBarObj.snackbarSeverity == "success") {
+        toast.success(snackBarObj.snackbarMessage, {});
+      } else if (snackBarObj.snackbarSeverity == "error") {
+        toast.error(snackBarObj.snackbarMessage);
+      }
+    }
+  }, [snackBarObj]);
   return (
-    <div>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={2000}
-        onClose={onClose}
-        message={snackbarMessage}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        TransitionComponent={(props) => <Slide {...props} direction="left" />}
-        action={
-          <IconButton
-            size="small"
-            aria-label="close"
-            color="inherit"
-            onClick={onClose}
-          >
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        }
-      >
-        <Alert onClose={onClose} severity={severity} >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-    </div>
+    <>
+      <Toaster 
+      position="top-center" 
+      reverseOrder={false} 
+      autoClose="3000" 
+      closeOnClick= {true}
+      toastOptions={{}} />
+    </>
   );
 }
 

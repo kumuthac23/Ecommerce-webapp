@@ -32,6 +32,7 @@ import CustomSnackBar from "./CustomSnackBar";
 import { useMyBag } from "./BagContext";
 import SizeModel from "./SizeModel";
 
+
 function MyBag({ handleCloseIconClick, open }) {
   const [myBagProducts, setMyBagProducts] = useState([]);
   const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
@@ -42,13 +43,12 @@ function MyBag({ handleCloseIconClick, open }) {
   const [openAddToCart, setAddToCartOpen] = useState(false);
   const [sizeResults, setSizeResults] = useState([]);
 
-    const { setMyBagCountValue, mybagCount } = useMyBag();
-
-  // const [snackBarProps, setSnackBarProps] = useState({
-  //   snackbarOpen: false,
-  //   snackbarMessage: "",
-  //   snackbarSeverity: "",
-  // });
+  const { setMyBagCountValue, mybagCount } = useMyBag();
+  const [snackBarState, setSnackBarstate] = useState({
+    snackbarOpen: false,
+    snackbarMessage: "",
+    snackbarSeverity: "success",
+  });
 
   const handleChangeQuantity = (productId) => {
     fetchProductSizeResults(productId).then((response) => {
@@ -132,12 +132,12 @@ function MyBag({ handleCloseIconClick, open }) {
       setMyBagProducts([..._myBagProducts]);
     }
 
-    // setSnackBarProps({
-    //   snackbarOpen: true,
-    //   snackbarMessage: "Product removed successfully.",
-    //   snackbarSeverity: "success",
-    // });
-    setMyBagCountValue();
+    setSnackBarstate({
+      snackbarOpen: true,
+      snackbarMessage: "Product removed successfully.",
+      snackbarSeverity: "success",
+    });
+    setMyBagCountValue(); 
   };
 
   const navigate = useNavigate();
@@ -155,7 +155,7 @@ function MyBag({ handleCloseIconClick, open }) {
     // if (reason === "clickaway") {
     //   return;
     // }
-    setSnackBarProps({
+    setSnackBarstate({
       snackbarOpen: false,
     });
   };
@@ -458,12 +458,10 @@ function MyBag({ handleCloseIconClick, open }) {
         data={sizeWithQuantity}
       />
 
-      {/* <CustomSnackBar
-        snackbarOpen={snackBarProps.snackbarOpen}
-        snackbarMessage={snackBarProps.snackbarMessage}
-        severity={snackBarProps.snackbarSeverity}
+      <CustomSnackBar
+        snackBarObj={snackBarState}
         onClose={handleSnackBarClose}
-      /> */}
+      />
     </Box>
   );
 }
