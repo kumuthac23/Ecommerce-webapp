@@ -10,11 +10,13 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 import { DebounceInput } from "react-debounce-input";
+import { useNavigate } from "react-router";
 
 function SearchProduct({ handleSearchCloseIconClick }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isIconHidden, setIsIconHidden] = useState(false);
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -22,17 +24,23 @@ function SearchProduct({ handleSearchCloseIconClick }) {
     setIsIconHidden(value !== "");
   };
 
-  
   useEffect(() => {
-    fetch(`http://localhost:3000/searchproduct?searchTerm=${searchTerm}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setProducts(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    if (searchTerm && searchTerm.trim() !== "") {
+      fetch(`http://localhost:3000/searchproduct?searchTerm=${searchTerm}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setProducts(data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
   }, [searchTerm]);
+
+  const handleProductClick = (productId) => {
+    navigate(`productDetail/${productId}`);
+    handleSearchCloseIconClick();
+  };
 
   return (
     <Box>
@@ -77,6 +85,7 @@ function SearchProduct({ handleSearchCloseIconClick }) {
             onChange={handleInputChange}
             placeholder="Search..."
             autoComplete="new"
+            autoFocus
           />
         </Box>
         <Box
@@ -88,48 +97,52 @@ function SearchProduct({ handleSearchCloseIconClick }) {
         >
           {searchTerm.trim() !== "" && products && products.length > 0 ? (
             products.map((product, index) => (
-              <>
-                <Card sx={{ padding: 1 }} elevation={0}>
-                  <Grid
-                    container
-                    spacing={2}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Grid item xs={3}>
-                      <CardMedia
-                        sx={{
-                          overflow: "hidden",
-                          objectFit: "cover",
-                          height: "60px",
-                          width: "100%",
-                        }}
-                        image={product.posterURL}
-                        title="green iguana"
-                        component={"img"}
-                      />
+              <Box key={index}>
+                <Box onClick={() => handleProductClick(product._id)}>
+                  <Card sx={{ padding: 1 }} elevation={0}>
+                    <Grid
+                      container
+                      spacing={2}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Grid item xs={3}>
+                        <CardMedia
+                          sx={{
+                            overflow: "hidden",
+                            objectFit: "cover",
+                            height: "60px",
+                            width: "100%",
+                          }}
+                          image={product.posterURL}
+                          title="green iguana"
+                          component={"img"}
+                        />
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Box>
+                          <Typography
+                            sx={{ fontSize: "small", fontWeight: 600 }}
+                          >
+                            {product.productCode}&nbsp;{product.title}
+                          </Typography>
+                          <Typography sx={{ fontSize: "small" }}>
+                            Sizes:&nbsp;
+                            {product.sizes}
+                          </Typography>
+                          <Typography sx={{ fontSize: "0.9rem" }}>
+                            &#8377; {product.price}
+                          </Typography>
+                        </Box>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={8}>
-                      <Box>
-                        <Typography sx={{ fontSize: "small", fontWeight: 600 }}>
-                          {product.productCode}&nbsp;{product.title}
-                        </Typography>
-                        <Typography sx={{ fontSize: "small" }}>
-                          Sizes:&nbsp;
-                          {product.sizes}
-                        </Typography>
-                        <Typography sx={{ fontSize: "0.9rem" }}>
-                          &#8377; {product.price}
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Card>
-                <Divider />
-              </>
+                  </Card>
+                  <Divider />
+                </Box>
+              </Box>
             ))
           ) : (
             <Box
