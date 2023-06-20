@@ -32,7 +32,6 @@ import CustomSnackBar from "./CustomSnackBar";
 import { useMyBag } from "./BagContext";
 import SizeModel from "./SizeModel";
 
-
 function MyBag({ handleCloseIconClick, open }) {
   const [myBagProducts, setMyBagProducts] = useState([]);
   const [isGetMyBagIsLoading, setIsGetMyBagIsLoading] = useState(false);
@@ -137,7 +136,7 @@ function MyBag({ handleCloseIconClick, open }) {
       snackbarMessage: "Product removed successfully.",
       snackbarSeverity: "success",
     });
-    setMyBagCountValue(); 
+    setMyBagCountValue();
   };
 
   const navigate = useNavigate();

@@ -8,9 +8,11 @@ import Button from "@mui/material/Button";
 import { Box, Typography } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useMyBag } from "./BagContext";
+import CustomSnackBar from "./CustomSnackBar";
 
 const ImageSlicker = () => {
   const { id } = useParams();
+  const { setMyBagCountValue } = useMyBag();
 
   const [product, setProduct] = useState({
     images: [],
@@ -22,7 +24,11 @@ const ImageSlicker = () => {
     price: "",
     discount: "",
   });
-  const { setMyBagCountValue } = useMyBag();
+  const [snackBarState, setSnackBarstate] = useState({
+    snackbarOpen: false,
+    snackbarMessage: "",
+    snackbarSeverity: "success",
+  });
 
   useEffect(() => {
     if (id && id.trim() != "") {
@@ -110,6 +116,11 @@ const ImageSlicker = () => {
 
     localStorage.setItem("items", JSON.stringify(existingProducts));
     setMyBagCountValue();
+    setSnackBarstate({
+      snackbarOpen: true,
+      snackbarMessage: "Product added successfully.",
+      snackbarSeverity: "success",
+    });
   };
 
   const settings = {
@@ -124,124 +135,130 @@ const ImageSlicker = () => {
   };
 
   return (
-    <Box>
-      <Box style={{ padding: "13px", overflow: "auto" }}>
-        <Box sx={{ padding: "20px" }}>
-          <Box
-            component="img"
-            sx={{
-              height: "55vh",
-              width: "100%",
-              display: "block",
-              margin: "1 auto",
-              border: "1px solid black",
-              borderRadius: "5px",
-            }}
-            alt="mainImage"
-            src={product.mainImage}
-          />
-        </Box>
-        <Slider {...settings}>
-          {product.images.map((image, index) => (
-            <div key={index} onClick={() => handleImageClick(image)}>
-              <img
-                src={image}
-                alt={`Image ${index + 1}`}
-                style={{ height: "87px", width: "75px", borderRadius: "5px" }}
-              />
-            </div>
-          ))}
-        </Slider>
-        <Typography
-          variant="h5"
-          gutterBottom
-          sx={{ fontWeight: "bold", fontSize: "20px" }}
-        >
-          {product.productCode}&nbsp;&nbsp;{product.mainTitle}
-        </Typography>
-
-        <Typography fontWeight="bold" fontSize="14px">
-          Size:{" "}
-        </Typography>
-        {product.sizeOptions && (
-          <Box>
-            {product.sizeOptions && (
-              <Box>
-                {product.sizeOptions.map((item) => (
-                  <Button
-                    key={item.size}
-                    variant={
-                      product.selectedSize === item.size
-                        ? "contained"
-                        : "outlined"
-                    }
-                    color="primary"
-                    sx={{
-                      minWidth: "40px",
-                      padding: "6px 6px",
-                      margin: "5px",
-                      maxHeight: "20px",
-                    }}
-                    onClick={handleSizeChange}
-                    value={item.size}
-                  >
-                    {item.size}
-                  </Button>
-                ))}
-              </Box>
-            )}
+    <>
+      <Box>
+        <Box style={{ padding: "13px", overflow: "auto" }}>
+          <Box sx={{ padding: "20px" }}>
+            <Box
+              component="img"
+              sx={{
+                height: "55vh",
+                width: "100%",
+                display: "block",
+                margin: "1 auto",
+                border: "1px solid black",
+                borderRadius: "5px",
+              }}
+              alt="mainImage"
+              src={product.mainImage}
+            />
           </Box>
-        )}
+          <Slider {...settings}>
+            {product.images.map((image, index) => (
+              <div key={index} onClick={() => handleImageClick(image)}>
+                <img
+                  src={image}
+                  alt={`Image ${index + 1}`}
+                  style={{ height: "87px", width: "75px", borderRadius: "5px" }}
+                />
+              </div>
+            ))}
+          </Slider>
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{ fontWeight: "bold", fontSize: "20px" }}
+          >
+            {product.productCode}&nbsp;&nbsp;{product.mainTitle}
+          </Typography>
 
-        <Typography
-          variant="h6"
-          gutterBottom
-          sx={{ fontWeight: "regular", fontSize: "15px" }}
-        >
-          {product.description}
-        </Typography>
-        <Typography
-          variant="h6"
-          gutterBottom
-          sx={{ fontWeight: "bold", fontSize: "14px" }}
-        >
-          Price
-        </Typography>
-        <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
-          ₹ {product.price}{" "}
-          <b style={{ marginLeft: "20px", color: "red" }}>
-            {product.discount}% Offer
-          </b>
-        </Typography>
-      </Box>
-      <Box
-        style={{
-          position: "sticky",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          background: "white",
-          borderTop: "1px solid #ccc",
-        }}
-      >
-        <Button
-          variant="contained"
+          <Typography fontWeight="bold" fontSize="14px">
+            Size:{" "}
+          </Typography>
+          {product.sizeOptions && (
+            <Box>
+              {product.sizeOptions && (
+                <Box>
+                  {product.sizeOptions.map((item) => (
+                    <Button
+                      key={item.size}
+                      variant={
+                        product.selectedSize === item.size
+                          ? "contained"
+                          : "outlined"
+                      }
+                      color="primary"
+                      sx={{
+                        minWidth: "40px",
+                        padding: "6px 6px",
+                        margin: "5px",
+                        maxHeight: "20px",
+                      }}
+                      onClick={handleSizeChange}
+                      value={item.size}
+                    >
+                      {item.size}
+                    </Button>
+                  ))}
+                </Box>
+              )}
+            </Box>
+          )}
+
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{ fontWeight: "regular", fontSize: "15px" }}
+          >
+            {product.description}
+          </Typography>
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{ fontWeight: "bold", fontSize: "14px" }}
+          >
+            Price
+          </Typography>
+          <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
+            ₹ {product.price}{" "}
+            <b style={{ marginLeft: "20px", color: "red" }}>
+              {product.discount}% Offer
+            </b>
+          </Typography>
+        </Box>
+        <Box
           style={{
-            height: "50px",
+            position: "sticky",
+            bottom: 0,
+            left: 0,
             width: "100%",
-            textAlign: "center",
-            fontSize: "18px",
-            fontWeight: 600,
+            background: "white",
+            borderTop: "1px solid #ccc",
           }}
-          onClick={handleAddToCard}
         >
-          <AddShoppingCartIcon
-            style={{ paddingRight: "10px", fontSize: "2rem" }}
-          />
-          Add to cart
-        </Button>
+          <Button
+            variant="contained"
+            style={{
+              height: "50px",
+              width: "100%",
+              textAlign: "center",
+              fontSize: "18px",
+              fontWeight: 600,
+            }}
+            onClick={handleAddToCard}
+          >
+            <AddShoppingCartIcon
+              style={{ paddingRight: "10px", fontSize: "2rem" }}
+            />
+            Add to cart
+          </Button>
+        </Box>
       </Box>
-    </Box>
+      <CustomSnackBar
+        snackBarObj={snackBarState}
+        // onClose={handleSnackBarClose}
+      />
+    </>
   );
 };
 
