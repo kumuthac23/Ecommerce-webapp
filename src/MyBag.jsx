@@ -29,17 +29,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import CustomSnackBar from "./CustomSnackBar";
-
-function createData(size, qty, price) {
-  return { size, qty, price };
-}
-const rows = [
-  createData("L", 3, 1000),
-  createData("M", 2, 1000),
-  createData("XL", 1, 1000),
-  createData("XXL", 2, 1000),
-  createData("XXL", 4, 1000),
-];
+import { useMyBag } from "./BagContext";
 
 function MyBag({ handleCloseIconClick }) {
   const [myBagProducts, setMyBagProducts] = useState([]);
@@ -51,6 +41,7 @@ function MyBag({ handleCloseIconClick }) {
     snackbarMessage: "",
     snackbarSeverity: "",
   });
+  const { setMyBagCountValue, mybagCount } = useMyBag();
 
   const fetchMyBagProducts = async () => {
     const value = localStorage.getItem("items");
@@ -105,6 +96,7 @@ function MyBag({ handleCloseIconClick }) {
       snackbarMessage: "Product removed successfully.",
       snackbarSeverity: "success",
     });
+    setMyBagCountValue();
   };
 
   const navigate = useNavigate();
@@ -148,6 +140,8 @@ function MyBag({ handleCloseIconClick }) {
         <Typography sx={{ fontSize: "large", fontWeight: 600 }}>
           MyBag
         </Typography>
+        {/* <Typography sx={{ fontSize: "medium" }}>Total:{mybagCount}</Typography> */}
+
         <CloseIcon onClick={handleCloseIconClick} />
       </Box>
       <Divider />

@@ -21,6 +21,7 @@ import {
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import CustomSnackBar from "./CustomSnackBar";
+import { useMyBag } from "./BagContext";
 
 function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
   const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
@@ -29,6 +30,8 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
     snackbarMessage: "",
     snackbarSeverity: "",
   });
+
+    const { setMyBagCountValue } = useMyBag();
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -113,6 +116,7 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
   };
 
   const handleAddNowClick = () => {
+    
     const updatedSizes = sizeWithQuantity.filter((size) => size.qty > 0);
 
     if (updatedSizes.length === 0) {
@@ -176,6 +180,7 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
         snackbarSeverity: "success",
       });
     }
+    setMyBagCountValue();
   };
 
   const handleSnackBarClose = (event, reason) => {
