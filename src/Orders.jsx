@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import OrdersViewPage from "./OrdersViewPage";
 
 function Orders() {
   return (
-    <div>Orders</div>
-  )
+    <div>
+      <OrdersViewPage />
+    </div>
+  );
 }
 
-export default Orders
+export default Orders;
