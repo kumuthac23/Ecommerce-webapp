@@ -103,7 +103,7 @@ function MyBag({ handleCloseIconClick }) {
 
   const moveToCheckout = () => {
     handleCloseIconClick();
-    navigate("/checkout");
+    navigate("checkout");
   };
   const moveToHome = () => {
     handleCloseIconClick();
