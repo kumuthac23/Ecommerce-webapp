@@ -14,11 +14,11 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import StoreIcon from "@mui/icons-material/Store";
 
 function ProductsByCategory() {
-  const [openAddToCart, setAddToCartOpen] = useState(false);
   const [sizeResults, setSizeResults] = useState([]);
   const [categoryWithProducts, setCategoryWithProducts] = useState(null);
   const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState();
+  const [openAddToCart, setAddToCartOpen] = useState(false);
 
   const { id } = useParams();
 

@@ -25,9 +25,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import InfoIcon from "@mui/icons-material/Info";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 import SearchProduct from "./SearchProduct";
-
+import { useEffect } from "react";
+import { useMyBag } from "./BagContext";
 
 const drawerWidth = "60vw";
 const seconddrawerWidth = "100vw";
@@ -50,8 +51,9 @@ const navItems = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isOpenMyBag, setMyBagOpen] = React.useState(false);
-    const [openSearch , setOpenSearch] = React.useState(false);
+  const [openSearch, setOpenSearch] = React.useState(false);
 
+  const { mybagCount } = useMyBag();
 
   const handleMyBagDrawerOpen = () => {
     setMyBagOpen((prevState) => !prevState);
@@ -59,7 +61,7 @@ export default function Navbar() {
 
   const handleMySearchDrawerOpen = () => {
     setOpenSearch((prevState) => !prevState);
-  }
+  };
 
   const classes = useNavbarStyle();
 
@@ -177,7 +179,10 @@ export default function Navbar() {
               right: "70px",
             }}
           >
-            <SearchIcon sx={{fontSize:"1.7rem"}} onClick={handleMySearchDrawerOpen} />
+            <SearchIcon
+              sx={{ fontSize: "1.7rem" }}
+              onClick={handleMySearchDrawerOpen}
+            />
           </Stack>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
@@ -195,7 +200,11 @@ export default function Navbar() {
               right: "30px",
             }}
           >
-            <Badge color="secondary" overlap="circular" badgeContent={1}>
+            <Badge
+              color="secondary"
+              overlap="circular"
+              badgeContent={mybagCount}
+            >
               <ShoppingBagRoundedIcon onClick={handleMyBagDrawerOpen} />
             </Badge>
           </Stack>
@@ -250,7 +259,7 @@ export default function Navbar() {
           },
         }}
       >
-        <MyBag handleCloseIconClick={handleMyBagDrawerOpen} />
+        <MyBag  open={isOpenMyBag} handleCloseIconClick={handleMyBagDrawerOpen} />
       </Drawer>
     </Box>
   );

@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { Box, Typography } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { useMyBag } from "./BagContext";
 
 const ImageSlicker = () => {
   const [product, setProduct] = useState({
@@ -19,6 +20,8 @@ const ImageSlicker = () => {
     price: "",
     discount: "",
   });
+    const { setMyBagCountValue } = useMyBag();
+  
 
   useEffect(() => {
     fetchImages();
@@ -74,7 +77,7 @@ const ImageSlicker = () => {
       (product) => product.productId === id
     );
 
-    debugger;
+  
     if (existingProductIndex != -1) {
       const existingProduct = existingProducts.find(
         (product) => product.productId === id
@@ -106,6 +109,7 @@ const ImageSlicker = () => {
     }
 
     localStorage.setItem("items", JSON.stringify(existingProducts));
+    setMyBagCountValue ();
   };
 
   const settings = {
