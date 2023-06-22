@@ -15,12 +15,13 @@ import CheckOut from "./CheckOut";
 import Signup from "./Signup";
 import axios from "axios";
 import BagProvider from "./BagContext";
+import ShowOrdersByDate from "./ShowOrdersByDate";
 
 //Only when we deploy the code use this line
-axios.defaults.baseURL = "https://tam-ecommerce.onrender.com/";
+// axios.defaults.baseURL = "https://tam-ecommerce.onrender.com/";
 
 //For Development use this
-// axios.defaults.baseURL = "http://localhost:3000/";
+axios.defaults.baseURL = "http://localhost:3000/";
 
 function App() {
   return (
@@ -48,6 +49,10 @@ function App() {
               <Route
                 path="productsByCategory/:id"
                 element={<ProductsByCategory />}
+              ></Route>
+              <Route
+                path="showordersbydate"
+                element={<ShowOrdersByDate />}
               ></Route>
             </Route>
           </Routes>
