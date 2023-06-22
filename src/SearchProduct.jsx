@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Paper, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -15,7 +15,6 @@ import axios from "axios";
 
 function SearchProduct({ handleSearchCloseIconClick }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [isIconHidden, setIsIconHidden] = useState(false);
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 

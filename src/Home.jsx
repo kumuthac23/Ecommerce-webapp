@@ -139,7 +139,7 @@ function Home() {
               {categories &&
                 categories.length > 0 &&
                 categories.map((category, index) => (
-                  <Box>
+                  <Box key={index}>
                     <Link
                       to={`productsByCategory/${category._id}`}
                       style={{

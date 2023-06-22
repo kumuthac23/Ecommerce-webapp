@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import axios from "axios";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { Box, Typography } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useMyBag } from "./BagContext";
+import { useSnackBar } from "./CommonContext";
 
-const ImageSlicker = () => {
+const ProductDetail = () => {
   const { id } = useParams();
+  const { setMyBagCountValue } = useMyBag();
+  const { updateSnackBarState } = useSnackBar();
 
   const [product, setProduct] = useState({
     images: [],
@@ -22,7 +23,6 @@ const ImageSlicker = () => {
     price: "",
     discount: "",
   });
-  const { setMyBagCountValue } = useMyBag();
 
   useEffect(() => {
     if (id && id.trim() != "") {
@@ -34,25 +34,20 @@ const ImageSlicker = () => {
     try {
       const response = await axios.get(`fetchProductByID/${id}`);
       const fetchedImages = response.data.image;
-      const fetchTitle = response.data.title;
-      const fetchProductCode = response.data.productCode;
       const fetchSizeOptions = response.data.sizes;
-      const fetchDescription = response.data.description;
-      const fetchPrice = response.data.price;
-      const fetchDiscount = response.data.discount;
 
       setProduct({
-        images: fetchedImages,
+        images: response.data.image,
         mainImage: fetchedImages.length > 0 ? fetchedImages[0] : "",
-        mainTitle: fetchTitle,
-        productCode: fetchProductCode,
-        sizeOptions: fetchSizeOptions,
+        mainTitle: response.data.title,
+        productCode: response.data.productCode,
+        sizeOptions: response.data.sizes,
         // selectedSize: "",
         selectedSize:
           fetchSizeOptions.length > 0 ? fetchSizeOptions[0].size : "",
-        description: fetchDescription,
-        price: fetchPrice,
-        discount: fetchDiscount,
+        description: response.data.description,
+        price: response.data.price,
+        discount: response.data.discount,
       });
     } catch (error) {
       console.error("Error fetching images:", error);
@@ -110,13 +105,15 @@ const ImageSlicker = () => {
 
     localStorage.setItem("items", JSON.stringify(existingProducts));
     setMyBagCountValue();
+    updateSnackBarState(true, "Product added successfully.", "success");
   };
 
   const settings = {
     infinite: false,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToScroll: 1,
+    dots: true,
   };
 
   const handleImageClick = (image) => {
@@ -125,8 +122,8 @@ const ImageSlicker = () => {
 
   return (
     <Box>
-      <Box style={{ padding: "13px", overflow: "auto" }}>
-        <Box sx={{ padding: "20px" }}>
+      <Box style={{ padding: "13px" }}>
+        <Box pb={2}>
           <Box
             component="img"
             sx={{
@@ -141,17 +138,20 @@ const ImageSlicker = () => {
             src={product.mainImage}
           />
         </Box>
-        <Slider {...settings}>
-          {product.images.map((image, index) => (
-            <div key={index} onClick={() => handleImageClick(image)}>
-              <img
-                src={image}
-                alt={`Image ${index + 1}`}
-                style={{ height: "87px", width: "75px", borderRadius: "5px" }}
-              />
-            </div>
-          ))}
-        </Slider>
+        <Box my={3}>
+          <Slider {...settings}>
+            {product.images.map((image, index) => (
+              <div key={index} onClick={() => handleImageClick(image)}>
+                <img
+                  src={image}
+                  alt={`Image ${index + 1}`}
+                  style={{ height: "87px", width: "75px", borderRadius: "5px" }}
+                />
+              </div>
+            ))}
+          </Slider>
+        </Box>
+
         <Typography
           variant="h5"
           gutterBottom
@@ -161,7 +161,7 @@ const ImageSlicker = () => {
         </Typography>
 
         <Typography fontWeight="bold" fontSize="14px">
-          Size:{" "}
+          Size:
         </Typography>
         {product.sizeOptions && (
           <Box>
@@ -208,7 +208,7 @@ const ImageSlicker = () => {
           Price
         </Typography>
         <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
-          ₹ {product.price}{" "}
+          ₹ {product.price}
           <b style={{ marginLeft: "20px", color: "red" }}>
             {product.discount}% Offer
           </b>
@@ -245,4 +245,4 @@ const ImageSlicker = () => {
   );
 };
 
-export default ImageSlicker;
+export default ProductDetail;

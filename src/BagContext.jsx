@@ -8,11 +8,10 @@ function BagProvider({ children }) {
   const updateMyBagCount = () => {
     const products = localStorage.getItem("items");
     const parsedArray = JSON.parse(products);
-    const arrayCount = parsedArray.length;
+    const arrayCount = parsedArray ? parsedArray.length : 0;
 
-    var lengthAsNumber = parseInt(arrayCount);
-    if (!isNaN(lengthAsNumber)) {
-      setMybagCount(lengthAsNumber);
+    if (!isNaN(arrayCount)) {
+      setMybagCount(arrayCount);
     } else {
       setMybagCount(0);
     }
@@ -27,14 +26,14 @@ function BagProvider({ children }) {
   };
 
   return (
-    <MyBagContext.Provider
-      value={{ mybagCount, setMyBagCountValue }}
-    >{children}</MyBagContext.Provider>
+    <MyBagContext.Provider value={{ mybagCount, setMyBagCountValue }}>
+      {children}
+    </MyBagContext.Provider>
   );
 }
 export function useMyBag() {
   const context = useContext(MyBagContext);
-  return context
+  return context;
 }
 
 export default BagProvider;
