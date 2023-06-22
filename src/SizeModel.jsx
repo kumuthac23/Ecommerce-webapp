@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import {
   ButtonGroup,
   Table,
@@ -20,18 +19,21 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
-import CustomSnackBar from "./CustomSnackBar";
 import { useMyBag } from "./BagContext";
+import { useSnackBar } from "./CommonContext";
 
-function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
+function SizeModel({
+  productId,
+  openAddToCart,
+  onClose,
+  data,
+  sizeResults,
+  onAddNowClick,
+}) {
   const [sizeWithQuantity, setSizeWithQuantity] = useState([]);
-  const [snackBarProps, setSnackBarProps] = useState({
-    snackbarOpen: false,
-    snackbarMessage: "",
-    snackbarSeverity: "",
-  });
 
-    const { setMyBagCountValue } = useMyBag();
+  const { updateSnackBarState } = useSnackBar();
+  const { setMyBagCountValue } = useMyBag();
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -116,7 +118,6 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
   };
 
   const handleAddNowClick = () => {
-    
     const updatedSizes = sizeWithQuantity.filter((size) => size.qty > 0);
 
     if (updatedSizes.length === 0) {
@@ -135,20 +136,11 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
       // Show the snackbar with a success message for product removal
       if (alreadyExist && updatedSizes.length == 0) {
         onClose();
-
-        setSnackBarProps({
-          snackbarOpen: true,
-          snackbarMessage: "Product removed successfully.",
-          snackbarSeverity: "success",
-        });
+        updateSnackBarState(true, "Product removed successfully.", "success");
       }
 
       if (!alreadyExist && updatedSizes.length == 0) {
-        setSnackBarProps({
-          snackbarOpen: true,
-          snackbarMessage: "No product selected.",
-          snackbarSeverity: "error",
-        });
+        updateSnackBarState(true, "No product selected.", "error");
       }
     } else {
       // Update the sizes and store in local storage
@@ -172,25 +164,10 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
       onClose();
       setSizeWithQuantity([]);
 
-      // Show the snackbar with a success message for product addition
-
-      setSnackBarProps({
-        snackbarOpen: true,
-        snackbarMessage: "Product added successfully.",
-        snackbarSeverity: "success",
-      });
+      updateSnackBarState(true, "Product added successfully.", "success");
     }
+    if (onAddNowClick) onAddNowClick();
     setMyBagCountValue();
-  };
-
-  const handleSnackBarClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setSnackBarProps({
-      snackbarOpen: false,
-    });
   };
 
   return (
@@ -344,13 +321,6 @@ function SizeModel({ productId, openAddToCart, onClose, data, sizeResults }) {
           </Button>
         </DialogActions>
       </Dialog>
-
-      {/* <CustomSnackBar
-        snackbarOpen={snackBarProps.snackbarOpen}
-        snackbarMessage={snackBarProps.snackbarMessage}
-        severity={snackBarProps.snackbarSeverity}
-        onClose={handleSnackBarClose}
-      /> */}
     </>
   );
 }

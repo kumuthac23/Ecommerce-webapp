@@ -6,22 +6,27 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Radio from "@mui/material/Radio";
 import { Box, Container } from "@mui/material";
+import axios from "axios";
 
 export default function Address() {
   const [shippingDetails, setShippingDetails] = useState([]);
   const [selectedDetail, setSelectedDetail] = useState(null);
 
+  const fetchaddress = async () => {
+    try {
+      const response = await axios.get("user/6487091f9199239b4ef5bfa2");
+      if (response.status === 200 && response.data.length > 0) {
+        setShippingDetails(response.data);
+      } else {
+        console.error("No data found");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
   useEffect(() => {
-    fetch("user/6487091f9199239b4ef5bfa2")
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === "SUCCESS") {
-          setShippingDetails(data.data.ShippingDetails);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching shipping details:", error);
-      });
+    fetchaddress();
   }, []);
 
   const handleSelectDetail = (detail) => {

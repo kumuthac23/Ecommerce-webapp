@@ -18,7 +18,6 @@ import { NavLink as NavLinkBase } from "react-router-dom";
 import { useNavbarStyle } from "./styles/NavbarStyle";
 import ShoppingBagRoundedIcon from "@mui/icons-material/ShoppingBagRounded";
 import MyBag from "./MyBag";
-import { Container } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import Badge from "@mui/material/Badge";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -27,11 +26,20 @@ import InfoIcon from "@mui/icons-material/Info";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import SearchIcon from "@mui/icons-material/Search";
 import SearchProduct from "./SearchProduct";
-import { useEffect } from "react";
 import { useMyBag } from "./BagContext";
+import { styled } from "@mui/material/styles";
 
 const drawerWidth = "60vw";
 const seconddrawerWidth = "100vw";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    fontWeight: 800,
+  },
+}));
 
 const navItems = [
   { label: " Home", link: "/", icon: <HomeIcon color="primary" /> },
@@ -86,9 +94,8 @@ export default function Navbar() {
       onClick={handleDrawerToggle}
     >
       <Box
+        p={2}
         sx={{
-          padding: 3,
-          my: 0,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -136,80 +143,79 @@ export default function Navbar() {
       </List>
     </Box>
   );
+
   return (
-    <Box
-      sx={{ display: "flex", marginBottom: "-48px", flexGrow: 1 }}
-      className={classes.root}
-    >
-      <CssBaseline />
-      <AppBar component="nav">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
-            <NavLink to="/" style={{ textDecoration: "none", display: "flex" }}>
-              <img
-                style={{
-                  width: "45px",
-                  borderRadius: "50%",
-                }}
-                src="assets\images\Logo.jpeg"
-                alt=""
-              />
-            </NavLink>
-            <Typography sx={{ fontWeight: 600 }}>NKS Collection</Typography>
-          </Box>
-          <Stack
-            sx={{
-              p: 0,
-              position: "absolute",
-              right: "70px",
-            }}
-          >
-            <SearchIcon
-              sx={{ fontSize: "1.7rem" }}
-              onClick={handleMySearchDrawerOpen}
-            />
-          </Stack>
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item) => (
-              <Button key={item.label} sx={{ color: "#ffff", paddingLeft: 0 }}>
-                {item.icon} {item.label.trim()}
-              </Button>
-            ))}
-          </Box>
-          <Stack
-            sx={{
-              width: 30,
-              height: 25,
-              p: 0,
-              position: "absolute",
-              right: "30px",
-            }}
-          >
-            <Badge
-              color="secondary"
-              overlap="circular"
-              badgeContent={mybagCount}
+    <>
+      <Box sx={{ display: "flex", flexGrow: 1 }} className={classes.root}>
+        <CssBaseline />
+        <AppBar component="nav">
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ display: { sm: "none" } }}
             >
-              <ShoppingBagRoundedIcon onClick={handleMyBagDrawerOpen} />
-            </Badge>
-          </Stack>
-        </Toolbar>
-      </AppBar>
+              <MenuIcon />
+            </IconButton>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                flexGrow: 0,
+              }}
+            >
+              <NavLink
+                to="/"
+                style={{ textDecoration: "none", display: "flex" }}
+              >
+                <img
+                  style={{
+                    width: "45px",
+                    borderRadius: "50%",
+                  }}
+                  src="assets\images\Logo.jpeg"
+                  alt=""
+                />
+              </NavLink>
+              <Typography sx={{ fontWeight: 600 }}>NKS Collection</Typography>
+            </Box>
+            <Box sx={{ display: { xs: "none", sm: "block" }, flexGrow: 0.6 }}>
+              {navItems.map((item) => (
+                <Button key={item.label} sx={{ color: "#ffff" }}>
+                  {item.icon}
+                  <ListItemText>{item.label}</ListItemText>
+                </Button>
+              ))}
+            </Box>
+            <Stack
+              flexDirection={"row"}
+              flexGrow={1}
+              alignItems={"center"}
+              justifyContent={"flex-end"}
+              gap={2}
+              sx={{
+                cursor: "pointer",
+              }}
+            >
+              <SearchIcon onClick={handleMySearchDrawerOpen} />
+              <StyledBadge
+                color="secondary"
+                badgeContent={mybagCount}
+                sx={{
+                  mr: 0.5,
+                }}
+                onClick={handleMyBagDrawerOpen}
+              >
+                <ShoppingBagRoundedIcon />
+              </StyledBadge>
+            </Stack>
+          </Toolbar>
+        </AppBar>
+      </Box>
+      <Toolbar />
       <Box component="nav">
         <Drawer
           variant="temporary"
@@ -229,9 +235,7 @@ export default function Navbar() {
           {drawer}
         </Drawer>
       </Box>
-      <Box component="main" sx={{ p: 3 }}>
-        <Toolbar />
-      </Box>
+
       <Drawer
         anchor="right"
         open={openSearch}
@@ -259,8 +263,11 @@ export default function Navbar() {
           },
         }}
       >
-        <MyBag  open={isOpenMyBag} handleCloseIconClick={handleMyBagDrawerOpen} />
+        <MyBag
+          open={isOpenMyBag}
+          handleCloseIconClick={handleMyBagDrawerOpen}
+        />
       </Drawer>
-    </Box>
+    </>
   );
 }
