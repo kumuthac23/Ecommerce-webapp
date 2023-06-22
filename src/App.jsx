@@ -20,10 +20,10 @@ import CustomSnackBar from "./CustomSnackBar";
 import ShowOrdersByDate from "./ShowOrdersByDate";
 
 //Only when we deploy the code use this line
-//axios.defaults.baseURL = "https://tam-ecommerce.onrender.com/";
+axios.defaults.baseURL = "https://tam-ecommerce.onrender.com/";
 
 //For Development use this
-axios.defaults.baseURL = "http://localhost:3000/";
+// axios.defaults.baseURL = "http://localhost:3000/";
 
 function App() {
   return (
