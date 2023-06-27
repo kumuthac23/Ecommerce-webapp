@@ -18,6 +18,7 @@ import BagProvider from "./BagContext";
 import CommonProvider from "./CommonContext";
 import CustomSnackBar from "./CustomSnackBar";
 import ShowOrdersByDate from "./ShowOrdersByDate";
+import CSVUpdate from "./CSVUpdate";
 
 //Only when we deploy the code use this line
 axios.defaults.baseURL = "https://tam-ecommerce.onrender.com/";
@@ -57,6 +58,7 @@ function App() {
                   path="showordersbydate"
                   element={<ShowOrdersByDate />}
                 ></Route>
+                <Route path="csvupdate" element={<CSVUpdate />}></Route>
               </Route>
             </Routes>
             <CustomSnackBar />
